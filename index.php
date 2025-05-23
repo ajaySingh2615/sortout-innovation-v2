@@ -48,7 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/CSS/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="/CSS/floating-social-media.css" />
 </head>
 
@@ -145,28 +145,28 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="/images/banners/one.jpg"
+              src="/images/banners/one.webp"
               class="d-block w-100"
               alt="Banner 1"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="/images/banners/two.jpg"
+              src="/images/banners/two.webp"
               class="d-block w-100"
               alt="Banner 2"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="/images/banners/three.jpg"
+              src="/images/banners/three.webp"
               class="d-block w-100"
               alt="Banner 3"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="/images/banners/four.jpg"
+              src="/images/banners/four.webp"
               class="d-block w-100"
               alt="Banner 4"
             />
@@ -256,92 +256,32 @@
       updateSlide();
     </script>
 
-    <!-- <section class="logo-carousel-section">
-      <div class="container">
-        <div class="carousel-text">
-          <h2>Trusted by Leading Brands</h2>
-          <p>
-            Our services are relied upon by top businesses worldwide. Join our
-            growing network of partners and take your brand to the next level.
-          </p>
-        </div>
-
-        <div class="logo-carousel">
-          <div class="logos">
-            <img
-              src="/images/company-images/improved-logos/chingari1.jpeg"
-              alt="Logo 1"
-            />
-            <img
-              src="/images/company-images/improved-logos/disco2.jpeg"
-              alt="Logo 2"
-            />
-            <img
-              src="/images/company-images/improved-logos/imo3.png"
-              alt="Logo 3"
-            />
-            <img
-              src="/images/company-images/improved-logos/me4.jpeg"
-              alt="Logo 4"
-            />
-            <img
-              src="/images/company-images/improved-logos/tend10.jpeg"
-              alt="Logo 5"
-            />
-            <img
-              src="/images/company-images/improved-logos/tinder6.jpeg"
-              alt="Logo 6"
-            />
-            <img
-              src="/images/company-images/improved-logos/tictok5.jpeg"
-              alt="Logo 7"
-            />
-            <img
-              src="/images/company-images/improved-logos/snapchat7.jpeg"
-              alt="Logo 8"
-            />
-            <img
-              src="/images/company-images/improved-logos/trendo8.png"
-              alt="Logo 9"
-            />
-            <img
-              src="/images/company-images/improved-logos/triangle9.png"
-              alt="Logo 10"
-            />
-            <img
-              src="/images/company-images/improved-logos/pix11.jpeg"
-              alt="Logo 11"
-            />
-            <img
-              src="/images/company-images/improved-logos/josh13.jpeg"
-              alt="Logo 11"
-            />
-          </div>
-        </div>
-      </div>
-    </section> -->
-
     <!-- Our Partners Brands Section -->
     <?php include 'components/partners/partners.php'; ?>
 
-    <section id="about" class="about-us-section">
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
       <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center gy-4">
           <!-- Left Side: Image -->
-          <div class="col-lg-6">
-            <div class="about-image">
+          <div class="col-lg-6" data-aos="fade-right">
+            <div class="position-relative overflow-hidden rounded-4 shadow-lg">
               <img
                 src="/images/services-imgs/CA/about-us.jpg"
                 alt="About Sortout Innovation"
+                class="img-fluid w-100 rounded-4"
+                loading="lazy"
               />
             </div>
           </div>
 
           <!-- Right Side: Content -->
-          <div class="col-lg-6">
-            <div class="about-content">
-              <h2>Empowering Businesses with Innovation & Excellence</h2>
-              <p>
+          <div class="col-lg-6" data-aos="fade-left">
+            <div class="ps-lg-4">
+              <h2 class="fw-bold text-danger mb-2">
+                Empowering Businesses with Innovation & Excellence
+              </h2>
+              <p class="lead text-secondary mb-4">
                 Sortout Innovation is your trusted partner in delivering
                 tailored solutions across multiple industries. From IT to
                 digital marketing, HR to logistics, we help businesses thrive in
@@ -349,18 +289,24 @@
               </p>
 
               <!-- Stats Section -->
-              <div class="about-stats">
-                <div class="stat">
-                  <h3>10+</h3>
-                  <p>Years of Experience</p>
+              <div class="row g-4 mt-2">
+                <div class="col-sm-4">
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
+                    <h3 class="display-6 fw-bold text-primary mb-2">10+</h3>
+                    <p class="text-secondary mb-0 fw-medium">Years of Experience</p>
+                  </div>
                 </div>
-                <div class="stat">
-                  <h3>500+</h3>
-                  <p>Successful Projects</p>
+                <div class="col-sm-4">
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
+                    <h3 class="display-6 fw-bold text-primary mb-2">500+</h3>
+                    <p class="text-secondary mb-0 fw-medium">Successful Projects</p>
+                  </div>
                 </div>
-                <div class="stat">
-                  <h3>300+</h3>
-                  <p>Trusted Clients</p>
+                <div class="col-sm-4">
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
+                    <h3 class="display-6 fw-bold text-primary mb-2">300+</h3>
+                    <p class="text-secondary mb-0 fw-medium">Trusted Clients</p>
+                  </div>
                 </div>
               </div>
             </div>

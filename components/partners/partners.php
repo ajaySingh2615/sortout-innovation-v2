@@ -119,14 +119,14 @@
   width: auto;
   margin: 0 25px;
   object-fit: contain;
-  filter: grayscale(100%);
+  /* filter: grayscale(100%); */
   transition: all 0.3s ease;
   padding: 10px;
   border-radius: 8px;
 }
 
 .partner-logo:hover {
-  filter: grayscale(0%);
+  /* filter: grayscale(0%); */
   transform: scale(1.1);
 }
 
