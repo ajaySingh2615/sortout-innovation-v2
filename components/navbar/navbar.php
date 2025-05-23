@@ -5,12 +5,15 @@
  */
 ?>
 
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <!-- Bootstrap Navbar with optimized CSS -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm py-3">
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="/">
-            <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="Sortout Innovation" height="45">
+            <img src="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" alt="Sortout Innovation" height="50">
         </a>
 
         <!-- Mobile Toggle Button -->
@@ -23,36 +26,36 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'home') ? 'active fw-bold' : ''; ?>" href="/">Home</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'home') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'about') ? 'active fw-bold' : ''; ?>" href="/pages/about-page/about.html">About</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'about') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/pages/about-page/about.html">About</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle px-3 <?php echo ($currentPage == 'career') ? 'active fw-bold' : ''; ?>" href="#" role="button" 
+                    <a class="nav-link dropdown-toggle px-3 text-dark position-relative <?php echo ($currentPage == 'career') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="#" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Career
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu border-0 shadow-lg">
                         <li>
-                            <a class="dropdown-item" href="/employee-job/index.php">Employee Jobs</a>
+                            <a class="dropdown-item fw-medium" href="/employee-job/index.php">Employee Jobs</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="/admin/artist-v2/public/index.php">Artist Jobs</a>
+                            <a class="dropdown-item fw-medium" href="/admin/artist-v2/public/index.php">Artist Jobs</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'talent') ? 'active fw-bold' : ''; ?>" href="/modal_agency.php">Find Talent</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'talent') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/modal_agency.php">Find Talent</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'services') ? 'active fw-bold' : ''; ?>" href="/pages/our-services-page/service.html">Services</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'services') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/pages/our-services-page/service.html">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'contact') ? 'active fw-bold' : ''; ?>" href="/pages/contact-page/contact-page.html">Contact</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'contact') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/pages/contact-page/contact-page.html">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 <?php echo ($currentPage == 'blog') ? 'active fw-bold' : ''; ?>" href="/blog/index.php">Blog</a>
+                    <a class="nav-link px-3 text-dark position-relative <?php echo ($currentPage == 'blog') ? 'active fw-semibold border-bottom border-danger border-2' : 'fw-medium'; ?>" href="/blog/index.php">Blog</a>
                 </li>
             </ul>
         </div>
@@ -61,45 +64,92 @@
 
 <!-- Small amount of required custom CSS (minimized) -->
 <style>
-/* Active link style with red underline - only custom styling we need */
-.nav-link.active {
-    position: relative;
-    color: #d10000 !important;
+/* Navbar base style */
+.navbar {
+    font-family: 'Montserrat', sans-serif;
+    transition: padding 0.3s ease-in-out;
 }
 
-.nav-link.active::after {
-    content: '';
-    position: absolute;
-    width: calc(100% - 1.5rem);
-    height: 2px;
-    bottom: 0;
-    left: 50%;
-    background: #d10000;
-    transform: translateX(-50%);
-    border-radius: 2px;
+/* Nav links general style */
+.nav-link {
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
 }
 
-/* Hover effect for nav links */
-.nav-link:hover {
-    color: #d10000 !important;
+/* Hover effect for nav links using Bootstrap classes */
+.nav-link:not(.active):hover {
+    transform: translateY(-2px);
+    border-bottom: 2px solid #d10000 !important;
 }
 
-/* Small spacer for fixed navbar */
+/* Dropdown menu styling */
+.dropdown-menu {
+    border-radius: 0.5rem;
+    margin-top: 0.5rem !important;
+}
+
+.dropdown-item {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(209, 0, 0, 0.05);
+    color: #d10000;
+    transform: translateX(3px);
+}
+
+.dropdown-item:active {
+     background-color: rgba(209, 0, 0, 0.1);
+     color: #d10000;
+}
+
+/* Small spacer for fixed navbar - applied via JS now based on class */
 body {
-    padding-top: 76px;
+    padding-top: 80px;
+}
+
+/* Navbar shadow on scroll - handled by JS adding/removing .shadow */
+.navbar.shadow {
+     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add shadow on scroll
     const navbar = document.querySelector('.navbar');
+    let lastScrollY = window.scrollY;
+
+    // Adjust body padding based on navbar height
+    function adjustBodyPadding() {
+        const navbarHeight = navbar.offsetHeight;
+        document.body.style.paddingTop = navbarHeight + 'px';
+    }
+
+    adjustBodyPadding(); // Initial adjustment
+    window.addEventListener('resize', adjustBodyPadding); // Adjust on resize
+
+    // Scroll behavior for navbar
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('shadow');
+            navbar.style.paddingTop = '0.5rem';
+            navbar.style.paddingBottom = '0.5rem';
         } else {
             navbar.classList.remove('shadow');
+            navbar.style.paddingTop = '';
+            navbar.style.paddingBottom = '';
         }
+
+        // Hide navbar on scroll down, show on scroll up
+        if (window.scrollY > lastScrollY && window.scrollY > 100) {
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+        lastScrollY = window.scrollY;
     });
 });
 </script> 

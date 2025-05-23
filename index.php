@@ -52,7 +52,7 @@
   <link rel="stylesheet" href="/CSS/floating-social-media.css" />
 </head>
 
-<body>
+  <body>
     <?php 
     // Set current page for navbar active state
     $currentPage = 'home';
