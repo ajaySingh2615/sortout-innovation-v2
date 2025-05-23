@@ -62,44 +62,45 @@
     ?>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="container">
-        <div class="row align-items-center">
-          <!-- Left Side Content -->
-          <div class="col-lg-6 hero-text">
-            <h1 class="hero-title">
-              One <span>Source,</span> Infinite Solutions
-            </h1>
-            <p class="hero-subtitle">
-              At Sortout Innovation, we provide top-tier solutions in Digital
-              Marketing, IT, HR, Courier, Real Estate, Event Management, and
-              more. Your success is our priority.
-            </p>
-            <div class="hero-buttons">
-              <a
-                href="/pages/our-services-page/service.html"
-                class="btn btn-primary"
-                >Explore Our Services</a
-              >
-              <a href="#about" class="btn btn-secondary">Get Started</a>
+    <section class="hero-section py-5 min-vh-100 d-flex align-items-center overflow-hidden position-relative bg-gradient">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <!-- Left Content -->
+                <div class="col-lg-6 order-2 order-lg-1">
+                    <div class="hero-content text-center text-lg-start">
+                        <h1 class="display-3 fw-bold mb-3">
+                            One <span class="text-primary px-3 py-1 rounded bg-primary bg-opacity-10">Source,</span> 
+                            <br class="d-none d-lg-block">
+                            Infinite Solutions
+                        </h1>
+                        <p class="lead text-secondary mb-4 fw-normal">
+                            At Sortout Innovation, we provide top-tier solutions in Digital Marketing, IT, HR, Courier, Real Estate, Event Management, and more. Your success is our priority.
+                        </p>
+                        <div class="d-flex gap-3 flex-column flex-sm-row justify-content-center justify-content-lg-start">
+                            <a href="/pages/our-services-page/service.html" 
+                               class="hero-btn btn-primary-custom">
+                                <span>Explore Our Services</span>
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            <a href="#about" 
+                               class="hero-btn btn-secondary-custom">
+                                <span>Get Started</span>
+                                <i class="fas fa-chevron-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image -->
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <div class="hero-image text-center position-relative">
+                        <img src="/images/update/home-page/hero-section/sortout-innovation-hero-image.webp" 
+                             alt="Sortout Innovation Solutions" 
+                             class="img-fluid floating-animation">
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <!-- Right Side Image / Illustration -->
-          <div class="col-lg-6 text-center hero-image">
-            <img
-              src="/images/5a.gif"
-              class="img-fluid"
-              alt="Business Solutions"
-            />
-          </div>
         </div>
-      </div>
-
-      <!-- Background Design Elements -->
-      <div class="hero-overlay"></div>
-      <div class="floating-shape floating-circle"></div>
-      <div class="floating-shape floating-triangle"></div>
     </section>
 
     <!-- Banner Section Using Bootstrap -->
