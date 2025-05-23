@@ -23,58 +23,59 @@ body {
     50% { transform: translateY(-10px); }
 }
 
-/* Hero Buttons */
-.hero-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 32px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 50px;
+/* Button Enhancements */
+.btn {
     transition: all 0.3s ease;
-    min-width: 200px;
 }
 
-.hero-btn i {
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-icon {
     transition: transform 0.3s ease;
 }
 
-.hero-btn:hover i {
+.btn:hover .btn-icon {
     transform: translateX(5px);
 }
 
-.btn-primary-custom {
-    background: var(--bs-primary);
+/* Primary Button Color Override */
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
     color: #fff;
     box-shadow: 0 4px 15px rgba(var(--bs-primary-rgb), 0.3);
 }
 
-.btn-primary-custom:hover {
-    background: #ff1a1a;
-    color: #fff;
-    transform: translateY(-2px);
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #ff1a1a !important;
+    border-color: #ff1a1a !important;
+    color: #fff !important;
     box-shadow: 0 6px 20px rgba(var(--bs-primary-rgb), 0.4);
 }
 
-.btn-secondary-custom {
-    background: transparent;
+/* Outline Button Color Override */
+.btn-outline-primary {
     color: var(--bs-primary);
-    border: 2px solid var(--bs-primary);
+    border-color: var(--bs-primary);
 }
 
-.btn-secondary-custom:hover {
-    background: var(--bs-primary);
-    color: #fff;
-    transform: translateY(-2px);
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
     box-shadow: 0 4px 15px rgba(var(--bs-primary-rgb), 0.2);
 }
 
 @media (max-width: 576px) {
-    .hero-btn {
+    .btn-lg {
         width: 100%;
-        padding: 12px 24px;
+        padding: 0.75rem 1.5rem;
         font-size: 1rem;
     }
 }

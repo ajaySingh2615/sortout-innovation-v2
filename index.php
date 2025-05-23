@@ -78,14 +78,14 @@
                         </p>
                         <div class="d-flex gap-3 flex-column flex-sm-row justify-content-center justify-content-lg-start">
                             <a href="/pages/our-services-page/service.html" 
-                               class="hero-btn btn-primary-custom">
+                               class="btn btn-lg btn-primary rounded-pill d-inline-flex align-items-center px-4 py-3">
                                 <span>Explore Our Services</span>
-                                <i class="fas fa-arrow-right ms-2"></i>
+                                <i class="fas fa-arrow-right ms-2 btn-icon"></i>
                             </a>
                             <a href="#about" 
-                               class="hero-btn btn-secondary-custom">
+                               class="btn btn-lg btn-outline-primary rounded-pill d-inline-flex align-items-center px-4 py-3">
                                 <span>Get Started</span>
-                                <i class="fas fa-chevron-right ms-2"></i>
+                                <i class="fas fa-chevron-right ms-2 btn-icon"></i>
                             </a>
                         </div>
                     </div>
