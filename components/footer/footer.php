@@ -119,19 +119,19 @@
 <!-- Floating Social Media Bar -->
 <div class="floating-social-bar d-none d-md-block">
     <a href="https://www.facebook.com/profile.php?id=61556452066209" target="_blank" rel="noopener" 
-       class="floating-social-icon mb-3">
+       class="floating-social-icon mb-3 facebook">
         <i class="fab fa-facebook-f"></i>
     </a>
     <a href="https://www.instagram.com/sortout_innovation" target="_blank" rel="noopener" 
-       class="floating-social-icon mb-3">
+       class="floating-social-icon mb-3 instagram">
         <i class="fab fa-instagram"></i>
     </a>
     <a href="https://www.linkedin.com/company/sortout-innovation/" target="_blank" rel="noopener" 
-       class="floating-social-icon mb-3">
+       class="floating-social-icon mb-3 linkedin">
         <i class="fab fa-linkedin-in"></i>
     </a>
     <a href="https://youtu.be/tw-xk-Pb-zA?si=QMTwuvhEuTegpqDr" target="_blank" rel="noopener" 
-       class="floating-social-icon">
+       class="floating-social-icon youtube">
         <i class="fab fa-youtube"></i>
     </a>
 </div>
@@ -247,7 +247,7 @@
     transform: scale(1.1);
 }
 
-/* Floating Social Bar */
+/* Floating Social Bar with brand colors */
 .floating-social-bar {
     position: fixed;
     left: 20px;
@@ -261,7 +261,6 @@
 .floating-social-icon {
     width: 40px;
     height: 40px;
-    background: #d10000;
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -269,14 +268,69 @@
     justify-content: center;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(209, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.floating-social-icon:hover {
+.floating-social-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.floating-social-icon:hover::before {
+    transform: translateX(0);
+}
+
+/* Facebook */
+.floating-social-icon.facebook {
+    background: #1877f2;
+    box-shadow: 0 4px 15px rgba(24, 119, 242, 0.2);
+}
+.floating-social-icon.facebook:hover {
+    background: #0d65d9;
+    box-shadow: 0 6px 20px rgba(24, 119, 242, 0.4);
     transform: translateY(-3px);
+}
+
+/* Instagram */
+.floating-social-icon.instagram {
+    background: #e4405f;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    box-shadow: 0 4px 15px rgba(228, 64, 95, 0.2);
+}
+.floating-social-icon.instagram:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    box-shadow: 0 6px 20px rgba(228, 64, 95, 0.4);
+    transform: translateY(-3px);
+}
+
+/* LinkedIn */
+.floating-social-icon.linkedin {
+    background: #0a66c2;
+    box-shadow: 0 4px 15px rgba(10, 102, 194, 0.2);
+}
+.floating-social-icon.linkedin:hover {
+    background: #094d92;
+    box-shadow: 0 6px 20px rgba(10, 102, 194, 0.4);
+    transform: translateY(-3px);
+}
+
+/* YouTube */
+.floating-social-icon.youtube {
     background: #ff0000;
-    color: #fff;
-    box-shadow: 0 6px 20px rgba(209, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
+}
+.floating-social-icon.youtube:hover {
+    background: #cc0000;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+    transform: translateY(-3px);
 }
 
 /* WhatsApp Button */
