@@ -48,7 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/CSS/styles.css" />
   <link rel="stylesheet" href="/CSS/floating-social-media.css" />
 </head>
 

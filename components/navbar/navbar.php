@@ -30,7 +30,7 @@
                     <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'home') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'about') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/pages/about-page/about.html">About</a>
+                    <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'about') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/pages/about-page/about.php">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'career') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="#" role="button" 
