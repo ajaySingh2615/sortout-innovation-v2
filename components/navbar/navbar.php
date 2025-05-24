@@ -57,7 +57,7 @@
                     <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'talent') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/modal_agency.php">Find Talent</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'services') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/pages/our-services-page/service.html">Services</a>
+                    <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'services') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/pages/our-services-page/service.php">Services</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-3 py-2 rounded-pill text-dark position-relative <?php echo ($currentPage == 'contact') ? 'active fw-semibold bg-danger bg-opacity-10 text-danger' : 'fw-medium hover-effect'; ?>" href="/pages/contact-page/contact-page.php">Contact</a>
