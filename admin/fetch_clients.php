@@ -19,6 +19,8 @@ require '../includes/db_connect.php';  // Database connection
 
 // Set headers before any output
 header('Content-Type: application/json'); // Ensure JSON output
+header('Cache-Control: no-cache, must-revalidate'); // Prevent caching
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
 
 // Wrap everything in a try-catch to handle any errors
 try {
@@ -90,6 +92,12 @@ try {
             // Ensure is_visible is correctly cast to integer
             $row['is_visible'] = (int)$row['is_visible'];
         }
+        
+        // Debug: Log if this is an Artist with new fields
+        if ($row['professional'] === 'Artist') {
+            error_log("Artist found: " . $row['name'] . " - Email: " . ($row['email'] ?? 'NULL') . " - Influencer Category: " . ($row['influencer_category'] ?? 'NULL'));
+        }
+        
         $clients[] = $row;
     }
 

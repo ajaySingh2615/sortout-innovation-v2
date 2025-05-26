@@ -53,22 +53,32 @@ work_type_preference LIKE '%$search%'
 
 ## Testing Steps
 
-### 1. Run the Test Script
-Visit: `your-domain.com/test_artist_fields.php`
+### 1. Run the Cache Clear and Test Script
+Visit: `your-domain.com/clear_cache_and_test.php`
 
 This will:
+- Clear PHP OPcache if available
 - Check if the new columns exist in the database
-- Display sample Artist records with the new fields
-- Show if data is actually stored
+- Test approved Artist records directly from database
+- Test the fetch_clients.php endpoint
+- Provide step-by-step debugging information
 
-### 2. Test the Admin Dashboard
+### 2. Clear Browser Cache
+- Press Ctrl+F5 (Windows) or Cmd+Shift+R (Mac) to hard refresh
+- Or manually clear browser cache in settings
+
+### 3. Test the Admin Dashboard
 1. Go to the admin dashboard
 2. Check both "Pending Approvals" and "Approved Clients" tables
 3. Look for Artist profiles and verify the new fields show actual data instead of "N/A"
 4. Test the search functionality with the new fields
 5. Test pagination to ensure all pages load correctly
 
-### 3. Expected Results
+### 4. Additional Test Scripts
+- `test_artist_fields.php` - Basic database field testing
+- `test_fetch_clients.php` - Direct endpoint testing
+
+### 5. Expected Results
 For Artist profiles, you should now see:
 - **Email**: Actual email addresses instead of "N/A"
 - **Influencer Category**: Selected categories instead of "N/A"
@@ -80,8 +90,10 @@ For Artist profiles, you should now see:
 For Employee profiles, these fields should still show "N/A" (which is correct).
 
 ## Files Modified
-1. `admin/fetch_clients.php` - Updated SELECT query and search conditions
-2. `test_artist_fields.php` - Created for testing (can be deleted after testing)
+1. `admin/fetch_clients.php` - Updated SELECT query, search conditions, and added cache headers
+2. `test_artist_fields.php` - Created for basic testing (can be deleted after testing)
+3. `test_fetch_clients.php` - Created for endpoint testing (can be deleted after testing)
+4. `clear_cache_and_test.php` - Created for comprehensive testing and cache clearing (can be deleted after testing)
 
 ## Notes
 - The main dashboard queries were already working because they use `SELECT *`

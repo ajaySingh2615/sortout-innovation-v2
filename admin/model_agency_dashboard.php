@@ -286,6 +286,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Professional</th>
                             <th class="table-header px-6 py-3">Category/Role</th>
                             <th class="table-header px-6 py-3">City</th>
+                            <th class="table-header px-6 py-3">Phone</th>
                             <th class="table-header px-6 py-3">Email</th>
                             <th class="table-header px-6 py-3">Influencer Category</th>
                             <th class="table-header px-6 py-3">Influencer Type</th>
@@ -315,6 +316,18 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                             htmlspecialchars($row['role']) ?>
                                     </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['city']) ?></td>
+                                    <td class="table-cell">
+                                        <?php if (!empty($row['phone'])): ?>
+                                            <a href="https://wa.me/91<?= htmlspecialchars($row['phone']) ?>" 
+                                               target="_blank" 
+                                               class="text-green-600 hover:text-green-800 font-medium flex items-center">
+                                                <i class="fab fa-whatsapp mr-1"></i>
+                                                <?= htmlspecialchars($row['phone']) ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-gray-400">No Phone</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['email'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_category'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_type'] ?? 'N/A') : 'N/A' ?></td>
@@ -398,7 +411,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="19" class="table-cell text-center py-8">
+                                <td colspan="20" class="table-cell text-center py-8">
                                     <i class="fas fa-inbox text-gray-400 text-4xl mb-2"></i>
                                     <p class="text-gray-500">No pending clients</p>
                                 </td>
@@ -434,6 +447,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Professional</th>
                             <th class="table-header px-6 py-3">Category/Role</th>
                             <th class="table-header px-6 py-3">City</th>
+                            <th class="table-header px-6 py-3">Phone</th>
                             <th class="table-header px-6 py-3">Email</th>
                             <th class="table-header px-6 py-3">Influencer Category</th>
                             <th class="table-header px-6 py-3">Influencer Type</th>
@@ -463,6 +477,18 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                             htmlspecialchars($row['role']) ?>
                                     </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['city']) ?></td>
+                                    <td class="table-cell">
+                                        <?php if (!empty($row['phone'])): ?>
+                                            <a href="https://wa.me/91<?= htmlspecialchars($row['phone']) ?>" 
+                                               target="_blank" 
+                                               class="text-green-600 hover:text-green-800 font-medium flex items-center">
+                                                <i class="fab fa-whatsapp mr-1"></i>
+                                                <?= htmlspecialchars($row['phone']) ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-gray-400">No Phone</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['email'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_category'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_type'] ?? 'N/A') : 'N/A' ?></td>
@@ -551,7 +577,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="19" class="table-cell text-center py-8">
+                                <td colspan="20" class="table-cell text-center py-8">
                                     <i class="fas fa-inbox text-gray-400 text-4xl mb-2"></i>
                                     <p class="text-gray-500">No approved clients</p>
                                 </td>
@@ -637,7 +663,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                 if (data.clients.length === 0) {
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="19" class="table-cell text-center py-8">
+                            <td colspan="20" class="table-cell text-center py-8">
                                 <i class="fas fa-info-circle text-gray-400 text-4xl mb-2"></i>
                                 <p class="text-gray-500">No ${status} clients found</p>
                             </td>
@@ -716,6 +742,14 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                         <td class="table-cell">${client.professional}</td>
                         <td class="table-cell">${client.professional === 'Artist' ? (client.category || '-') : (client.role || '-')}</td>
                         <td class="table-cell">${client.city || '-'}</td>
+                        <td class="table-cell">
+                            ${client.phone ? 
+                                `<a href="https://wa.me/91${client.phone}" target="_blank" class="text-green-600 hover:text-green-800 font-medium flex items-center">
+                                    <i class="fab fa-whatsapp mr-1"></i>${client.phone}
+                                 </a>` : 
+                                '<span class="text-gray-400">No Phone</span>'
+                            }
+                        </td>
                         <td class="table-cell">${client.professional === 'Artist' ? (client.email || 'N/A') : 'N/A'}</td>
                         <td class="table-cell">${client.professional === 'Artist' ? (client.influencer_category || 'N/A') : 'N/A'}</td>
                         <td class="table-cell">${client.professional === 'Artist' ? (client.influencer_type || 'N/A') : 'N/A'}</td>
@@ -770,7 +804,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                 const tbody = document.getElementById(`${status}TableBody`);
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="19" class="table-cell text-center py-8">
+                        <td colspan="20" class="table-cell text-center py-8">
                             <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-2"></i>
                             <p class="text-red-500">Error loading clients. Please try again.</p>
                         </td>
