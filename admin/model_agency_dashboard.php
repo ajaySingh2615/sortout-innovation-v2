@@ -286,6 +286,12 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Professional</th>
                             <th class="table-header px-6 py-3">Category/Role</th>
                             <th class="table-header px-6 py-3">City</th>
+                            <th class="table-header px-6 py-3">Email</th>
+                            <th class="table-header px-6 py-3">Influencer Category</th>
+                            <th class="table-header px-6 py-3">Influencer Type</th>
+                            <th class="table-header px-6 py-3">Instagram</th>
+                            <th class="table-header px-6 py-3">Expected Payment</th>
+                            <th class="table-header px-6 py-3">Work Type</th>
                             <th class="table-header px-6 py-3">Followers</th>
                             <th class="table-header px-6 py-3">Experience</th>
                             <th class="table-header px-6 py-3">Languages</th>
@@ -293,7 +299,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Image</th>
                             <th class="table-header px-6 py-3">Resume</th>
                             <th class="table-header px-6 py-3">Actions</th>
-            </tr>
+                        </tr>
                     </thead>
                     <tbody id="pendingTableBody">
                         <?php if ($pendingResult && mysqli_num_rows($pendingResult) > 0): ?>
@@ -309,9 +315,32 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                             htmlspecialchars($row['role']) ?>
                                     </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['city']) ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['email'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_category'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_type'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell">
+                                        <?php if ($row['professional'] === 'Artist' && !empty($row['instagram_profile'])): ?>
+                                            <a href="<?= htmlspecialchars($row['instagram_profile']) ?>" target="_blank" class="text-blue-500 hover:text-blue-700">
+                                                <i class="fab fa-instagram mr-1"></i>View
+                                            </a>
+                                        <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['expected_payment'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell">
+                                        <?php if ($row['professional'] === 'Artist' && !empty($row['work_type_preference'])): ?>
+                                            <span class="text-xs bg-gray-100 px-2 py-1 rounded" title="<?= htmlspecialchars($row['work_type_preference']) ?>">
+                                                <?= strlen($row['work_type_preference']) > 20 ? substr(htmlspecialchars($row['work_type_preference']), 0, 20) . '...' : htmlspecialchars($row['work_type_preference']) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['followers']) ?></td>
                                     <td class="table-cell"><?= htmlspecialchars($row['experience']) ?></td>
                                     <td class="table-cell"><?= htmlspecialchars($row['language']) ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Employee' ? htmlspecialchars($row['current_salary'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell">
                                         <img src="<?= htmlspecialchars($row['image_url']) ?>" 
                                              alt="Client Image" 
@@ -353,7 +382,6 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                             <span class="text-gray-400">No Resume</span>
                                         <?php endif; ?>
                     </td>
-                                    <td class="table-cell"><?= $row['professional'] === 'Employee' ? htmlspecialchars($row['current_salary'] ?? 'N/A') : 'N/A' ?></td>
                                     <td class="table-cell">
                                         <div class="flex space-x-2">
                                             <button onclick="approveClient(<?= $row['id'] ?>)" 
@@ -370,7 +398,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="12" class="table-cell text-center py-8">
+                                <td colspan="19" class="table-cell text-center py-8">
                                     <i class="fas fa-inbox text-gray-400 text-4xl mb-2"></i>
                                     <p class="text-gray-500">No pending clients</p>
                                 </td>
@@ -406,6 +434,12 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                             <th class="table-header px-6 py-3">Professional</th>
                             <th class="table-header px-6 py-3">Category/Role</th>
                             <th class="table-header px-6 py-3">City</th>
+                            <th class="table-header px-6 py-3">Email</th>
+                            <th class="table-header px-6 py-3">Influencer Category</th>
+                            <th class="table-header px-6 py-3">Influencer Type</th>
+                            <th class="table-header px-6 py-3">Instagram</th>
+                            <th class="table-header px-6 py-3">Expected Payment</th>
+                            <th class="table-header px-6 py-3">Work Type</th>
                             <th class="table-header px-6 py-3">Followers</th>
                             <th class="table-header px-6 py-3">Experience</th>
                             <th class="table-header px-6 py-3">Languages</th>
@@ -429,6 +463,28 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                                             htmlspecialchars($row['role']) ?>
                                     </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['city']) ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['email'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_category'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['influencer_type'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell">
+                                        <?php if ($row['professional'] === 'Artist' && !empty($row['instagram_profile'])): ?>
+                                            <a href="<?= htmlspecialchars($row['instagram_profile']) ?>" target="_blank" class="text-blue-500 hover:text-blue-700">
+                                                <i class="fab fa-instagram mr-1"></i>View
+                                            </a>
+                                        <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="table-cell"><?= $row['professional'] === 'Artist' ? htmlspecialchars($row['expected_payment'] ?? 'N/A') : 'N/A' ?></td>
+                                    <td class="table-cell">
+                                        <?php if ($row['professional'] === 'Artist' && !empty($row['work_type_preference'])): ?>
+                                            <span class="text-xs bg-gray-100 px-2 py-1 rounded" title="<?= htmlspecialchars($row['work_type_preference']) ?>">
+                                                <?= strlen($row['work_type_preference']) > 20 ? substr(htmlspecialchars($row['work_type_preference']), 0, 20) . '...' : htmlspecialchars($row['work_type_preference']) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            N/A
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="table-cell"><?= htmlspecialchars($row['followers']) ?></td>
                                     <td class="table-cell"><?= htmlspecialchars($row['experience']) ?></td>
                                     <td class="table-cell"><?= htmlspecialchars($row['language']) ?></td>
@@ -495,7 +551,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="12" class="table-cell text-center py-8">
+                                <td colspan="19" class="table-cell text-center py-8">
                                     <i class="fas fa-inbox text-gray-400 text-4xl mb-2"></i>
                                     <p class="text-gray-500">No approved clients</p>
                                 </td>
@@ -581,7 +637,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                 if (data.clients.length === 0) {
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="12" class="table-cell text-center py-8">
+                            <td colspan="19" class="table-cell text-center py-8">
                                 <i class="fas fa-info-circle text-gray-400 text-4xl mb-2"></i>
                                 <p class="text-gray-500">No ${status} clients found</p>
                             </td>
@@ -641,6 +697,18 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                         resumeHtml = `<span class="text-gray-400">No Resume</span>`;
                     }
                     
+                    // Helper function to create Instagram link
+                    const instagramHtml = client.professional === 'Artist' && client.instagram_profile ? 
+                        `<a href="${client.instagram_profile}" target="_blank" class="text-blue-500 hover:text-blue-700">
+                            <i class="fab fa-instagram mr-1"></i>View
+                         </a>` : 'N/A';
+                    
+                    // Helper function to create work type preference display
+                    const workTypeHtml = client.professional === 'Artist' && client.work_type_preference ? 
+                        `<span class="text-xs bg-gray-100 px-2 py-1 rounded" title="${client.work_type_preference}">
+                            ${client.work_type_preference.length > 20 ? client.work_type_preference.substring(0, 20) + '...' : client.work_type_preference}
+                         </span>` : 'N/A';
+                    
                     tr.innerHTML = `
                         <td class="table-cell">${client.name}</td>
                         <td class="table-cell">${client.age}</td>
@@ -648,6 +716,12 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                         <td class="table-cell">${client.professional}</td>
                         <td class="table-cell">${client.professional === 'Artist' ? (client.category || '-') : (client.role || '-')}</td>
                         <td class="table-cell">${client.city || '-'}</td>
+                        <td class="table-cell">${client.professional === 'Artist' ? (client.email || 'N/A') : 'N/A'}</td>
+                        <td class="table-cell">${client.professional === 'Artist' ? (client.influencer_category || 'N/A') : 'N/A'}</td>
+                        <td class="table-cell">${client.professional === 'Artist' ? (client.influencer_type || 'N/A') : 'N/A'}</td>
+                        <td class="table-cell">${instagramHtml}</td>
+                        <td class="table-cell">${client.professional === 'Artist' ? (client.expected_payment || 'N/A') : 'N/A'}</td>
+                        <td class="table-cell">${workTypeHtml}</td>
                         <td class="table-cell">${client.followers || '-'}</td>
                         <td class="table-cell">${client.experience || '-'}</td>
                         <td class="table-cell">${client.language || '-'}</td>
@@ -696,7 +770,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                 const tbody = document.getElementById(`${status}TableBody`);
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="12" class="table-cell text-center py-8">
+                        <td colspan="19" class="table-cell text-center py-8">
                             <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-2"></i>
                             <p class="text-red-500">Error loading clients. Please try again.</p>
                         </td>

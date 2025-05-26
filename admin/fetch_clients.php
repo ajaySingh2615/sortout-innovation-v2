@@ -48,7 +48,12 @@ try {
             professional LIKE '%$search%' OR 
             category LIKE '%$search%' OR 
             role LIKE '%$search%' OR 
-            city LIKE '%$search%'
+            city LIKE '%$search%' OR
+            email LIKE '%$search%' OR
+            influencer_category LIKE '%$search%' OR
+            influencer_type LIKE '%$search%' OR
+            expected_payment LIKE '%$search%' OR
+            work_type_preference LIKE '%$search%'
         )";
     }
 
@@ -60,7 +65,9 @@ try {
 
     // Prepare query
     $query = "SELECT id, name, age, gender, professional, category, role, city, followers, 
-              experience, language, image_url, resume_url, current_salary, is_visible 
+              experience, language, image_url, resume_url, current_salary, is_visible,
+              email, influencer_category, influencer_type, instagram_profile, 
+              expected_payment, work_type_preference, phone
               FROM clients 
               WHERE approval_status = '$status'$searchCondition$filterCondition 
               ORDER BY id DESC 
