@@ -95,10 +95,22 @@ try {
             // Artist specific fields
             $updateFields[] = "category = ?";
             $updateFields[] = "followers = ?";
+            $updateFields[] = "email = ?";
+            $updateFields[] = "influencer_category = ?";
+            $updateFields[] = "influencer_type = ?";
+            $updateFields[] = "instagram_profile = ?";
+            $updateFields[] = "expected_payment = ?";
+            $updateFields[] = "work_type_preference = ?";
             
             $params[] = $category;
             $params[] = $followers;
-            $types .= "ss";
+            $params[] = isset($_POST['email']) ? sanitize($conn, $_POST['email']) : '';
+            $params[] = isset($_POST['influencer_category']) ? sanitize($conn, $_POST['influencer_category']) : '';
+            $params[] = isset($_POST['influencer_type']) ? sanitize($conn, $_POST['influencer_type']) : '';
+            $params[] = isset($_POST['instagram_profile']) ? sanitize($conn, $_POST['instagram_profile']) : '';
+            $params[] = isset($_POST['expected_payment']) ? sanitize($conn, $_POST['expected_payment']) : '';
+            $params[] = isset($_POST['work_type_preference']) ? sanitize($conn, $_POST['work_type_preference']) : '';
+            $types .= "ssssssss";
         } else {
             // Employee specific fields
             // Handle resume upload if provided
@@ -180,13 +192,29 @@ try {
         
         // Professional-specific data
         if ($client['professional'] === 'Artist') {
-            $client['category'] = $client['category'];
-            $client['followers'] = $client['followers'];
+            // No need to reassign these values as they are already in $client array
+            // Just ensure they are included in the response
+            $client = array_merge($client, [
+                'category' => $client['category'] ?? '',
+                'followers' => $client['followers'] ?? '',
+                'email' => $client['email'] ?? '',
+                'influencer_category' => $client['influencer_category'] ?? '',
+                'influencer_type' => $client['influencer_type'] ?? '',
+                'instagram_profile' => $client['instagram_profile'] ?? '',
+                'expected_payment' => $client['expected_payment'] ?? '',
+                'work_type_preference' => $client['work_type_preference'] ?? ''
+            ]);
+            
+            // Debug log
+            error_log("Artist data being returned: " . json_encode([
+                'influencer_category' => $client['influencer_category'],
+                'influencer_type' => $client['influencer_type']
+            ]));
         } else {
-            $client['role'] = $client['role'];
-            $client['experience'] = $client['experience'];
-            $client['current_salary'] = $client['current_salary'];
-            $client['resume_url'] = $client['resume_url'];
+            $client['role'] = $client['role'] ?? '';
+            $client['experience'] = $client['experience'] ?? '';
+            $client['current_salary'] = $client['current_salary'] ?? '';
+            $client['resume_url'] = $client['resume_url'] ?? '';
         }
         
         echo json_encode([

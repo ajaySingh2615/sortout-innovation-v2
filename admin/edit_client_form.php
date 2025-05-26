@@ -133,6 +133,60 @@ if (!$client_id) {
                             <input type="text" id="followers" name="followers" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
                         </div>
                     </div>
+
+                    <!-- New Artist Fields -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="influencer_category">Influencer Category</label>
+                            <select id="influencer_category" name="influencer_category" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="">Select Influencer Category</option>
+                                <option value="Comedy and Entertainment Influencers">Comedy and Entertainment Influencers</option>
+                                <option value="Fashion and Beauty Influencers">Fashion and Beauty Influencers</option>
+                                <option value="Travel and Adventure Influencers">Travel and Adventure Influencers</option>
+                                <option value="Food and Cooking Influencers">Food and Cooking Influencers</option>
+                                <option value="Fitness and Health Influencers">Fitness and Health Influencers</option>
+                                <option value="Lifestyle and Family Influencers">Lifestyle and Family Influencers</option>
+                                <option value="Tech and Gaming Influencers">Tech and Gaming Influencers</option>
+                                <option value="Business and Educational Influencers">Business and Educational Influencers</option>
+                                <option value="Art and Creative Influencers">Art and Creative Influencers</option>
+                                <option value="Social Cause and Activism Influencers">Social Cause and Activism Influencers</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="influencer_type">Influencer Type</label>
+                            <select id="influencer_type" name="influencer_type" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                                <option value="">Select Influencer Type</option>
+                                <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers (1M+ followers)</option>
+                                <option value="Macro-influencers – between 100,000 and 1 million followers">Macro-influencers (100K-1M followers)</option>
+                                <option value="Mid-tier influencers – between 50,000 and 100,000 followers">Mid-tier influencers (50K-100K followers)</option>
+                                <option value="Micro-influencers – between 10,000 and 50,000 followers">Micro-influencers (10K-50K followers)</option>
+                                <option value="Nano-influencers – between 1,000 and 10,000 followers">Nano-influencers (1K-10K followers)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="instagram_profile">Instagram Profile URL</label>
+                            <input type="url" id="instagram_profile" name="instagram_profile" placeholder="https://instagram.com/username" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="expected_payment">Expected Payment (₹)</label>
+                            <input type="text" id="expected_payment" name="expected_payment" placeholder="e.g. 10000" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Enter amount in INR</p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="work_type_preference">Work Type Preference</label>
+                            <input type="text" id="work_type_preference" name="work_type_preference" placeholder="e.g. Full-time, Part-time, Freelance" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Employee Fields -->
@@ -312,6 +366,14 @@ if (!$client_id) {
                         // Populate artist fields
                         document.getElementById('category').value = client.category || '';
                         document.getElementById('followers').value = client.followers || '';
+                        
+                        // Populate new artist fields
+                        document.getElementById('email').value = client.email || '';
+                        document.getElementById('influencer_category').value = client.influencer_category || '';
+                        document.getElementById('influencer_type').value = client.influencer_type || '';
+                        document.getElementById('instagram_profile').value = client.instagram_profile || '';
+                        document.getElementById('expected_payment').value = client.expected_payment || '';
+                        document.getElementById('work_type_preference').value = client.work_type_preference || '';
                     } else {
                         document.getElementById('artistFields').style.display = 'none';
                         document.getElementById('employeeFields').style.display = 'block';
