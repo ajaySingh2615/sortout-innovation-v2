@@ -33,6 +33,21 @@ try {
             $params[] = $_GET['category'];
             $types .= "s";
         }
+        if (!empty($_GET['influencer_category'])) {
+            $query .= " AND influencer_category = ?";
+            $params[] = $_GET['influencer_category'];
+            $types .= "s";
+        }
+        if (!empty($_GET['influencer_type'])) {
+            $query .= " AND influencer_type = ?";
+            $params[] = $_GET['influencer_type'];
+            $types .= "s";
+        }
+        if (!empty($_GET['expected_payment'])) {
+            $query .= " AND expected_payment = ?";
+            $params[] = $_GET['expected_payment'];
+            $types .= "s";
+        }
         if (!empty($_GET['followers'])) {
             // Debug log for followers filter
             error_log("Followers filter value: " . $_GET['followers']);

@@ -1306,6 +1306,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <!-- Artist-specific Fields -->
             <div id="artistFields" style="display: none;">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                </div>
+
                 <div class="form-group">
                     <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                     <select id="category" name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
@@ -1351,11 +1357,104 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="Health & Wellness Coach">Health & Wellness Coach</option>
                         <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
                     </select>
-</div>
+                </div>
+
+                <!-- Types of Influencers Based on Category -->
+                <div class="form-group">
+                    <label for="influencer_category" class="block text-sm font-medium text-gray-700">Types of Influencers Based on Category</label>
+                    <select id="influencer_category" name="influencer_category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <option value="">Select Influencer Category</option>
+                        <option value="Video Content Creators">Video Content Creators</option>
+                        <option value="Fashion Influencers">Fashion Influencers</option>
+                        <option value="Beauty Model for shooting">Beauty Model for shooting</option>
+                        <option value="Fitness and Health Influencers">Fitness and Health Influencers</option>
+                        <option value="Lifestyle Influencers">Lifestyle Influencers</option>
+                        <option value="Travel Influencers">Travel Influencers</option>
+                        <option value="Food Influencers">Food Influencers</option>
+                        <option value="Gaming Influencers">Gaming Influencers</option>
+                        <option value="Tech Influencers">Tech Influencers</option>
+                        <option value="Mobile Live Streaming Model">Mobile Live Streaming Model</option>
+                        <option value="Music and Performing Arts Influencers">Music and Performing Arts Influencers</option>
+                        <option value="Motivational Speakers and Self-Improvement Influencers">Motivational Speakers and Self-Improvement Influencers</option>
+                        <option value="Comedy and Entertainment Influencers">Comedy and Entertainment Influencers</option>
+                        <option value="Parenting and Family Influencers">Parenting and Family Influencers</option>
+                        <option value="Art and Design Influencers">Art and Design Influencers</option>
+                        <option value="Activists and Advocates">Activists and Advocates</option>
+                        <option value="Niche Influencers">Niche Influencers</option>
+                        <option value="Night Club Model">Night Club Model</option>
+                        <option value="Party Welcome Model">Party Welcome Model</option>
+                        <option value="Party Waiter Girls">Party Waiter Girls</option>
+                    </select>
+                </div>
+
+                <!-- Types of Influencers by Follower Count -->
+                <div class="form-group">
+                    <label for="influencer_type" class="block text-sm font-medium text-gray-700">Types of Influencers</label>
+                    <select id="influencer_type" name="influencer_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <option value="">Select Influencer Type</option>
+                        <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers – with more than a million followers (think celebrities)</option>
+                        <option value="Macro-influencers – with 500K to 1 million followers">Macro-influencers – with 500K to 1 million followers</option>
+                        <option value="Mid-tier influencers – with 50K to 500K followers">Mid-tier influencers – with 50K to 500K followers</option>
+                        <option value="Micro-influencers – with 10K to 50K followers">Micro-influencers – with 10K to 50K followers</option>
+                        <option value="Nano-influencers – with 1K to 10K followers">Nano-influencers – with 1K to 10K followers</option>
+                    </select>
+                </div>
 
                 <div class="form-group">
                     <label for="followers" class="block text-sm font-medium text-gray-700">Number of Followers</label>
                     <input type="text" id="followers" name="followers" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                </div>
+
+                <!-- Instagram Profile Link -->
+                <div class="form-group">
+                    <label for="instagram_profile" class="block text-sm font-medium text-gray-700">Instagram Profile Link</label>
+                    <input type="url" id="instagram_profile" name="instagram_profile" placeholder="https://instagram.com/yourusername" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                </div>
+
+                <!-- Expected Payment for One Video -->
+                <div class="form-group">
+                    <label for="expected_payment" class="block text-sm font-medium text-gray-700">Expected Payment for One Video</label>
+                    <select id="expected_payment" name="expected_payment" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <option value="">Select Payment Range</option>
+                        <option value="Rs 500 to 1000">Rs 500 to 1000</option>
+                        <option value="Rs 1k to 2k">Rs 1k to 2k</option>
+                        <option value="Rs 2k to 3k">Rs 2k to 3k</option>
+                        <option value="Rs 3k to 4k">Rs 3k to 4k</option>
+                        <option value="Rs 5k to 10k">Rs 5k to 10k</option>
+                        <option value="Rs 10k to 20k">Rs 10k to 20k</option>
+                        <option value="Rs 20k to 50k">Rs 20k to 50k</option>
+                        <option value="Rs 50k to 70k">Rs 50k to 70k</option>
+                        <option value="Rs 70k to 1L">Rs 70k to 1L</option>
+                        <option value="Rs 1L +">Rs 1L +</option>
+                    </select>
+                </div>
+
+                <!-- What Type of Product Would You Like to Work On -->
+                <div class="form-group">
+                    <label for="work_type_preference" class="block text-sm font-medium text-gray-700">What type of product would you like to work on?</label>
+                    <select id="work_type_preference" name="work_type_preference" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <option value="Vlogs (Video Blogs)">Vlogs (Video Blogs)</option>
+                        <option value="Tutorials and How-Tos">Tutorials and How-Tos</option>
+                        <option value="Product Reviews and Unboxings">Product Reviews and Unboxings</option>
+                        <option value="Challenges and Trends">Challenges and Trends</option>
+                        <option value="Q&A Sessions">Q&A Sessions</option>
+                        <option value="Brand Collaborations">Brand Collaborations</option>
+                        <option value="Educational and Informative Content">Educational and Informative Content</option>
+                        <option value="Entertainment and Comedy Skits">Entertainment and Comedy Skits</option>
+                        <option value="Mobile App Live Streams">Mobile App Live Streams</option>
+                        <option value="Storytelling and Narratives">Storytelling and Narratives</option>
+                        <option value="Event Coverage">Event Coverage</option>
+                        <option value="Fitness and Workout Videos">Fitness and Workout Videos</option>
+                        <option value="Short-Form Content (Reels, TikToks, Shorts)">Short-Form Content (Reels, TikToks, Shorts)</option>
+                        <option value="Motivational and Inspirational Videos">Motivational and Inspirational Videos</option>
+                        <option value="Virtual Tours and Experiences">Virtual Tours and Experiences</option>
+                        <option value="1v1 Calling Dating App">1v1 Calling Dating App</option>
+                        <option value="Hot Bold Video Content">Hot Bold Video Content</option>
+                        <option value="Bikini Photoshoot">Bikini Photoshoot</option>
+                        <option value="Night Club Model girls">Night Club Model girls</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <p class="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple options</p>
                 </div>
             </div>
 
@@ -3109,6 +3208,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Add the languages as a comma-separated string
                 formData.append('languages', selectedLanguages.join(','));
+                
+                // Handle multiple work type preference selections (for Artists only)
+                const workTypeSelect = document.getElementById('work_type_preference');
+                if (workTypeSelect && professionalType === 'Artist') {
+                    const selectedWorkTypes = Array.from(workTypeSelect.selectedOptions).map(option => option.value);
+                    
+                    // Remove the original work_type_preference array
+                    formData.delete('work_type_preference[]');
+                    
+                    // Add the work types as a comma-separated string
+                    formData.set('work_type_preference', selectedWorkTypes.join(','));
+                }
                 
                 // Log form data for debugging
                 for (let pair of formData.entries()) {

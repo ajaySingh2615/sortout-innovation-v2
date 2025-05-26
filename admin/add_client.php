@@ -65,6 +65,14 @@ try {
     $category = isset($_POST['category']) ? trim($_POST['category']) : "";
     $role = isset($_POST['role']) ? trim($_POST['role']) : "";
     
+    // Get new Artist-specific fields
+    $email = isset($_POST['email']) ? trim($_POST['email']) : "";
+    $influencer_category = isset($_POST['influencer_category']) ? trim($_POST['influencer_category']) : "";
+    $influencer_type = isset($_POST['influencer_type']) ? trim($_POST['influencer_type']) : "";
+    $instagram_profile = isset($_POST['instagram_profile']) ? trim($_POST['instagram_profile']) : "";
+    $expected_payment = isset($_POST['expected_payment']) ? trim($_POST['expected_payment']) : "";
+    $work_type_preference = isset($_POST['work_type_preference']) ? trim($_POST['work_type_preference']) : "";
+    
     // Initialize resume_url
     $resume_url = "";
 
@@ -160,6 +168,12 @@ try {
         // Clear Artist fields
         $category = "";
         $followers = "";
+        $email = "";
+        $influencer_category = "";
+        $influencer_type = "";
+        $instagram_profile = "";
+        $expected_payment = "";
+        $work_type_preference = "";
     }
 
     // Handle Image Upload (keeping Cloudinary for images as they need to be served quickly)
@@ -200,8 +214,8 @@ try {
     }
 
     // Prepare SQL Query
-    $query = "INSERT INTO clients (name, age, phone, gender, followers, experience, current_salary, category, role, language, professional, city, image_url, resume_url, approval_status) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO clients (name, age, phone, email, gender, followers, experience, current_salary, category, influencer_category, influencer_type, instagram_profile, expected_payment, work_type_preference, role, language, professional, city, image_url, resume_url, approval_status) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
@@ -214,11 +228,17 @@ try {
         'name' => $name,
         'age' => $age,
         'phone' => $phone,
+        'email' => $email,
         'gender' => $gender,
         'followers' => $followers,
         'experience' => $experience,
         'current_salary' => $current_salary,
         'category' => $category,
+        'influencer_category' => $influencer_category,
+        'influencer_type' => $influencer_type,
+        'instagram_profile' => $instagram_profile,
+        'expected_payment' => $expected_payment,
+        'work_type_preference' => $work_type_preference,
         'role' => $role,
         'language' => $language,
         'professional' => $professional,
@@ -232,22 +252,28 @@ try {
     $approval_status = 'pending';
 
     // Bind Parameters
-    if (!$stmt->bind_param("sisssssssssssss", 
-        $name,          // s - string
-        $age,           // i - integer
-        $phone,         // s - string
-        $gender,        // s - string
-        $followers,     // s - string
-        $experience,    // s - string
-        $current_salary,// s - string
-        $category,      // s - string
-        $role,          // s - string
-        $language,      // s - string
-        $professional,  // s - string
-        $city,          // s - string
-        $image_url,     // s - string
-        $resume_url,    // s - string
-        $approval_status // s - string
+    if (!$stmt->bind_param("sisssssssssssssssssss", 
+        $name,                  // s - string
+        $age,                   // i - integer
+        $phone,                 // s - string
+        $email,                 // s - string
+        $gender,                // s - string
+        $followers,             // s - string
+        $experience,            // s - string
+        $current_salary,        // s - string
+        $category,              // s - string
+        $influencer_category,   // s - string
+        $influencer_type,       // s - string
+        $instagram_profile,     // s - string
+        $expected_payment,      // s - string
+        $work_type_preference,  // s - string
+        $role,                  // s - string
+        $language,              // s - string
+        $professional,          // s - string
+        $city,                  // s - string
+        $image_url,             // s - string
+        $resume_url,            // s - string
+        $approval_status        // s - string
     )) {
         error_log("MySQL bind error: " . $stmt->error);
         throw new Exception("Database error occurred: " . $stmt->error);
