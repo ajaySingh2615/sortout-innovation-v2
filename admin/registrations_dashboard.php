@@ -514,6 +514,180 @@ $recentResult = mysqli_query($conn, $recentQuery);
             font-weight: 500;
         }
 
+        /* Enhanced Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-action:hover::before {
+            left: 100%;
+        }
+
+        /* View Button */
+        .btn-view {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .btn-view:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            color: white;
+            border-color: #1d4ed8;
+        }
+
+        /* Approve Button */
+        .btn-approve {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #10b981;
+        }
+
+        .btn-approve:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            border-color: #059669;
+        }
+
+        /* Reject Button */
+        .btn-reject {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .btn-reject:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            border-color: #dc2626;
+        }
+
+        /* Edit Button */
+        .btn-edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        .btn-edit:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            color: white;
+            border-color: #d97706;
+        }
+
+        /* Visibility Buttons */
+        .btn-hide {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            border-color: #6b7280;
+        }
+
+        .btn-hide:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            color: white;
+            border-color: #4b5563;
+        }
+
+        .btn-show {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        .btn-show:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: white;
+            border-color: #7c3aed;
+        }
+
+        /* More Actions Button */
+        .btn-more {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            border-color: #64748b;
+        }
+
+        .btn-more:hover {
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            color: white;
+            border-color: #475569;
+        }
+
+        /* Dropdown Menu Styling */
+        .dropdown-menu {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem 0;
+            min-width: 160px;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+            transform: translateX(4px);
+        }
+
+        .dropdown-item i {
+            width: 16px;
+        }
+
+        /* Loading state for buttons */
+        .btn-action.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-action.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .table-responsive {
                 border-radius: 12px;
@@ -1240,24 +1414,48 @@ $recentResult = mysqli_query($conn, $recentQuery);
                         <small class="text-muted">${formatDate(client.created_at)}</small>
                     </td>
                     <td>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-outline-primary btn-sm" onclick="showDetails(${client.id})" title="View Details">
+                        <div class="action-buttons">
+                            <button class="btn btn-action btn-view" onclick="showDetails(${client.id})" title="View Details">
                                 <i class="fas fa-eye"></i>
                             </button>
                             ${client.approval_status === 'pending' ? `
-                                <button class="btn btn-success btn-sm" onclick="approveClient(${client.id})" title="Approve">
+                                <button class="btn btn-action btn-approve" onclick="approveClient(${client.id})" title="Approve Registration">
                                     <i class="fas fa-check"></i>
                                 </button>
-                                <button class="btn btn-danger btn-sm" onclick="rejectClient(${client.id})" title="Reject">
+                                <button class="btn btn-action btn-reject" onclick="rejectClient(${client.id})" title="Reject Registration">
                                     <i class="fas fa-times"></i>
                                 </button>
                             ` : `
-                                <button class="btn btn-warning btn-sm" onclick="editClient(${client.id})" title="Edit">
+                                <button class="btn btn-action btn-edit" onclick="editClient(${client.id})" title="Edit Details">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-outline-secondary btn-sm" onclick="toggleVisibility(${client.id}, ${client.is_visible})" title="${client.is_visible ? 'Hide' : 'Show'}">
+                                <button class="btn btn-action btn-visibility ${client.is_visible ? 'btn-hide' : 'btn-show'}" onclick="toggleVisibility(${client.id}, ${client.is_visible})" title="${client.is_visible ? 'Hide from Public' : 'Show to Public'}">
                                     <i class="fas fa-${client.is_visible ? 'eye' : 'eye-slash'}"></i>
                                 </button>
+                                <div class="dropdown d-inline-block">
+                                    <button class="btn btn-action btn-more" type="button" data-bs-toggle="dropdown" title="More Actions">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="https://wa.me/91${client.phone}" target="_blank">
+                                            <i class="fab fa-whatsapp text-success me-2"></i>WhatsApp
+                                        </a></li>
+                                        ${client.instagram_profile ? `
+                                            <li><a class="dropdown-item" href="${client.instagram_profile}" target="_blank">
+                                                <i class="fab fa-instagram text-danger me-2"></i>Instagram
+                                            </a></li>
+                                        ` : ''}
+                                        ${client.resume_url ? `
+                                            <li><a class="dropdown-item" href="../${client.resume_url}" target="_blank">
+                                                <i class="fas fa-file-pdf text-danger me-2"></i>Resume
+                                            </a></li>
+                                        ` : ''}
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteClient(${client.id})">
+                                            <i class="fas fa-trash me-2"></i>Delete
+                                        </a></li>
+                                    </ul>
+                                </div>
                             `}
                         </div>
                     </td>
@@ -1568,7 +1766,10 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 // Show loading state
                 const button = event.target.closest('button');
                 const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                const originalClass = button.className;
+                
+                button.classList.add('loading');
+                button.innerHTML = '<i class="fas fa-spinner"></i>';
                 button.disabled = true;
                 
                 const response = await fetch(`toggle_visibility.php?id=${id}`);
@@ -1577,16 +1778,20 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 if (data.status === 'success') {
                     // Update the button immediately without full reload
                     const newVisibility = data.is_visible;
-                    const newTitle = newVisibility ? 'Hide' : 'Show';
+                    const newTitle = newVisibility ? 'Hide from Public' : 'Show to Public';
                     const newIcon = newVisibility ? 'eye' : 'eye-slash';
                     
+                    // Update button class and content
+                    button.className = originalClass.replace('loading', '').replace('btn-hide', '').replace('btn-show', '');
+                    button.classList.add(newVisibility ? 'btn-hide' : 'btn-show');
                     button.innerHTML = `<i class="fas fa-${newIcon}"></i>`;
                     button.title = newTitle;
                     button.onclick = () => toggleVisibility(id, newVisibility);
                     
-                    showAlert(`Client ${newVisibility ? 'shown' : 'hidden'} successfully!`);
+                    showAlert(`Client ${newVisibility ? 'shown to public' : 'hidden from public'} successfully!`);
                 } else {
                     // Restore original button state on error
+                    button.className = originalClass;
                     button.innerHTML = originalHTML;
                     showAlert('Error: ' + data.message, 'danger');
                 }
@@ -1596,9 +1801,33 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 console.error('Error:', error);
                 // Restore original button state on error
                 const button = event.target.closest('button');
-                button.innerHTML = button.title === 'Hide' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                button.className = originalClass;
+                button.innerHTML = originalHTML;
                 button.disabled = false;
                 showAlert('Error updating visibility. Please try again.', 'danger');
+            }
+        }
+
+        async function deleteClient(id) {
+            if (!confirm('Are you sure you want to permanently delete this registration? This action cannot be undone.')) return;
+            
+            try {
+                const response = await fetch(`delete_client.php?id=${id}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showAlert('Registration deleted successfully!');
+                    loadData();
+                    // Update charts
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    showAlert('Error: ' + data.message, 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error deleting registration. Please try again.', 'danger');
             }
         }
         
