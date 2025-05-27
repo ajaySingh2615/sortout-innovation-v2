@@ -338,7 +338,7 @@ usort($categories, function($a, $b) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="/modal_agency.php">Find Talent</a>
+                        <a class="nav-link px-3" href="/registration.php">Find Talent</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/pages/our-services-page/service.html">Services</a>
@@ -724,7 +724,7 @@ usort($categories, function($a, $b) {
                 <a href="/auth/register.php">Register</a>
               </li>
               <li>
-                <a href="/modal_agency.php">talent</a>
+                <a href="/registration.php">talent</a>
               </li>
             </ul>
           </div>

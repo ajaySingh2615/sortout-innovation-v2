@@ -22,7 +22,7 @@ session_start();
                         <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
                     </div>
                 </div>
-                <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
+                <a href="/registration.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
                 <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
                 <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
                 <a href="/blog/index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Blog</a>
@@ -61,7 +61,7 @@ session_start();
                     <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
                 </div>
             </div>
-            <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
+            <a href="/registration.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
             <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
             <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
             <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>

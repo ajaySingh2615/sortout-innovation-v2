@@ -271,7 +271,7 @@ if (!$appDetails) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="/modal_agency.php">Find Talent</a>
+                        <a class="nav-link px-3" href="/registration.php">Find Talent</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/pages/our-services-page/service.html">Services</a>

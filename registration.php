@@ -167,22 +167,66 @@ body.modal-open {
     transform: scale(1);
 }
 
-/* ✅ Improve Input & Select Fields */
+/* ✅ Enhanced Input & Select Fields */
 #addClientModal input,
 #addClientModal select {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    transition: border 0.2s ease-in-out;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    font-size: 14px;
 }
 
-/* ✅ Focus Effect on Inputs */
+/* ✅ Enhanced Focus Effect on Inputs */
 #addClientModal input:focus,
 #addClientModal select:focus {
-    border: 1px solid #ff4757;
+    border: 2px solid #ef4444;
     outline: none;
-    box-shadow: 0 0 6px rgba(255, 71, 87, 0.2);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    transform: translateY(-1px);
+}
+
+/* ✅ File Input Styling */
+#addClientModal input[type="file"] {
+    border: 2px dashed #d1d5db;
+    background-color: #f9fafb;
+    padding: 20px;
+}
+
+#addClientModal input[type="file"]:focus {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+/* ✅ Multi-select Styling */
+#addClientModal select[multiple] {
+    min-height: 120px;
+    padding: 12px;
+}
+
+/* ✅ Section Headers */
+.form-section-header {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-left: 4px solid #ef4444;
+}
+
+/* ✅ Enhanced Labels */
+#addClientModal label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* ✅ Info Text Styling */
+#addClientModal .text-gray-500 {
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
 }
 
 /* ✅ Submit Button Styling */
@@ -683,7 +727,7 @@ body.modal-open {
   }
 
   /* Adjust banner position on smaller screens */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .banner-image {
         object-position: 25% center;
     }
@@ -750,8 +794,70 @@ body.modal-open {
         box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 }
+    
+/* Add dropdown styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
-  </style>
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background: #f5f5f5;
+    color: #d10000;
+}
+
+/* Mobile Dropdown */
+@media (max-width: 991px) {
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        width: 100%;
+        display: none;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-item {
+        padding: 10px 20px;
+        text-align: center;
+        background: #f5f5f5;
+    }
+}
+
+</style>
 
 
 </head>
@@ -821,8 +927,14 @@ body.modal-open {
                 <div class="hidden md:flex space-x-6">
                     <a href="index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Home</a>
                     <a href="/pages/about-page/about.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">About</a>
-                    <a href="/pages/career.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Jobs</a>
-                    <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
+                    <div class="dropdown">
+                        <a href="#" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Career <i class="fas fa-chevron-down ml-1"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                            <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
+                        </div>
+                    </div>
+                    <a href="/registration.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
                     <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
                     <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
                     <a href="/blog/index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Blog</a>
@@ -853,14 +965,24 @@ body.modal-open {
             <div class="px-4 py-3 space-y-3">
                 <a href="index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Home</a>
                 <a href="/pages/about-page/about.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">About</a>
-                <a href="/pages/career.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Jobs</a>
-                <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
+                <div class="dropdown">
+                    <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Career <i class="fas fa-chevron-down ml-1"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
+                        <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
+                    </div>
+                </div>
+                <a href="/registration.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
                 <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
                 <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
-                <!-- Create Profile Button for Small Mobile -->
-                <button id="mobileCreateProfileBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 w-full sm:hidden mt-2 font-semibold tracking-wide">
-                    Create Profile
-                </button>
+                <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>
+                
+                <!-- Create Profile Button for Mobile -->
+                <div class="pt-4 mt-2 border-t border-gray-200">
+                    <button id="mobileCreateProfileBtn" class="w-full bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition duration-300 font-semibold tracking-wide text-center">
+                        Create Profile
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -875,11 +997,21 @@ body.modal-open {
             <img src="/images/agency-banner/first-banner.jpg" alt="Agency Banner 1" class="banner-image">
         </div>
         <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide2">
-            <img src="/images/agency-banner/second-banner.jpg" alt="Agency Banner 2" class="banner-image">
+            <img src="/images/agency-banner/banner-2.jpg" alt="Agency Banner 2" class="banner-image">
         </div>
         <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide3">
-            <img src="/images/agency-banner/third-banner.jpg" alt="Agency Banner 3" class="banner-image">
+            <img src="/images/agency-banner/banner-3.jpg" alt="Agency Banner 3" class="banner-image">
         </div>
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide4">
+            <img src="/images/agency-banner/banner-4.jpg" alt="Agency Banner 4" class="banner-image">
+        </div>
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide5">
+            <img src="/images/agency-banner/banner-5.jpg" alt="Agency Banner 5" class="banner-image">
+        </div>
+        <div class="absolute inset-0 w-full h-full transition-opacity duration-1000 opacity-0" id="slide6">
+            <img src="/images/agency-banner/banner-1.jpg" alt="Agency Banner 6" class="banner-image">
+        </div>
+        
         
         <!-- Navigation Arrows -->
         <button class="absolute z-30 flex items-center justify-center w-10 h-10 text-white transform -translate-y-1/2 rounded-full md:w-12 md:h-12 bg-black/60 left-2 md:left-4 top-1/2 hover:bg-black/70 focus:outline-none nav-arrow" id="prevBtn">
@@ -898,6 +1030,10 @@ body.modal-open {
             <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator active" data-slide="0"></button>
             <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="1"></button>
             <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="2"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="3"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="4"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="5"></button>
+            <button class="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white/50 indicator" data-slide="6"></button>
         </div>
     </div>
 
@@ -906,7 +1042,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const slides = [
         document.getElementById('slide1'),
         document.getElementById('slide2'),
-        document.getElementById('slide3')
+        document.getElementById('slide3'),
+        document.getElementById('slide4'),
+        document.getElementById('slide5'),
+        document.getElementById('slide6')
     ];
     const indicators = document.querySelectorAll('.indicator');
     const prevBtn = document.getElementById('prevBtn');
@@ -1060,48 +1199,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
  <!-- ✅ Profile Submission Form Modal -->
 <div id="addClientModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative">
-        <button id="closeClientFormBtn" class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl font-bold">&times;</button>
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-100">
+        <button id="closeClientFormBtn" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-3xl font-bold transition-colors duration-200 z-10">&times;</button>
             
-            <h2 class="text-2xl font-bold mb-6 text-center text-red-600">Add Profile</h2>
+            <!-- Enhanced Header -->
+            <div class="text-center mb-8 pt-2">
+                <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-plus text-white text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Create Your Profile</h2>
+                <p class="text-gray-600">Join our talent network and showcase your skills</p>
+            </div>
 
-            <form id="addClientForm" enctype="multipart/form-data" class="space-y-4">
+            <form id="addClientForm" enctype="multipart/form-data" class="space-y-6">
             <!-- Professional Type (Hidden) -->
             <input type="hidden" id="professionalField" name="professional" value="">
 
-            <!-- Name -->
-            <div class="form-group">
-                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+            <!-- Basic Information Section -->
+            <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user text-red-500 mr-2"></i>
+                    Basic Information
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-id-card text-gray-400 mr-1"></i>
+                            Full Name *
+                        </label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your full name">
+                    </div>
 
-            <!-- Age -->
-            <div class="form-group">
-                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                <input type="number" id="age" name="age" required min="18" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label for="age" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-birthday-cake text-gray-400 mr-1"></i>
+                            Age *
+                        </label>
+                        <input type="number" id="age" name="age" required min="18" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your age">
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-phone text-gray-400 mr-1"></i>
+                            Phone Number *
+                        </label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter 10-digit phone number">
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label for="gender" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-venus-mars text-gray-400 mr-1"></i>
+                            Gender *
+                        </label>
+                        <select id="gender" name="gender" required 
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- Phone -->
-            <div class="form-group">
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
-
-            <!-- Gender -->
-            <div class="form-group">
-                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                <select id="gender" name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-                </div>
-
-            <!-- City -->
-            <div class="form-group">
-                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                <select id="city" name="city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+            <!-- Location Information -->
+            <div class="bg-blue-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                    Location Information
+                </h3>
+                
+                <!-- City -->
+                <div class="form-group">
+                    <label for="city" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-city text-gray-400 mr-1"></i>
+                        City *
+                    </label>
+                    <select id="city" name="city" required 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                     <option value="">Select City</option>
                     <option value="Mumbai">Mumbai</option>
                     <option value="Delhi">Delhi</option>
@@ -1207,13 +1393,45 @@ document.addEventListener('DOMContentLoaded', function() {
                     <option value="Kozhikode">Kozhikode</option>
                     <option value="Kurnool">Kurnool</option>
                 </select>
+                </div>
             </div>
 
             <!-- Artist-specific Fields -->
             <div id="artistFields" style="display: none;">
-                <div class="form-group">
-                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select id="category" name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                <!-- Contact Information for Artists -->
+                <div class="bg-purple-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-envelope text-purple-500 mr-2"></i>
+                        Contact Information
+                    </h3>
+                    
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-at text-gray-400 mr-1"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="email" name="email" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your email address">
+                    </div>
+                </div>
+
+                <!-- Professional Information for Artists -->
+                <div class="bg-green-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-star text-green-500 mr-2"></i>
+                        Professional Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="category" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-tags text-gray-400 mr-1"></i>
+                                Category
+                            </label>
+                            <select id="category" name="category" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Category</option>
                         <option value="Dating App Host">Dating App Host</option>
                         <option value="Video Live Streamers">Video Live Streamers</option>
@@ -1256,19 +1474,178 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="Health & Wellness Coach">Health & Wellness Coach</option>
                         <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
                     </select>
-</div>
+                </div>
 
-                <div class="form-group">
-                    <label for="followers" class="block text-sm font-medium text-gray-700">Number of Followers</label>
-                    <input type="text" id="followers" name="followers" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <!-- Types of Influencers Based on Category -->
+                        <div class="form-group">
+                            <label for="influencer_category" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-users text-gray-400 mr-1"></i>
+                                Influencer Category
+                            </label>
+                            <select id="influencer_category" name="influencer_category" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                        <option value="">Select Influencer Category</option>
+                        <option value="Video Content Creators">Video Content Creators</option>
+                        <option value="Fashion Influencers">Fashion Influencers</option>
+                        <option value="Beauty Model for shooting">Beauty Model for shooting</option>
+                        <option value="Fitness and Health Influencers">Fitness and Health Influencers</option>
+                        <option value="Lifestyle Influencers">Lifestyle Influencers</option>
+                        <option value="Travel Influencers">Travel Influencers</option>
+                        <option value="Food Influencers">Food Influencers</option>
+                        <option value="Gaming Influencers">Gaming Influencers</option>
+                        <option value="Tech Influencers">Tech Influencers</option>
+                        <option value="Mobile Live Streaming Model">Mobile Live Streaming Model</option>
+                        <option value="Music and Performing Arts Influencers">Music and Performing Arts Influencers</option>
+                        <option value="Motivational Speakers and Self-Improvement Influencers">Motivational Speakers and Self-Improvement Influencers</option>
+                        <option value="Comedy and Entertainment Influencers">Comedy and Entertainment Influencers</option>
+                        <option value="Parenting and Family Influencers">Parenting and Family Influencers</option>
+                        <option value="Art and Design Influencers">Art and Design Influencers</option>
+                        <option value="Activists and Advocates">Activists and Advocates</option>
+                        <option value="Niche Influencers">Niche Influencers</option>
+                        <option value="Night Club Model">Night Club Model</option>
+                        <option value="Party Welcome Model">Party Welcome Model</option>
+                        <option value="Party Waiter Girls">Party Waiter Girls</option>
+                    </select>
+                </div>
+
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6 mt-6">
+                        <!-- Types of Influencers by Follower Count -->
+                        <div class="form-group">
+                            <label for="influencer_type" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-chart-line text-gray-400 mr-1"></i>
+                                Influencer Type by Followers
+                            </label>
+                            <select id="influencer_type" name="influencer_type" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                                <option value="">Select Influencer Type</option>
+                                <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers – with more than a million followers (think celebrities)</option>
+                                <option value="Macro-influencers – with 500K to 1 million followers">Macro-influencers – with 500K to 1 million followers</option>
+                                <option value="Mid-tier influencers – with 50K to 500K followers">Mid-tier influencers – with 50K to 500K followers</option>
+                                <option value="Micro-influencers – with 10K to 50K followers">Micro-influencers – with 10K to 50K followers</option>
+                                <option value="Nano-influencers – with 1K to 10K followers">Nano-influencers – with 1K to 10K followers</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="followers" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-heart text-gray-400 mr-1"></i>
+                                Number of Followers
+                            </label>
+                            <input type="text" id="followers" name="followers" min="0" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                                   placeholder="e.g., 10K, 50K, 100K">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media & Payment Information -->
+                <div class="bg-yellow-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fab fa-instagram text-yellow-500 mr-2"></i>
+                        Social Media & Payment
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+
+                        <!-- Instagram Profile Link -->
+                        <div class="form-group">
+                            <label for="instagram_profile" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fab fa-instagram text-gray-400 mr-1"></i>
+                                Instagram Profile Link
+                            </label>
+                            <input type="url" id="instagram_profile" name="instagram_profile" 
+                                   placeholder="https://instagram.com/yourusername" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                        </div>
+
+                        <!-- Expected Payment for One Video -->
+                        <div class="form-group">
+                            <label for="expected_payment" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-rupee-sign text-gray-400 mr-1"></i>
+                                Expected Payment for One Video
+                            </label>
+                            <select id="expected_payment" name="expected_payment" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                        <option value="">Select Payment Range</option>
+                        <option value="Rs 500 to 1000">Rs 500 to 1000</option>
+                        <option value="Rs 1k to 2k">Rs 1k to 2k</option>
+                        <option value="Rs 2k to 3k">Rs 2k to 3k</option>
+                        <option value="Rs 3k to 4k">Rs 3k to 4k</option>
+                        <option value="Rs 5k to 10k">Rs 5k to 10k</option>
+                        <option value="Rs 10k to 20k">Rs 10k to 20k</option>
+                        <option value="Rs 20k to 50k">Rs 20k to 50k</option>
+                        <option value="Rs 50k to 70k">Rs 50k to 70k</option>
+                        <option value="Rs 70k to 1L">Rs 70k to 1L</option>
+                        <option value="Rs 1L +">Rs 1L +</option>
+                    </select>
+                </div>
+
+                    </div>
+                </div>
+
+                <!-- Work Preferences -->
+                <div class="bg-indigo-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-briefcase text-indigo-500 mr-2"></i>
+                        Work Preferences
+                    </h3>
+                    
+                    <!-- What Type of Product Would You Like to Work On -->
+                    <div class="form-group">
+                        <label for="work_type_preference" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-tasks text-gray-400 mr-1"></i>
+                            What type of product would you like to work on?
+                        </label>
+                        <select id="work_type_preference" name="work_type_preference" multiple 
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm min-h-[120px]">
+                        <option value="Vlogs (Video Blogs)">Vlogs (Video Blogs)</option>
+                        <option value="Tutorials and How-Tos">Tutorials and How-Tos</option>
+                        <option value="Product Reviews and Unboxings">Product Reviews and Unboxings</option>
+                        <option value="Challenges and Trends">Challenges and Trends</option>
+                        <option value="Q&A Sessions">Q&A Sessions</option>
+                        <option value="Brand Collaborations">Brand Collaborations</option>
+                        <option value="Educational and Informative Content">Educational and Informative Content</option>
+                        <option value="Entertainment and Comedy Skits">Entertainment and Comedy Skits</option>
+                        <option value="Mobile App Live Streams">Mobile App Live Streams</option>
+                        <option value="Storytelling and Narratives">Storytelling and Narratives</option>
+                        <option value="Event Coverage">Event Coverage</option>
+                        <option value="Fitness and Workout Videos">Fitness and Workout Videos</option>
+                        <option value="Short-Form Content (Reels, TikToks, Shorts)">Short-Form Content (Reels, TikToks, Shorts)</option>
+                        <option value="Motivational and Inspirational Videos">Motivational and Inspirational Videos</option>
+                        <option value="Virtual Tours and Experiences">Virtual Tours and Experiences</option>
+                        <option value="1v1 Calling Dating App">1v1 Calling Dating App</option>
+                        <option value="Hot Bold Video Content">Hot Bold Video Content</option>
+                        <option value="Bikini Photoshoot">Bikini Photoshoot</option>
+                        <option value="Night Club Model girls">Night Club Model girls</option>
+                        <option value="Other">Other</option>
+                    </select>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Hold Ctrl/Cmd to select multiple options
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <!-- Employee-specific Fields -->
             <div id="employeeFields" style="display: none;">
-                <div class="form-group">
-                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                    <select id="role" name="role" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                <!-- Professional Information for Employees -->
+                <div class="bg-blue-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-briefcase text-blue-500 mr-2"></i>
+                        Professional Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-user-tie text-gray-400 mr-1"></i>
+                                Role *
+                            </label>
+                            <select id="role" name="role" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Role</option>
                         <option value="General Manager (GM)">General Manager (GM)</option>
                         <option value="Business Development Manager (BDM)">Business Development Manager (BDM)</option>
@@ -1336,75 +1713,132 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
             </div>
 
-                <div class="form-group">
-                    <label for="experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
-                    <input type="number" id="experience" name="experience" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-            </div>
-
-                <div class="form-group">
-                    <label for="current_salary" class="block text-sm font-medium text-gray-700">Current Salary (₹)</label>
-                    <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <p class="mt-1 text-sm text-gray-500">Enter your current monthly salary in INR</p>
-                </div>
-
-                <!-- Resume Upload Field -->
-                <div class="form-group">
-                    <label for="resume" class="block text-sm font-medium text-gray-700">Resume/CV</label>
-                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" class="mt-1 block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-md file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-red-50 file:text-red-700
-                        hover:file:bg-red-100">
-                    <p class="mt-1 text-sm text-gray-500">Please upload your resume in PDF, DOC, or DOCX format (max 5MB)</p>
-                    <div id="resumeError" class="mt-1 text-sm text-red-600 hidden"></div>
-                </div>
-            </div>
-
-            <!-- Languages -->
-            <div class="form-group">
-                <label for="languages" class="block text-sm font-medium text-gray-700">Languages Known</label>
-                <select id="languages" name="languages[]" multiple required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <option value="English">English</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Bengali">Bengali</option>
-                    <option value="Telugu">Telugu</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="Marathi">Marathi</option>
-                    <option value="Gujarati">Gujarati</option>
-                    <option value="Kannada">Kannada</option>
-                    <option value="Malayalam">Malayalam</option>
-                    <option value="Punjabi">Punjabi</option>
-                </select>
-                <p class="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple languages</p>
-            </div>
-
-            <!-- Profile Image -->
-            <div class="form-group">
-                <label for="image" class="block text-sm font-medium text-gray-700">Profile Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required class="mt-1 block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-md file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-red-50 file:text-red-700
-                    hover:file:bg-red-100">
-                <p class="mt-1 text-sm text-gray-500">Please upload a portrait image with 9:16 aspect ratio (recommended size: 720x1280 pixels) for optimal display</p>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-group">
-                <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center">
-                    <span>Submit Profile</span>
-                    <div class="loading-spinner ml-2 hidden">
-                        <i class="fas fa-spinner fa-spin"></i>
+                        <div class="form-group">
+                            <label for="experience" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-clock text-gray-400 mr-1"></i>
+                                Years of Experience
+                            </label>
+                            <input type="number" id="experience" name="experience" min="0" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                                   placeholder="Enter years of experience">
+                        </div>
                     </div>
-    </button>
-</div>
-        </form>
+                    
+                    <div class="grid grid-cols-1 gap-6 mt-6">
+                        <div class="form-group">
+                            <label for="current_salary" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-rupee-sign text-gray-400 mr-1"></i>
+                                Current Salary (₹)
+                            </label>
+                            <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                            <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                Enter your current monthly salary in INR
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-        <button id="cancelClientFormBtn" class="mt-4 w-full text-red-500 font-semibold hover:underline text-center">
-            Cancel
-        </button>
+                <!-- Resume Upload Section for Employees -->
+                <div class="bg-green-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-file-upload text-green-500 mr-2"></i>
+                        Resume Upload
+                    </h3>
+
+                    <!-- Resume Upload Field -->
+                    <div class="form-group">
+                        <label for="resume" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-file-pdf text-gray-400 mr-1"></i>
+                            Resume/CV *
+                        </label>
+                        <div class="relative">
+                            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" 
+                                   class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                          file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                          file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                          hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Please upload your resume in PDF, DOC, or DOCX format (max 5MB)
+                        </p>
+                        <div id="resumeError" class="mt-2 text-sm text-red-600 hidden bg-red-50 p-2 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="bg-orange-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-info-circle text-orange-500 mr-2"></i>
+                    Additional Information
+                </h3>
+                
+                <!-- Languages -->
+                <div class="form-group mb-6">
+                    <label for="languages" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-language text-gray-400 mr-1"></i>
+                        Languages Known *
+                    </label>
+                    <select id="languages" name="languages[]" multiple required 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm min-h-[120px]">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Bengali">Bengali</option>
+                        <option value="Telugu">Telugu</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Marathi">Marathi</option>
+                        <option value="Gujarati">Gujarati</option>
+                        <option value="Kannada">Kannada</option>
+                        <option value="Malayalam">Malayalam</option>
+                        <option value="Punjabi">Punjabi</option>
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        Hold Ctrl/Cmd to select multiple languages
+                    </p>
+                </div>
+
+                <!-- Profile Image -->
+                <div class="form-group">
+                    <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-camera text-gray-400 mr-1"></i>
+                        Profile Image *
+                    </label>
+                    <div class="relative">
+                        <input type="file" id="image" name="image" accept="image/*" capture="camera" required 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                      file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                      file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                      hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        Please take a portrait photo with your camera (9:16 aspect ratio recommended)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Submit Button Section -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl p-6 mt-8">
+                <div class="form-group">
+                    <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        <span>Submit Profile</span>
+                        <div class="loading-spinner ml-2 hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                </div>
+                
+                <button id="cancelClientFormBtn" class="mt-4 w-full text-gray-500 hover:text-red-500 font-semibold py-2 transition-colors duration-200 flex items-center justify-center">
+                    <i class="fas fa-times mr-2"></i>
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -1424,8 +1858,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show profile selection modal
     function showProfileModal() {
-        profileSelectionModal.classList.add('show');
-        document.body.classList.add('modal-open');
+        console.log('Opening profile selection modal');
+        if (profileSelectionModal) {
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+                document.body.style.overflow = ''; // Reset body overflow
+            }
+            
+            profileSelectionModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
+        }
     }
 
     // Hide profile selection modal
@@ -1456,7 +1914,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (type === 'Employee') {
                 artistFields.style.display = 'none';
                 employeeFields.style.display = 'block';
-            } else {
+        } else {
                 artistFields.style.display = 'block';
                 employeeFields.style.display = 'none';
             }
@@ -1515,149 +1973,11 @@ document.addEventListener('DOMContentLoaded', function() {
             hideClientForm();
         }
     });
-});
+    });
 </script>
 
 
 
-
-<!-- ✅ Trusted Clients Section -->
-<section class="trusted-clients-section">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="trusted-clients-title text-3xl md:text-4xl">Our Trusted Clients</h2>
-            <p class="trusted-clients-subtitle text-base md:text-lg">Partnering with leading brands and organizations to deliver exceptional talent solutions</p>
-        </div>
-        
-        <!-- Infinite Scroll for All Screen Sizes -->
-        <div>
-            <!-- First row - left to right -->
-            <div class="logo-scroll-container">
-                <div class="logo-scroll">
-                    <!-- First set of logos -->
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/nykaa.png" alt="Chingari" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/paytm.png" alt="Disco" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/phone-pay.png" alt="Josh" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/Reliance-Retail.png" alt="ME" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/sbi-bank.png" alt="Meesho" class="client-logo">
-                        </div>
-    </div>
-
-                    <!-- Duplicate set for seamless scrolling -->
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/amazon.png" alt="Chingari" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/capmine.png" alt="Disco" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/congnizant.png" alt="Josh" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/hcl.png" alt="ME" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/ibm.png" alt="Meesho" class="client-logo">
-                        </div>
-                    </div>
-                </div>
-</div>
-
-            <!-- Second row - right to left (reverse) -->
-            <div class="logo-scroll-container mt-8">
-                <div class="logo-scroll-reverse">
-                    <!-- First set of logos -->
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/infoses.png" alt="Meesho" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/tata.png" alt="ME" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/it-images/techMahindra.png" alt="Josh" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/axis-bank.png" alt="Disco" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/bajaj.png" alt="Chingari" class="client-logo">
-                        </div>
-    </div>
-
-                    <!-- Duplicate set for seamless scrolling -->
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/big-basket.png" alt="Meesho" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/flipkart.png" alt="ME" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/google-pay.png" alt="Josh" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/hdfc.png" alt="Disco" class="client-logo">
-                        </div>
-                    </div>
-                    <div class="logo-scroll-item">
-                        <div class="client-logo-container">
-                            <img src="/images/company-images/improved-logos/banking-logo/ICICI.png" alt="Chingari" class="client-logo">
-                        </div>
-                    </div>
-        </div>
-    </div>
-    </div>
-
-        <!-- Call to Action -->
-        <!-- <div class="text-center mt-12">
-            <a href="#" class="inline-block px-8 py-3 bg-white text-gray-800 border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 font-poppins font-semibold shadow-sm">
-                View All Partners <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div> -->
-</div>
-</section>
 
 
 
@@ -1677,10 +1997,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <!-- Professional Type Toggle -->
                 <div class="flex justify-center gap-4 mb-8">
-                    <button id="artistFilterBtn" class="toggle-button active px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
+                    <button id="artistFilterBtn" class="toggle-button px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
                         <i class="fas fa-star"></i>Artists
                     </button>
-                    <button id="employeeFilterBtn" class="toggle-button px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
+                    <button id="employeeFilterBtn" class="toggle-button active px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 flex items-center gap-2">
                         <i class="fas fa-briefcase"></i>Employees
                     </button>
         </div>
@@ -2059,6 +2379,144 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section> -->
 
+<!-- ✅ Trusted Clients Section -->
+<section class="trusted-clients-section">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="trusted-clients-title text-3xl md:text-4xl">Our Trusted Clients</h2>
+            <p class="trusted-clients-subtitle text-base md:text-lg">Partnering with leading brands and organizations to deliver exceptional talent solutions</p>
+        </div>
+        
+        <!-- Infinite Scroll for All Screen Sizes -->
+        <div>
+            <!-- First row - left to right -->
+            <div class="logo-scroll-container">
+                <div class="logo-scroll">
+                    <!-- First set of logos -->
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/nykaa.png" alt="Chingari" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/paytm.png" alt="Disco" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/phone-pay.png" alt="Josh" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/Reliance-Retail.png" alt="ME" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/sbi-bank.png" alt="Meesho" class="client-logo">
+                        </div>
+    </div>
+
+                    <!-- Duplicate set for seamless scrolling -->
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/amazon.png" alt="Chingari" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/capmine.png" alt="Disco" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/congnizant.png" alt="Josh" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/hcl.png" alt="ME" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/ibm.png" alt="Meesho" class="client-logo">
+                        </div>
+                    </div>
+                </div>
+</div>
+
+            <!-- Second row - right to left (reverse) -->
+            <div class="logo-scroll-container mt-8">
+                <div class="logo-scroll-reverse">
+                    <!-- First set of logos -->
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/infoses.png" alt="Meesho" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/tata.png" alt="ME" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/it-images/techMahindra.png" alt="Josh" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/axis-bank.png" alt="Disco" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/bajaj.png" alt="Chingari" class="client-logo">
+                        </div>
+    </div>
+
+                    <!-- Duplicate set for seamless scrolling -->
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/big-basket.png" alt="Meesho" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/flipkart.png" alt="ME" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/google-pay.png" alt="Josh" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/hdfc.png" alt="Disco" class="client-logo">
+                        </div>
+                    </div>
+                    <div class="logo-scroll-item">
+                        <div class="client-logo-container">
+                            <img src="/images/company-images/improved-logos/banking-logo/ICICI.png" alt="Chingari" class="client-logo">
+                        </div>
+                    </div>
+        </div>
+    </div>
+    </div>
+
+        <!-- Call to Action -->
+        <!-- <div class="text-center mt-12">
+            <a href="#" class="inline-block px-8 py-3 bg-white text-gray-800 border border-gray-300 rounded-full hover:bg-gray-50 hover:border-gray-400 transition-all duration-300 font-poppins font-semibold shadow-sm">
+                View All Partners <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div> -->
+</div>
+</section>
+
 <!-- ✅ Fully Responsive About Section -->
 <div class="relative w-full h-auto lg:h-[80vh] flex flex-col lg:flex-row items-center bg-cover bg-center" 
     style="background-image: url('/images/section-background-1.jpg');">
@@ -2072,7 +2530,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <p class="text-red-400 text-xl lg:text-2xl italic font-[Dancing Script] mt-2">Something You Need to Know</p>
 
         <p class="mt-4 text-md lg:text-lg font-light leading-relaxed font-[Poppins]">
-            We are a leading talent agency helping models, influencers, and artists showcase their potential and collaborate with top brands.  
+            We are helping models, influencers, and artists showcase their potential and collaborate with top brands.  
             With a vast network in the entertainment & fashion industry, we bring talent closer to their dreams.
         </p>
 
@@ -2095,7 +2553,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </h2>
     
     <p class="mt-4 text-lg font-light max-w-3xl mx-auto font-poppins animate-slide-up">
-        Ready to take your career to the next level? Whether you're an **influencer, model, or artist**, we help you get discovered by top brands!  
+        Ready to take your career to the next level? Whether you're an influencer, model, or artist, we help you get discovered by top brands!  
         Don't miss out on amazing opportunities.
     </p>
 
@@ -2125,7 +2583,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- Column 1: Company Info -->
             <div class="lg:col-span-1">
                 <div class="flex flex-col items-center lg:items-start">
-                    <img src="/images/sortoutInnovation-icon/Sortout innovation.jpg" alt="SortOut Innovation" class="h-16 w-auto mb-4" />
+                    <img src="/images/sortoutInnovation-icon/Sortout innovation.jpg" alt="Sortout Innovation" class="h-16 w-auto mb-4" />
                     <p class="text-center lg:text-left text-gray-300 text-sm">
                         Empowering businesses with top-notch solutions in digital, IT,
                         and business services.
@@ -2144,7 +2602,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li><a href="/pages/our-services-page/service.html" class="text-gray-300 hover:text-white transition duration-300">Services</a></li>
                     <li><a href="/blog/index.php" class="text-gray-300 hover:text-white transition duration-300">Blogs</a></li>
                     <li><a href="/auth/register.php" class="text-gray-300 hover:text-white transition duration-300">Register</a></li>
-                    <li><a href="/modal_agency.php" class="text-gray-300 hover:text-white transition duration-300">talent</a></li>
+                    <li><a href="/registration.php" class="text-gray-300 hover:text-white transition duration-300">talent</a></li>
                 </ul>
             </div>
 
@@ -2208,7 +2666,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <!-- Copyright & Legal Links -->
         <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-400 text-center md:text-left mb-4 md:mb-0">&copy; 2025 SortOut Innovation. All Rights Reserved.</p>
+            <p class="text-gray-400 text-center md:text-left mb-4 md:mb-0">&copy; 2025 Sortout Innovation. All Rights Reserved.</p>
             <ul class="flex space-x-6">
                 <li><a href="/privacy-policy" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
                 <li><a href="/terms" class="text-gray-400 hover:text-white transition duration-300">Terms & Conditions</a></li>
@@ -2260,7 +2718,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize variables
         let currentPage = 1;
-        let currentProfessional = 'Artist';
+        let currentProfessional = 'Employee';
         let filters = {};
         
         // Get filter toggle buttons
@@ -2453,7 +2911,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                                 </div>
                         
-                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4iUw2dXlqh8goIVK7AgQg3vPHSjmPZNotk6-CKojShrulVg/viewform" 
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc7vZq_7h4GENbpSP6jPCVv1a2o32yK_H0Zz21xrcZ9QIgvyw/viewform" 
                            onclick="window.open(this.href, '_blank'); return false;"
                            class="w-full px-4 py-2.5 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg hover:from-red-600 hover:to-pink-600 transition-all duration-300 font-semibold shadow-md flex items-center justify-center cursor-pointer">
                             ${client.professional === 'Employee' ? 'Hire Now' : 'Book Now'} <i class="fas fa-arrow-right ml-2"></i>
@@ -2469,7 +2927,7 @@ document.addEventListener('DOMContentLoaded', function() {
                              <p class="client-category text-xs text-gray-500"><i class="fas fa-users mr-1.5 text-red-500"></i>${client.followers || '0'} followers</p>` : 
                             `<p class="client-category text-sm text-gray-600 mb-1"><i class="fas fa-briefcase mr-1.5 text-red-500"></i>${client.role || 'N/A'}</p>
                              <p class="client-category text-xs text-gray-500"><i class="fas fa-clock mr-1.5 text-red-500"></i>${client.experience || '0'} years experience</p>
-                             <p class="client-category text-xs text-gray-500"><i class="fas fa-rupee-sign mr-1.5 text-red-500"></i>${client.current_salary ? client.current_salary + ' INR/month' : 'Salary not specified'}</p>`
+                             </p>`
                         }
                     </div>
                 </div>`;
@@ -2530,6 +2988,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize by fetching clients
         fetchClients();
+        
+        // Ensure Employee filter is selected by default
+        toggleProfessionalType('Employee');
     });
 </script>
 
@@ -2795,6 +3256,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (profileSelectionModal) {
             profileSelectionModal.style.display = 'flex';
             document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
         }
     }
 
@@ -2978,6 +3448,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Add the languages as a comma-separated string
                 formData.append('languages', selectedLanguages.join(','));
+                
+                // Handle multiple work type preference selections (for Artists only)
+                const workTypeSelect = document.getElementById('work_type_preference');
+                if (workTypeSelect && professionalType === 'Artist') {
+                    const selectedWorkTypes = Array.from(workTypeSelect.selectedOptions).map(option => option.value);
+                    
+                    // Remove the original work_type_preference array
+                    formData.delete('work_type_preference[]');
+                    
+                    // Add the work types as a comma-separated string
+                    formData.set('work_type_preference', selectedWorkTypes.join(','));
+                }
                 
                 // Log form data for debugging
                 for (let pair of formData.entries()) {
@@ -3276,7 +3758,312 @@ function setupClientCards() {
 window.initializeClientCards = setupClientCards;
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Toggle mobile menu
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+        hamburgerIcon.classList.toggle('hidden');
+        closeIcon.classList.toggle('hidden');
+    });
+
+    // Handle dropdowns on mobile
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 991) {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu functionality
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeIcon = document.getElementById('closeIcon');
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    // Toggle mobile menu
+    if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+            hamburgerIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    }
+
+    // Handle dropdowns on mobile
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        if (link) {
+            link.addEventListener('click', (e) => {
+                if (window.innerWidth <= 991) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdown.classList.toggle('active');
+                }
+            });
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+
+    // Prevent mobile menu from closing when clicking inside it
+    if (mobileMenu) {
+        mobileMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get modal elements
+    const profileSelectionModal = document.getElementById('profileSelectionModal');
+    const addClientModal = document.getElementById('addClientModal');
+    const artistButton = document.getElementById('artistButton');
+    const employeeButton = document.getElementById('employeeButton');
+    const createProfileBtn = document.getElementById('createProfileBtn');
+    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
+    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
+    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
+    
+    // Function to show profile selection modal
+    function showProfileModal() {
+        console.log('Opening profile selection modal');
+        if (profileSelectionModal) {
+            profileSelectionModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Add animation to the modal
+            setTimeout(function() {
+                const modalContent = profileSelectionModal.querySelector('.transform');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                    modalContent.style.opacity = '1';
+                }
+            }, 10);
+        }
+    }
+    
+    // Function to close profile selection modal
+    function closeProfileModal() {
+        console.log('Closing profile selection modal');
+        if (profileSelectionModal) {
+            const modalContent = profileSelectionModal.querySelector('.transform');
+            if (modalContent) {
+                modalContent.style.transform = 'scale(0.95)';
+                modalContent.style.opacity = '0';
+            }
+            
+            setTimeout(function() {
+                profileSelectionModal.style.display = 'none';
+                if (!addClientModal || addClientModal.style.display === 'none') {
+                    document.body.classList.remove('modal-open');
+                }
+            }, 300);
+        }
+    }
+    
+    // Function to show client form modal
+    function showClientForm(type) {
+        console.log('Opening client form for:', type);
+        closeProfileModal();
+        
+        if (addClientModal) {
+            addClientModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+            
+            // Set professional type
+            const professionalField = document.getElementById('professionalField');
+            if (professionalField) {
+                professionalField.value = type;
+                console.log('Set professional type to:', type);
+            }
+            
+            // Toggle fields visibility if artist/employee-specific fields exist
+            const artistFields = document.getElementById('artistFields');
+            const employeeFields = document.getElementById('employeeFields');
+            
+            if (artistFields && employeeFields) {
+                artistFields.style.display = type === 'Artist' ? 'block' : 'none';
+                employeeFields.style.display = type === 'Employee' ? 'block' : 'none';
+                console.log('Toggled fields for:', type);
+            }
+        }
+    }
+    
+    // Function to close client form modal
+    function closeClientForm() {
+        console.log('Closing client form');
+        if (addClientModal) {
+            addClientModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+    }
+
+    // Check if URL has query parameter to open modal directly
+    const urlParams = new URLSearchParams(window.location.search);
+    const openModal = urlParams.get('openModal');
+    
+    if (openModal === 'true') {
+        // Open the selection modal automatically when query parameter is present
+        setTimeout(function() {
+            showProfileModal();
+        }, 500);
+    }
+    
+    // Event Listeners
+    if (createProfileBtn) {
+        createProfileBtn.addEventListener('click', showProfileModal);
+    }
+    
+    if (artistButton) {
+        artistButton.addEventListener('click', function() {
+            showClientForm('Artist');
+        });
+    }
+    
+    if (employeeButton) {
+        employeeButton.addEventListener('click', function() {
+            showClientForm('Employee');
+        });
+    }
+    
+    if (closeSelectionBtn) {
+        closeSelectionBtn.addEventListener('click', closeProfileModal);
+    }
+    
+    if (closeClientFormBtn) {
+        closeClientFormBtn.addEventListener('click', closeClientForm);
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === profileSelectionModal) {
+            closeProfileModal();
+        }
+        
+        if (event.target === addClientModal) {
+            closeClientForm();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeProfileModal();
+            closeClientForm();
+        }
+    });
+});
+</script>
+
+<script>
+// Add this script at the end of the file, before the closing </body> tag
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener to the image input
+    const imageInput = document.getElementById('image');
+    if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Check if file is larger than 5MB
+                if (file.size > 5 * 1024 * 1024) {
+                    // Compress the image before upload
+                    compressImage(file, function(compressedFile) {
+                        // Replace the file in the input
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(compressedFile);
+                        imageInput.files = dataTransfer.files;
+                    });
+                }
+            }
+        });
+    }
+    
+    // Function to compress image
+    function compressImage(file, callback) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Calculate new dimensions (maintain aspect ratio)
+                let width = img.width;
+                let height = img.height;
+                const MAX_WIDTH = 1280;
+                const MAX_HEIGHT = 1280;
+                
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                // Draw image on canvas with new dimensions
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Convert to Blob with reduced quality
+                canvas.toBlob(function(blob) {
+                    // Create a new file from the blob
+                    const compressedFile = new File([blob], file.name, {
+                        type: 'image/jpeg',
+                        lastModified: Date.now()
+                    });
+                    
+                    callback(compressedFile);
+                }, 'image/jpeg', 0.7); // Adjust quality (0.7 = 70% quality)
+            };
+        };
+    }
+});
+</script>
+
 
 
 </body>
 </html>
+
+

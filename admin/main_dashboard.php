@@ -178,7 +178,7 @@ if ($_SESSION['role'] === 'super_admin') {
                         <h5 class="card-title ms-3 mb-0">Talent Management</h5>
                     </div>
                     <p class="card-text text-muted">Manage talent profiles, portfolios, and bookings.</p>
-                    <a href="model_agency_dashboard.php" class="btn btn-outline-warning mt-auto">Manage Talents</a>
+                    <a href="registrations_dashboard.php" class="btn btn-outline-warning mt-auto">Manage Talents</a>
                 </div>
             </div>
         </div>

@@ -1113,7 +1113,7 @@ if ($needs_toc) {
                 <a href="/artist-job/index.php" class="dropdown-item">Artist Jobs</a>
               </div>
             </li>
-            <li><a href="/modal_agency.php" class="nav-link">Find Talent</a></li>
+                            <li><a href="/registration.php" class="nav-link">Find Talent</a></li>
             <li><a href="/pages/our-services-page/service.html" class="nav-link">Service</a></li>
             <li><a href="/pages/contact-page/contact-page.html" class="nav-link">Contact</a></li>
             <li><a href="/blog/index.php" class="nav-link">Blog</a></li>
@@ -1347,7 +1347,7 @@ if ($needs_toc) {
                         <li><a href="/pages/our-services-page/service.html">Services</a></li>
                         <li><a href="/blog/index.php">Blogs</a></li>
                         <li><a href="/auth/register.php">Register</a></li>
-                        <li><a href="/modal_agency.php">talent</a></li>
+                        <li><a href="/registration.php">talent</a></li>
                     </ul>
                 </div>
 

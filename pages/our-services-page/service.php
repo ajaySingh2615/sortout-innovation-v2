@@ -228,7 +228,7 @@
                   Helps businesses hire the right, skilled professionals for
                   growth and success.
                 </p>
-                <a href="../../modal_agency.php" class="btn-view-more"
+                <a href="../../registration.php" class="btn-view-more"
                   >View More</a
                 >
               </div>

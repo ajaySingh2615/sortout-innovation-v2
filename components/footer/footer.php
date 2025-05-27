@@ -44,7 +44,7 @@
                     <li class="footer-link-item"><a href="/pages/our-services-page/service.html" class="footer-link"><i class="fas fa-chevron-right"></i>Services</a></li>
                     <li class="footer-link-item"><a href="/blog/index.php" class="footer-link"><i class="fas fa-chevron-right"></i>Blog</a></li>
                     <li class="footer-link-item"><a href="/auth/register.php" class="footer-link"><i class="fas fa-chevron-right"></i>Register</a></li>
-                    <li class="footer-link-item"><a href="/modal_agency.php" class="footer-link"><i class="fas fa-chevron-right"></i>Talent</a></li>
+                    <li class="footer-link-item"><a href="/registration.php" class="footer-link"><i class="fas fa-chevron-right"></i>Talent</a></li>
                 </ul>
             </div>
 
