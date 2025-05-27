@@ -85,9 +85,274 @@ $recentResult = mysqli_query($conn, $recentQuery);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
+        /* Enhanced Navbar Styles */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-1px);
+        }
+
+        .brand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover .brand-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Navigation Stats */
+        .nav-stats {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-stat-item {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .nav-stat-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .nav-stat-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Navigation Action Buttons */
+        .btn-nav-action {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-nav-action:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-nav-action:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Notification Bell */
+        .nav-notification {
+            position: relative;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffd700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse-notification 2s infinite;
+        }
+
+        .nav-notification:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: bounce-notification 1s infinite;
+        }
+
+        @keyframes pulse-notification {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+        }
+
+        @keyframes bounce-notification {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-2px); }
+        }
+
+        /* User Profile Section */
+        .user-profile-link {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-profile-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white !important;
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            font-size: 1.8rem;
+            margin-right: 0.75rem;
+            color: #ffd700;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced Dropdown */
+        .user-dropdown {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem 0;
+            min-width: 250px;
+            margin-top: 0.5rem;
+        }
+
+        .user-dropdown .dropdown-header {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 8px;
+            margin: 0.5rem;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-radius: 0;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .user-dropdown .dropdown-item.text-danger:hover {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+
+        /* Mobile Stats */
+        .mobile-stat-item {
+            flex: 1;
+        }
+
+        .mobile-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .mobile-stat-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Navbar Toggle */
+        .navbar-toggler {
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .brand-text div:first-child {
+                font-size: 1rem;
+            }
+            
+            .brand-text div:last-child {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .user-info {
+                display: none !important;
+            }
+            
+            .navbar-brand {
+                font-size: 1rem;
+            }
         }
 
         .stats-card {
@@ -926,28 +1191,141 @@ $recentResult = mysqli_query($conn, $recentQuery);
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-users-cog me-2"></i>
-                Registrations Dashboard
-            </a>
-            <div class="navbar-nav ms-auto">
+    <!-- Enhanced Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); backdrop-filter: blur(10px);">
+        <div class="container-fluid px-4">
+            <!-- Brand Section -->
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand d-flex align-items-center" href="#" style="font-weight: 700; font-size: 1.4rem;">
+                    <div class="brand-icon me-3">
+                        <i class="fas fa-users-cog" style="font-size: 1.8rem; color: #ffd700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                    </div>
+                    <div class="brand-text">
+                        <div style="color: white; line-height: 1.2;">Registrations</div>
+                        <div style="color: #e2e8f0; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.5px;">DASHBOARD</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Center Navigation Items -->
+            <div class="navbar-nav mx-auto d-none d-lg-flex">
+                <div class="nav-stats d-flex gap-4">
+                    <div class="nav-stat-item">
+                        <div class="nav-stat-number"><?= $pendingCount ?></div>
+                        <div class="nav-stat-label">Pending</div>
+                    </div>
+                    <div class="nav-stat-item">
+                        <div class="nav-stat-number"><?= $approvedCount ?></div>
+                        <div class="nav-stat-label">Approved</div>
+                    </div>
+                    <div class="nav-stat-item">
+                        <div class="nav-stat-number"><?= $totalCount ?></div>
+                        <div class="nav-stat-label">Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Actions -->
+            <div class="d-flex align-items-center gap-3">
+                <!-- Quick Actions -->
+                <div class="d-none d-md-flex gap-2">
+                    <button class="btn btn-nav-action" onclick="refreshData()" title="Refresh Data">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-nav-action dropdown-toggle" type="button" data-bs-toggle="dropdown" title="Export Data">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="exportExcel()">
+                                <i class="fas fa-file-excel text-success me-2"></i>Export Excel
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="exportCSV()">
+                                <i class="fas fa-file-csv text-primary me-2"></i>Export CSV
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <?php if ($newCount > 0): ?>
+                <div class="nav-notification" title="<?= $newCount ?> new registrations">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge"><?= $newCount ?></span>
+                </div>
+                <?php endif; ?>
+
+                <!-- User Profile Dropdown -->
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i>
-                        <?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?>
+                    <a class="nav-link dropdown-toggle user-profile-link" href="#" role="button" data-bs-toggle="dropdown">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-info d-none d-sm-block">
+                            <div class="user-name"><?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?></div>
+                            <div class="user-role"><?= ucfirst($_SESSION['role'] ?? 'Administrator') ?></div>
+                        </div>
+                        <i class="fas fa-chevron-down ms-2" style="font-size: 0.8rem;"></i>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                        <li class="dropdown-header">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-circle me-2" style="font-size: 2rem; color: #667eea;"></i>
+                                <div>
+                                    <div class="fw-bold"><?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?></div>
+                                    <small class="text-muted"><?= ucfirst($_SESSION['role'] ?? 'Administrator') ?></small>
+                                </div>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="model_agency_dashboard.php">
-                            <i class="fas fa-tachometer-alt me-2"></i>Main Dashboard
+                            <i class="fas fa-tachometer-alt me-2 text-primary"></i>Main Dashboard
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="window.location.reload()">
+                            <i class="fas fa-sync-alt me-2 text-info"></i>Refresh Page
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../auth/logout.php">
+                        <li><a class="dropdown-item text-danger" href="../auth/logout.php">
                             <i class="fas fa-sign-out-alt me-2"></i>Logout
                         </a></li>
                     </ul>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="container-fluid px-4 pt-3 d-lg-none">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mobile-stats d-flex justify-content-around py-3 mb-3" style="background: rgba(255,255,255,0.1); border-radius: 12px;">
+                            <div class="mobile-stat-item text-center">
+                                <div class="mobile-stat-number"><?= $pendingCount ?></div>
+                                <div class="mobile-stat-label">Pending</div>
+                            </div>
+                            <div class="mobile-stat-item text-center">
+                                <div class="mobile-stat-number"><?= $approvedCount ?></div>
+                                <div class="mobile-stat-label">Approved</div>
+                            </div>
+                            <div class="mobile-stat-item text-center">
+                                <div class="mobile-stat-number"><?= $totalCount ?></div>
+                                <div class="mobile-stat-label">Total</div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button class="btn btn-nav-action" onclick="refreshData()">
+                                <i class="fas fa-sync-alt me-1"></i>Refresh
+                            </button>
+                            <button class="btn btn-nav-action" onclick="exportExcel()">
+                                <i class="fas fa-download me-1"></i>Export
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
