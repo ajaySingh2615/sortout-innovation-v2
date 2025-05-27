@@ -167,23 +167,108 @@ $recentResult = mysqli_query($conn, $recentQuery);
         }
 
         .filter-section {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .filter-header h5 {
+            margin: 0;
+            color: #1f2937;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .filter-header i {
+            color: var(--primary-color);
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .filter-row-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.05) 0%, transparent 100%);
         }
 
         .search-input {
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            padding: 0.875rem 1.25rem;
             font-size: 0.875rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
         }
 
         .search-input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-select {
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            padding: 0.875rem 1.25rem;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .quick-filters-section {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid #d1d5db;
+        }
+
+        .quick-filters-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .quick-filters-title i {
+            color: var(--info-color);
+            margin-right: 0.5rem;
         }
 
         .modal-content {
@@ -322,9 +407,111 @@ $recentResult = mysqli_query($conn, $recentQuery);
         }
 
         .quick-filter-active {
-            background-color: var(--primary-color) !important;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%) !important;
             color: white !important;
             border-color: var(--primary-color) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-quick-filter {
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-quick-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-quick-filter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-quick-filter:hover::before {
+            left: 100%;
+        }
+
+        .filter-reset-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            border: none;
+            color: white;
+        }
+
+        .filter-reset-btn:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            color: white;
+        }
+
+        /* Professional Badge Styles */
+        .badge-artist {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .badge-artist:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .badge-employee {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+        }
+
+        .badge-employee:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Influencer Info Styles */
+        .influencer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 180px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.125rem 0;
+        }
+
+        .info-item i {
+            width: 12px;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            font-size: 0.75rem;
+            line-height: 1.2;
+            font-weight: 500;
         }
 
         @media (max-width: 768px) {
@@ -478,224 +665,238 @@ $recentResult = mysqli_query($conn, $recentQuery);
 
         <!-- Filters -->
         <div class="filter-section">
+            <div class="filter-header">
+                <i class="fas fa-filter"></i>
+                <h5>Advanced Filters</h5>
+            </div>
+            
+            <div class="filter-row-title">
+                <i class="fas fa-search me-2"></i>Basic Filters
+            </div>
             <div class="row g-3">
                 <div class="col-lg-2 col-md-6">
-                    <label class="form-label fw-semibold">Search</label>
-                    <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by name, phone, email...">
+                    <label class="form-label">Search</label>
+                    <div class="position-relative">
+                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by name, phone, email...">
+                        <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                    </div>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label class="form-label fw-semibold">Status</label>
+                    <label class="form-label">Status</label>
                     <select id="statusFilter" class="form-select">
                         <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
+                        <option value="pending">🕐 Pending</option>
+                        <option value="approved">✅ Approved</option>
+                        <option value="rejected">❌ Rejected</option>
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label class="form-label fw-semibold">Date Range</label>
+                    <label class="form-label">Date Range</label>
                     <select id="dateFilter" class="form-select">
-                        <option value="">All Time</option>
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="last_24h">Last 24 Hours</option>
-                        <option value="last_7_days">Last 7 Days</option>
-                        <option value="last_30_days">Last 30 Days</option>
-                        <option value="this_month">This Month</option>
-                        <option value="last_month">Last Month</option>
+                        <option value="">📅 All Time</option>
+                        <option value="today">📅 Today</option>
+                        <option value="yesterday">📅 Yesterday</option>
+                        <option value="last_24h">⏰ Last 24 Hours</option>
+                        <option value="last_7_days">📅 Last 7 Days</option>
+                        <option value="last_30_days">📅 Last 30 Days</option>
+                        <option value="this_month">📅 This Month</option>
+                        <option value="last_month">📅 Last Month</option>
                     </select>
                 </div>
                 <div class="col-lg-1 col-md-6">
-                    <label class="form-label fw-semibold">Professional</label>
+                    <label class="form-label">Professional</label>
                     <select id="professionalFilter" class="form-select">
                         <option value="">All Types</option>
-                        <option value="Artist">Artist</option>
-                        <option value="Employee">Employee</option>
+                        <option value="Artist">🎨 Artist</option>
+                        <option value="Employee">👔 Employee</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-semibold">Category</label>
+                    <label class="form-label">Category</label>
                     <select id="categoryFilter" class="form-select">
                         <option value="">All Categories</option>
-                        <option value="Dating App Host">Dating App Host</option>
-                        <option value="Video Live Streamers">Video Live Streamers</option>
-                        <option value="Voice Live Streamers">Voice Live Streamers</option>
-                        <option value="Singer">Singer</option>
-                        <option value="Dancer">Dancer</option>
-                        <option value="Actor / Actress">Actor / Actress</option>
-                        <option value="Model">Model</option>
-                        <option value="Artist / Painter">Artist / Painter</option>
-                        <option value="Social Media Influencer">Social Media Influencer</option>
-                        <option value="Content Creator">Content Creator</option>
-                        <option value="Vlogger">Vlogger</option>
-                        <option value="Gamer / Streamer">Gamer / Streamer</option>
-                        <option value="YouTuber">YouTuber</option>
-                        <option value="Anchor / Emcee / Host">Anchor / Emcee / Host</option>
-                        <option value="DJ / Music Producer">DJ / Music Producer</option>
-                        <option value="Photographer / Videographer">Photographer / Videographer</option>
-                        <option value="Makeup Artist / Hair Stylist">Makeup Artist / Hair Stylist</option>
-                        <option value="Fashion Designer / Stylist">Fashion Designer / Stylist</option>
-                        <option value="Fitness Trainer / Yoga Instructor">Fitness Trainer / Yoga Instructor</option>
-                        <option value="Motivational Speaker / Life Coach">Motivational Speaker / Life Coach</option>
-                        <option value="Chef / Culinary Artist">Chef / Culinary Artist</option>
-                        <option value="Child Artist">Child Artist</option>
-                        <option value="Pet Performer / Pet Model">Pet Performer / Pet Model</option>
-                        <option value="Instrumental Musician">Instrumental Musician</option>
-                        <option value="Director / Scriptwriter / Editor">Director / Scriptwriter / Editor</option>
-                        <option value="Voice Over Artist">Voice Over Artist</option>
-                        <option value="Magician / Illusionist">Magician / Illusionist</option>
-                        <option value="Stand-up Comedian">Stand-up Comedian</option>
-                        <option value="Mimicry Artist">Mimicry Artist</option>
-                        <option value="Poet / Storyteller">Poet / Storyteller</option>
-                        <option value="Language Trainer / Public Speaking Coach">Language Trainer / Public Speaking Coach</option>
-                        <option value="Craft Expert / DIY Creator">Craft Expert / DIY Creator</option>
-                        <option value="Travel Blogger / Explorer">Travel Blogger / Explorer</option>
-                        <option value="Astrologer / Tarot Reader">Astrologer / Tarot Reader</option>
-                        <option value="Educator / Subject Matter Expert">Educator / Subject Matter Expert</option>
-                        <option value="Tech Reviewer / Gadget Expert">Tech Reviewer / Gadget Expert</option>
-                        <option value="Unboxing / Product Reviewer">Unboxing / Product Reviewer</option>
-                        <option value="Business Coach / Startup Mentor">Business Coach / Startup Mentor</option>
-                        <option value="Health & Wellness Coach">Health & Wellness Coach</option>
-                        <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
+                        <option value="Dating App Host">💕 Dating App Host</option>
+                        <option value="Video Live Streamers">📹 Video Live Streamers</option>
+                        <option value="Voice Live Streamers">🎙️ Voice Live Streamers</option>
+                        <option value="Singer">🎤 Singer</option>
+                        <option value="Dancer">💃 Dancer</option>
+                        <option value="Actor / Actress">🎭 Actor / Actress</option>
+                        <option value="Model">📸 Model</option>
+                        <option value="Artist / Painter">🎨 Artist / Painter</option>
+                        <option value="Social Media Influencer">📱 Social Media Influencer</option>
+                        <option value="Content Creator">📝 Content Creator</option>
+                        <option value="Vlogger">📹 Vlogger</option>
+                        <option value="Gamer / Streamer">🎮 Gamer / Streamer</option>
+                        <option value="YouTuber">📺 YouTuber</option>
+                        <option value="Anchor / Emcee / Host">🎤 Anchor / Emcee / Host</option>
+                        <option value="DJ / Music Producer">🎧 DJ / Music Producer</option>
+                        <option value="Photographer / Videographer">📷 Photographer / Videographer</option>
+                        <option value="Makeup Artist / Hair Stylist">💄 Makeup Artist / Hair Stylist</option>
+                        <option value="Fashion Designer / Stylist">👗 Fashion Designer / Stylist</option>
+                        <option value="Fitness Trainer / Yoga Instructor">💪 Fitness Trainer / Yoga Instructor</option>
+                        <option value="Motivational Speaker / Life Coach">🗣️ Motivational Speaker / Life Coach</option>
+                        <option value="Chef / Culinary Artist">👨‍🍳 Chef / Culinary Artist</option>
+                        <option value="Child Artist">👶 Child Artist</option>
+                        <option value="Pet Performer / Pet Model">🐕 Pet Performer / Pet Model</option>
+                        <option value="Instrumental Musician">🎻 Instrumental Musician</option>
+                        <option value="Director / Scriptwriter / Editor">🎬 Director / Scriptwriter / Editor</option>
+                        <option value="Voice Over Artist">🎙️ Voice Over Artist</option>
+                        <option value="Magician / Illusionist">🎩 Magician / Illusionist</option>
+                        <option value="Stand-up Comedian">😂 Stand-up Comedian</option>
+                        <option value="Mimicry Artist">🎭 Mimicry Artist</option>
+                        <option value="Poet / Storyteller">📖 Poet / Storyteller</option>
+                        <option value="Language Trainer / Public Speaking Coach">🗣️ Language Trainer / Public Speaking Coach</option>
+                        <option value="Craft Expert / DIY Creator">🔨 Craft Expert / DIY Creator</option>
+                        <option value="Travel Blogger / Explorer">✈️ Travel Blogger / Explorer</option>
+                        <option value="Astrologer / Tarot Reader">🔮 Astrologer / Tarot Reader</option>
+                        <option value="Educator / Subject Matter Expert">📚 Educator / Subject Matter Expert</option>
+                        <option value="Tech Reviewer / Gadget Expert">💻 Tech Reviewer / Gadget Expert</option>
+                        <option value="Unboxing / Product Reviewer">📦 Unboxing / Product Reviewer</option>
+                        <option value="Business Coach / Startup Mentor">💼 Business Coach / Startup Mentor</option>
+                        <option value="Health & Wellness Coach">🌿 Health & Wellness Coach</option>
+                        <option value="Event Anchor / Wedding Host">💒 Event Anchor / Wedding Host</option>
                     </select>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <label class="form-label fw-semibold">City</label>
+                    <label class="form-label">City</label>
                     <select id="cityFilter" class="form-select">
-                        <option value="">All Cities</option>
-                        <option value="Mumbai">Mumbai</option>
-                        <option value="Delhi">Delhi</option>
-                        <option value="Bangalore">Bangalore</option>
-                        <option value="Hyderabad">Hyderabad</option>
-                        <option value="Ahmedabad">Ahmedabad</option>
-                        <option value="Chennai">Chennai</option>
-                        <option value="Kolkata">Kolkata</option>
-                        <option value="Pune">Pune</option>
-                        <option value="Jaipur">Jaipur</option>
-                        <option value="Gurgaon">Gurgaon</option>
-                        <option value="Noida">Noida</option>
-                        <option value="Faridabad">Faridabad</option>
-                        <option value="Lucknow">Lucknow</option>
-                        <option value="Kanpur">Kanpur</option>
-                        <option value="Nagpur">Nagpur</option>
-                        <option value="Indore">Indore</option>
-                        <option value="Surat">Surat</option>
-                        <option value="Ludhiana">Ludhiana</option>
-                        <option value="Agra">Agra</option>
-                        <option value="Patna">Patna</option>
+                        <option value="">🏙️ All Cities</option>
+                        <option value="Mumbai">🏙️ Mumbai</option>
+                        <option value="Delhi">🏛️ Delhi</option>
+                        <option value="Bangalore">🌆 Bangalore</option>
+                        <option value="Hyderabad">🏙️ Hyderabad</option>
+                        <option value="Ahmedabad">🏙️ Ahmedabad</option>
+                        <option value="Chennai">🏙️ Chennai</option>
+                        <option value="Kolkata">🏙️ Kolkata</option>
+                        <option value="Pune">🏙️ Pune</option>
+                        <option value="Jaipur">🏰 Jaipur</option>
+                        <option value="Gurgaon">🏙️ Gurgaon</option>
+                        <option value="Noida">🏙️ Noida</option>
+                        <option value="Faridabad">🏙️ Faridabad</option>
+                        <option value="Lucknow">🏙️ Lucknow</option>
+                        <option value="Kanpur">🏙️ Kanpur</option>
+                        <option value="Nagpur">🏙️ Nagpur</option>
+                        <option value="Indore">🏙️ Indore</option>
+                        <option value="Surat">🏙️ Surat</option>
+                        <option value="Ludhiana">🏙️ Ludhiana</option>
+                        <option value="Agra">🕌 Agra</option>
+                        <option value="Patna">🏙️ Patna</option>
                     </select>
                 </div>
             </div>
             
-            <!-- Additional Filters Row -->
-            <div class="row g-3 mt-2">
+            <div class="filter-row-title mt-4">
+                <i class="fas fa-star me-2"></i>Influencer Specific Filters
+            </div>
+            <div class="row g-3">
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-semibold">Influencer Category</label>
+                    <label class="form-label">Influencer Category</label>
                     <select id="influencerCategoryFilter" class="form-select">
-                        <option value="">All Influencer Categories</option>
-                        <option value="Video Content Creators">Video Content Creators</option>
-                        <option value="Fashion Influencers">Fashion Influencers</option>
-                        <option value="Beauty Model for shooting">Beauty Model for shooting</option>
-                        <option value="Fitness and Health Influencers">Fitness and Health Influencers</option>
-                        <option value="Lifestyle Influencers">Lifestyle Influencers</option>
-                        <option value="Travel Influencers">Travel Influencers</option>
-                        <option value="Food Influencers">Food Influencers</option>
-                        <option value="Gaming Influencers">Gaming Influencers</option>
-                        <option value="Tech Influencers">Tech Influencers</option>
-                        <option value="Mobile Live Streaming Model">Mobile Live Streaming Model</option>
-                        <option value="Music and Performing Arts Influencers">Music and Performing Arts Influencers</option>
-                        <option value="Motivational Speakers and Self-Improvement Influencers">Motivational Speakers and Self-Improvement Influencers</option>
-                        <option value="Comedy and Entertainment Influencers">Comedy and Entertainment Influencers</option>
-                        <option value="Parenting and Family Influencers">Parenting and Family Influencers</option>
-                        <option value="Art and Design Influencers">Art and Design Influencers</option>
-                        <option value="Activists and Advocates">Activists and Advocates</option>
-                        <option value="Niche Influencers">Niche Influencers</option>
-                        <option value="Night Club Model">Night Club Model</option>
-                        <option value="Party Welcome Model">Party Welcome Model</option>
-                        <option value="Party Waiter Girls">Party Waiter Girls</option>
+                        <option value="">🎯 All Influencer Categories</option>
+                        <option value="Video Content Creators">📹 Video Content Creators</option>
+                        <option value="Fashion Influencers">👗 Fashion Influencers</option>
+                        <option value="Beauty Model for shooting">💄 Beauty Model for shooting</option>
+                        <option value="Fitness and Health Influencers">💪 Fitness and Health Influencers</option>
+                        <option value="Lifestyle Influencers">🌟 Lifestyle Influencers</option>
+                        <option value="Travel Influencers">✈️ Travel Influencers</option>
+                        <option value="Food Influencers">🍕 Food Influencers</option>
+                        <option value="Gaming Influencers">🎮 Gaming Influencers</option>
+                        <option value="Tech Influencers">💻 Tech Influencers</option>
+                        <option value="Mobile Live Streaming Model">📱 Mobile Live Streaming Model</option>
+                        <option value="Music and Performing Arts Influencers">🎵 Music and Performing Arts Influencers</option>
+                        <option value="Motivational Speakers and Self-Improvement Influencers">🗣️ Motivational Speakers and Self-Improvement Influencers</option>
+                        <option value="Comedy and Entertainment Influencers">😂 Comedy and Entertainment Influencers</option>
+                        <option value="Parenting and Family Influencers">👨‍👩‍👧‍👦 Parenting and Family Influencers</option>
+                        <option value="Art and Design Influencers">🎨 Art and Design Influencers</option>
+                        <option value="Activists and Advocates">✊ Activists and Advocates</option>
+                        <option value="Niche Influencers">🎯 Niche Influencers</option>
+                        <option value="Night Club Model">🌙 Night Club Model</option>
+                        <option value="Party Welcome Model">🎉 Party Welcome Model</option>
+                        <option value="Party Waiter Girls">🍸 Party Waiter Girls</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-semibold">Influencer Type</label>
+                    <label class="form-label">Influencer Type</label>
                     <select id="influencerTypeFilter" class="form-select">
-                        <option value="">All Influencer Types</option>
-                        <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers – with more than a million followers (think celebrities)</option>
-                        <option value="Macro-influencers – with 500K to 1 million followers">Macro-influencers – with 500K to 1 million followers</option>
-                        <option value="Mid-tier influencers – with 50K to 500K followers">Mid-tier influencers – with 50K to 500K followers</option>
-                        <option value="Micro-influencers – with 10K to 50K followers">Micro-influencers – with 10K to 50K followers</option>
-                        <option value="Nano-influencers – with 1K to 10K followers">Nano-influencers – with 1K to 10K followers</option>
+                        <option value="">📊 All Influencer Types</option>
+                        <option value="Mega-influencers – with more than a million followers (think celebrities)">🌟 Mega-influencers (1M+ followers)</option>
+                        <option value="Macro-influencers – with 500K to 1 million followers">📈 Macro-influencers (500K-1M followers)</option>
+                        <option value="Mid-tier influencers – with 50K to 500K followers">📊 Mid-tier influencers (50K-500K followers)</option>
+                        <option value="Micro-influencers – with 10K to 50K followers">📱 Micro-influencers (10K-50K followers)</option>
+                        <option value="Nano-influencers – with 1K to 10K followers">🔸 Nano-influencers (1K-10K followers)</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-semibold">Work Type Preference</label>
+                    <label class="form-label">Work Type Preference</label>
                     <select id="workTypeFilter" class="form-select">
-                        <option value="">All Work Types</option>
-                        <option value="Vlogs (Video Blogs)">Vlogs (Video Blogs)</option>
-                        <option value="Tutorials and How-Tos">Tutorials and How-Tos</option>
-                        <option value="Product Reviews and Unboxings">Product Reviews and Unboxings</option>
-                        <option value="Challenges and Trends">Challenges and Trends</option>
-                        <option value="Q&A Sessions">Q&A Sessions</option>
-                        <option value="Brand Collaborations">Brand Collaborations</option>
-                        <option value="Educational and Informative Content">Educational and Informative Content</option>
-                        <option value="Entertainment and Comedy Skits">Entertainment and Comedy Skits</option>
-                        <option value="Mobile App Live Streams">Mobile App Live Streams</option>
-                        <option value="Storytelling and Narratives">Storytelling and Narratives</option>
-                        <option value="Event Coverage">Event Coverage</option>
-                        <option value="Fitness and Workout Videos">Fitness and Workout Videos</option>
-                        <option value="Short-Form Content (Reels, TikToks, Shorts)">Short-Form Content (Reels, TikToks, Shorts)</option>
-                        <option value="Motivational and Inspirational Videos">Motivational and Inspirational Videos</option>
-                        <option value="Virtual Tours and Experiences">Virtual Tours and Experiences</option>
-                        <option value="1v1 Calling Dating App">1v1 Calling Dating App</option>
-                        <option value="Hot Bold Video Content">Hot Bold Video Content</option>
-                        <option value="Bikini Photoshoot">Bikini Photoshoot</option>
-                        <option value="Night Club Model girls">Night Club Model girls</option>
-                        <option value="Other">Other</option>
+                        <option value="">🎬 All Work Types</option>
+                        <option value="Vlogs (Video Blogs)">📹 Vlogs (Video Blogs)</option>
+                        <option value="Tutorials and How-Tos">📚 Tutorials and How-Tos</option>
+                        <option value="Product Reviews and Unboxings">📦 Product Reviews and Unboxings</option>
+                        <option value="Challenges and Trends">🔥 Challenges and Trends</option>
+                        <option value="Q&A Sessions">❓ Q&A Sessions</option>
+                        <option value="Brand Collaborations">🤝 Brand Collaborations</option>
+                        <option value="Educational and Informative Content">📖 Educational and Informative Content</option>
+                        <option value="Entertainment and Comedy Skits">😂 Entertainment and Comedy Skits</option>
+                        <option value="Mobile App Live Streams">📱 Mobile App Live Streams</option>
+                        <option value="Storytelling and Narratives">📚 Storytelling and Narratives</option>
+                        <option value="Event Coverage">🎪 Event Coverage</option>
+                        <option value="Fitness and Workout Videos">💪 Fitness and Workout Videos</option>
+                        <option value="Short-Form Content (Reels, TikToks, Shorts)">⚡ Short-Form Content (Reels, TikToks, Shorts)</option>
+                        <option value="Motivational and Inspirational Videos">🌟 Motivational and Inspirational Videos</option>
+                        <option value="Virtual Tours and Experiences">🌐 Virtual Tours and Experiences</option>
+                        <option value="1v1 Calling Dating App">💕 1v1 Calling Dating App</option>
+                        <option value="Hot Bold Video Content">🔥 Hot Bold Video Content</option>
+                        <option value="Bikini Photoshoot">👙 Bikini Photoshoot</option>
+                        <option value="Night Club Model girls">🌙 Night Club Model girls</option>
+                        <option value="Other">🔄 Other</option>
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-semibold">Expected Payment Range</label>
+                    <label class="form-label">Expected Payment Range</label>
                     <select id="paymentRangeFilter" class="form-select">
-                        <option value="">All Payment Ranges</option>
-                        <option value="Rs 500 to 1000">Rs 500 to 1000</option>
-                        <option value="Rs 1k to 2k">Rs 1k to 2k</option>
-                        <option value="Rs 2k to 3k">Rs 2k to 3k</option>
-                        <option value="Rs 3k to 4k">Rs 3k to 4k</option>
-                        <option value="Rs 5k to 10k">Rs 5k to 10k</option>
-                        <option value="Rs 10k to 20k">Rs 10k to 20k</option>
-                        <option value="Rs 20k to 50k">Rs 20k to 50k</option>
-                        <option value="Rs 50k to 70k">Rs 50k to 70k</option>
-                        <option value="Rs 70k to 1L">Rs 70k to 1L</option>
-                        <option value="Rs 1L +">Rs 1L +</option>
+                        <option value="">💰 All Payment Ranges</option>
+                        <option value="Rs 500 to 1000">💰 Rs 500 to 1000</option>
+                        <option value="Rs 1k to 2k">💰 Rs 1k to 2k</option>
+                        <option value="Rs 2k to 3k">💰 Rs 2k to 3k</option>
+                        <option value="Rs 3k to 4k">💰 Rs 3k to 4k</option>
+                        <option value="Rs 5k to 10k">💰 Rs 5k to 10k</option>
+                        <option value="Rs 10k to 20k">💰 Rs 10k to 20k</option>
+                        <option value="Rs 20k to 50k">💰 Rs 20k to 50k</option>
+                        <option value="Rs 50k to 70k">💰 Rs 50k to 70k</option>
+                        <option value="Rs 70k to 1L">💰 Rs 70k to 1L</option>
+                        <option value="Rs 1L +">💎 Rs 1L +</option>
                     </select>
                 </div>
             </div>
             
             <!-- Quick Filter Buttons -->
-            <div class="row mt-3">
-                <div class="col-12">
-                    <div class="d-flex flex-wrap gap-2">
-                        <button class="btn btn-outline-primary btn-sm" onclick="quickFilter('today')">
-                            <i class="fas fa-calendar-day me-1"></i>Today's Registrations
-                            <?php if ($todayCount > 0): ?>
-                                <span class="badge bg-primary ms-1"><?= $todayCount ?></span>
-                            <?php endif; ?>
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="quickFilter('pending_today')">
-                            <i class="fas fa-clock me-1"></i>Pending Today
-                            <?php if ($pendingTodayCount > 0): ?>
-                                <span class="badge bg-warning ms-1"><?= $pendingTodayCount ?></span>
-                            <?php endif; ?>
-                        </button>
-                        <button class="btn btn-outline-info btn-sm" onclick="quickFilter('last_24h')">
-                            <i class="fas fa-history me-1"></i>Last 24 Hours
-                            <?php if ($newCount > 0): ?>
-                                <span class="badge bg-info ms-1"><?= $newCount ?></span>
-                            <?php endif; ?>
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="clearAllFilters()">
-                            <i class="fas fa-times me-1"></i>Clear All Filters
-                        </button>
-                    </div>
+            <div class="quick-filters-section">
+                <div class="quick-filters-title">
+                    <i class="fas fa-bolt"></i>Quick Filters
+                </div>
+                <div class="d-flex flex-wrap gap-3">
+                    <button class="btn btn-outline-primary btn-quick-filter" onclick="quickFilter('today')">
+                        <i class="fas fa-calendar-day me-2"></i>Today's Registrations
+                        <?php if ($todayCount > 0): ?>
+                            <span class="badge bg-primary ms-2"><?= $todayCount ?></span>
+                        <?php endif; ?>
+                    </button>
+                    <button class="btn btn-outline-warning btn-quick-filter" onclick="quickFilter('pending_today')">
+                        <i class="fas fa-clock me-2"></i>Pending Today
+                        <?php if ($pendingTodayCount > 0): ?>
+                            <span class="badge bg-warning ms-2"><?= $pendingTodayCount ?></span>
+                        <?php endif; ?>
+                    </button>
+                    <button class="btn btn-outline-info btn-quick-filter" onclick="quickFilter('last_24h')">
+                        <i class="fas fa-history me-2"></i>Last 24 Hours
+                        <?php if ($newCount > 0): ?>
+                            <span class="badge bg-info ms-2"><?= $newCount ?></span>
+                        <?php endif; ?>
+                    </button>
+                    <button class="btn filter-reset-btn btn-quick-filter" onclick="clearAllFilters()">
+                        <i class="fas fa-refresh me-2"></i>Clear All Filters
+                    </button>
                 </div>
             </div>
         </div>
@@ -972,7 +1173,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
                         </div>
                     </td>
                     <td>
-                        <span class="badge ${client.professional === 'Artist' ? 'bg-purple' : 'bg-info'} bg-opacity-10 text-${client.professional === 'Artist' ? 'purple' : 'info'}">
+                        <span class="badge ${client.professional === 'Artist' ? 'badge-artist' : 'badge-employee'}">
                             ${client.professional}
                         </span>
                     </td>
@@ -983,22 +1184,37 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     </td>
                     <td>
                         ${client.professional === 'Artist' ? `
-                            <div class="small">
+                            <div class="influencer-info">
                                 ${client.influencer_category ? `
-                                    <div><strong>Type:</strong> ${client.influencer_category}</div>
+                                    <div class="info-item">
+                                        <i class="fas fa-tag text-primary"></i>
+                                        <span class="info-text">${getShortCategory(client.influencer_category)}</span>
+                                    </div>
                                 ` : ''}
                                 ${client.influencer_type ? `
-                                    <div><strong>Level:</strong> ${client.influencer_type}</div>
+                                    <div class="info-item">
+                                        <i class="fas fa-users text-info"></i>
+                                        <span class="info-text">${getShortInfluencerType(client.influencer_type)}</span>
+                                    </div>
                                 ` : ''}
                                 ${client.expected_payment ? `
-                                    <div class="text-success"><strong>₹${client.expected_payment}</strong></div>
+                                    <div class="info-item">
+                                        <i class="fas fa-rupee-sign text-success"></i>
+                                        <span class="info-text text-success fw-bold">${getShortPayment(client.expected_payment)}</span>
+                                    </div>
                                 ` : ''}
                                 ${client.work_type_preference ? `
-                                    <div class="text-info">${client.work_type_preference}</div>
+                                    <div class="info-item">
+                                        <i class="fas fa-video text-warning"></i>
+                                        <span class="info-text">${getShortWorkType(client.work_type_preference)}</span>
+                                    </div>
                                 ` : ''}
                             </div>
                         ` : `
-                            <span class="text-muted small">Employee</span>
+                            <div class="text-center">
+                                <i class="fas fa-briefcase text-muted"></i>
+                                <div class="small text-muted">Employee</div>
+                            </div>
                         `}
                     </td>
                     <td>
@@ -1040,7 +1256,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button class="btn btn-outline-secondary btn-sm" onclick="toggleVisibility(${client.id}, ${client.is_visible})" title="${client.is_visible ? 'Hide' : 'Show'}">
-                                    <i class="fas fa-${client.is_visible ? 'eye-slash' : 'eye'}"></i>
+                                    <i class="fas fa-${client.is_visible ? 'eye' : 'eye-slash'}"></i>
                                 </button>
                             `}
                         </div>
@@ -1349,21 +1565,112 @@ $recentResult = mysqli_query($conn, $recentQuery);
         
         async function toggleVisibility(id, currentVisibility) {
             try {
+                // Show loading state
+                const button = event.target.closest('button');
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                button.disabled = true;
+                
                 const response = await fetch(`toggle_visibility.php?id=${id}`);
                 const data = await response.json();
                 
                 if (data.status === 'success') {
-                    showAlert('Visibility updated successfully!');
-                    loadData();
+                    // Update the button immediately without full reload
+                    const newVisibility = data.is_visible;
+                    const newTitle = newVisibility ? 'Hide' : 'Show';
+                    const newIcon = newVisibility ? 'eye' : 'eye-slash';
+                    
+                    button.innerHTML = `<i class="fas fa-${newIcon}"></i>`;
+                    button.title = newTitle;
+                    button.onclick = () => toggleVisibility(id, newVisibility);
+                    
+                    showAlert(`Client ${newVisibility ? 'shown' : 'hidden'} successfully!`);
                 } else {
+                    // Restore original button state on error
+                    button.innerHTML = originalHTML;
                     showAlert('Error: ' + data.message, 'danger');
                 }
+                
+                button.disabled = false;
             } catch (error) {
                 console.error('Error:', error);
+                // Restore original button state on error
+                const button = event.target.closest('button');
+                button.innerHTML = button.title === 'Hide' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                button.disabled = false;
                 showAlert('Error updating visibility. Please try again.', 'danger');
             }
         }
         
+        // Helper functions to shorten text for better display
+        function getShortCategory(category) {
+            const shortNames = {
+                'Video Content Creators': 'Video Creator',
+                'Fashion Influencers': 'Fashion',
+                'Beauty Model for shooting': 'Beauty Model',
+                'Fitness and Health Influencers': 'Fitness',
+                'Lifestyle Influencers': 'Lifestyle',
+                'Travel Influencers': 'Travel',
+                'Food Influencers': 'Food',
+                'Gaming Influencers': 'Gaming',
+                'Tech Influencers': 'Tech',
+                'Mobile Live Streaming Model': 'Live Stream',
+                'Music and Performing Arts Influencers': 'Music/Arts',
+                'Motivational Speakers and Self-Improvement Influencers': 'Motivational',
+                'Comedy and Entertainment Influencers': 'Comedy',
+                'Parenting and Family Influencers': 'Family',
+                'Art and Design Influencers': 'Art/Design',
+                'Activists and Advocates': 'Activist',
+                'Niche Influencers': 'Niche',
+                'Night Club Model': 'Night Club',
+                'Party Welcome Model': 'Party Model',
+                'Party Waiter Girls': 'Party Waiter'
+            };
+            return shortNames[category] || category;
+        }
+
+        function getShortInfluencerType(type) {
+            const shortNames = {
+                'Mega-influencers – with more than a million followers (think celebrities)': 'Mega (1M+)',
+                'Macro-influencers – with 500K to 1 million followers': 'Macro (500K-1M)',
+                'Mid-tier influencers – with 50K to 500K followers': 'Mid-tier (50K-500K)',
+                'Micro-influencers – with 10K to 50K followers': 'Micro (10K-50K)',
+                'Nano-influencers – with 1K to 10K followers': 'Nano (1K-10K)'
+            };
+            return shortNames[type] || type;
+        }
+
+        function getShortPayment(payment) {
+            // Remove "Rs " prefix if present and return clean format
+            return payment.replace('Rs ', '');
+        }
+
+        function getShortWorkType(workType) {
+            const shortNames = {
+                'Vlogs (Video Blogs)': 'Vlogs',
+                'Tutorials and How-Tos': 'Tutorials',
+                'Product Reviews and Unboxings': 'Reviews',
+                'Challenges and Trends': 'Challenges',
+                'Q&A Sessions': 'Q&A',
+                'Brand Collaborations': 'Brand Collab',
+                'Educational and Informative Content': 'Educational',
+                'Entertainment and Comedy Skits': 'Comedy',
+                'Mobile App Live Streams': 'Live Streams',
+                'Storytelling and Narratives': 'Storytelling',
+                'Event Coverage': 'Events',
+                'Fitness and Workout Videos': 'Fitness',
+                'Short-Form Content (Reels, TikToks, Shorts)': 'Short-Form',
+                'Motivational and Inspirational Videos': 'Motivational',
+                'Virtual Tours and Experiences': 'Virtual Tours',
+                '1v1 Calling Dating App': '1v1 Dating',
+                'Hot Bold Video Content': 'Bold Content',
+                'Bikini Photoshoot': 'Bikini Shoot',
+                'Night Club Model girls': 'Night Club',
+                'Other': 'Other'
+            };
+            return shortNames[workType] || workType;
+        }
+
         // Get registration time information
         function getRegistrationTimeInfo(createdAt) {
             const now = new Date();
