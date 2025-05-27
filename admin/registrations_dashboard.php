@@ -814,6 +814,89 @@ $recentResult = mysqli_query($conn, $recentQuery);
             to { transform: rotate(360deg); }
         }
 
+        /* Bulk Actions Styles */
+        .bulk-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .bulk-actions.show {
+            animation: slideInFromTop 0.3s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bulk-actions .btn-group .btn {
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .bulk-actions .btn-group .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .bulk-actions .badge {
+            font-size: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Checkbox Styles */
+        .form-check-input {
+            border-radius: 4px;
+            border: 2px solid #d1d5db;
+            transition: all 0.2s ease;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        /* Row Selection Styles */
+        tr.selected {
+            background-color: rgba(37, 99, 235, 0.05) !important;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        tr.selected:hover {
+            background-color: rgba(37, 99, 235, 0.1) !important;
+        }
+
+        /* Bulk Action Loading States */
+        .bulk-actions .btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .bulk-actions .btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+
         /* Simple Modal Styles */
         .modal-content {
             border-radius: 8px;
@@ -1239,7 +1322,24 @@ $recentResult = mysqli_query($conn, $recentQuery);
         <!-- Data Table -->
         <div class="card table-card">
             <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
-                <h5 class="card-title mb-0">All Registrations</h5>
+                <div class="d-flex align-items-center gap-3">
+                    <h5 class="card-title mb-0">All Registrations</h5>
+                    <!-- Bulk Actions -->
+                    <div class="bulk-actions d-none" id="bulkActionsContainer">
+                        <span class="badge bg-primary me-2" id="selectedCount">0 selected</span>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-success btn-sm" onclick="bulkAction('approve')" id="bulkApproveBtn">
+                                <i class="fas fa-check me-1"></i>Approve Selected
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="bulkAction('reject')" id="bulkRejectBtn">
+                                <i class="fas fa-times me-1"></i>Reject Selected
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="clearSelection()">
+                                <i class="fas fa-times me-1"></i>Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-flex gap-2">
                     <button class="btn btn-outline-primary btn-sm" onclick="exportData()">
                         <i class="fas fa-download me-1"></i>Export
@@ -1261,6 +1361,12 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     <table class="table table-hover mb-0">
                         <thead>
                             <tr>
+                                <th width="40">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                                        <label class="form-check-label" for="selectAll"></label>
+                                    </div>
+                                </th>
                                 <th>Profile</th>
                                 <th>Name</th>
                                 <th>Professional</th>
@@ -1527,41 +1633,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
             });
         }
         
-        // Load data
-        async function loadData() {
-            showLoading(true);
-            
-            try {
-                const params = new URLSearchParams({
-                    page: currentPage,
-                    search: document.getElementById('searchInput').value,
-                    status: document.getElementById('statusFilter').value,
-                    professional: document.getElementById('professionalFilter').value,
-                    category: document.getElementById('categoryFilter').value,
-                    city: document.getElementById('cityFilter').value,
-                    date_range: document.getElementById('dateFilter').value,
-                    influencer_category: document.getElementById('influencerCategoryFilter').value,
-                    influencer_type: document.getElementById('influencerTypeFilter').value,
-                    work_type: document.getElementById('workTypeFilter').value,
-                    payment_range: document.getElementById('paymentRangeFilter').value
-                });
-                
-                const response = await fetch(`fetch_registrations.php?${params}`);
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    displayData(data.clients);
-                    updatePagination(data.totalPages, data.page);
-                } else {
-                    showAlert('Error loading data: ' + data.message, 'danger');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('Error loading data. Please try again.', 'danger');
-            } finally {
-                showLoading(false);
-            }
-        }
+
         
         // Display data in table
         function displayData(clients) {
@@ -1579,9 +1651,17 @@ $recentResult = mysqli_query($conn, $recentQuery);
             tbody.innerHTML = clients.map(client => {
                 const registrationTime = getRegistrationTimeInfo(client.created_at);
                 const rowClass = registrationTime.isNew ? 'new-registration' : (registrationTime.isToday ? 'new-today' : '');
+                const canSelect = client.approval_status === 'pending'; // Only allow selection of pending registrations
                 
                 return `
-                <tr class="${rowClass}">
+                <tr class="${rowClass}" data-client-id="${client.id}">
+                    <td>
+                        ${canSelect ? `
+                            <div class="form-check">
+                                <input class="form-check-input client-checkbox" type="checkbox" value="${client.id}" onchange="updateSelection()">
+                            </div>
+                        ` : ''}
+                    </td>
                     <td>
                         <div class="position-relative">
                             <img src="${formatImageUrl(client.image_url)}" 
@@ -2313,6 +2393,210 @@ $recentResult = mysqli_query($conn, $recentQuery);
             });
             
             window.open(`export_registrations.php?${params}`, '_blank');
+        }
+
+        // Bulk Actions Functions
+        let selectedClients = new Set();
+
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const clientCheckboxes = document.querySelectorAll('.client-checkbox');
+            
+            clientCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                const clientId = parseInt(checkbox.value);
+                
+                if (selectAllCheckbox.checked) {
+                    selectedClients.add(clientId);
+                    checkbox.closest('tr').classList.add('selected');
+                } else {
+                    selectedClients.delete(clientId);
+                    checkbox.closest('tr').classList.remove('selected');
+                }
+            });
+            
+            updateBulkActionsUI();
+        }
+
+        function updateSelection() {
+            const clientCheckboxes = document.querySelectorAll('.client-checkbox');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            
+            // Clear previous selections
+            selectedClients.clear();
+            
+            // Add currently checked items
+            clientCheckboxes.forEach(checkbox => {
+                const clientId = parseInt(checkbox.value);
+                const row = checkbox.closest('tr');
+                
+                if (checkbox.checked) {
+                    selectedClients.add(clientId);
+                    row.classList.add('selected');
+                } else {
+                    row.classList.remove('selected');
+                }
+            });
+            
+            // Update select all checkbox state
+            const checkedCount = document.querySelectorAll('.client-checkbox:checked').length;
+            const totalCount = clientCheckboxes.length;
+            
+            if (checkedCount === 0) {
+                selectAllCheckbox.indeterminate = false;
+                selectAllCheckbox.checked = false;
+            } else if (checkedCount === totalCount) {
+                selectAllCheckbox.indeterminate = false;
+                selectAllCheckbox.checked = true;
+            } else {
+                selectAllCheckbox.indeterminate = true;
+                selectAllCheckbox.checked = false;
+            }
+            
+            updateBulkActionsUI();
+        }
+
+        function updateBulkActionsUI() {
+            const bulkActionsContainer = document.getElementById('bulkActionsContainer');
+            const selectedCountBadge = document.getElementById('selectedCount');
+            const bulkApproveBtn = document.getElementById('bulkApproveBtn');
+            const bulkRejectBtn = document.getElementById('bulkRejectBtn');
+            
+            const selectedCount = selectedClients.size;
+            
+            if (selectedCount > 0) {
+                bulkActionsContainer.classList.remove('d-none');
+                bulkActionsContainer.classList.add('show');
+                selectedCountBadge.textContent = `${selectedCount} selected`;
+                
+                // Enable/disable buttons based on selection
+                bulkApproveBtn.disabled = false;
+                bulkRejectBtn.disabled = false;
+            } else {
+                bulkActionsContainer.classList.add('d-none');
+                bulkActionsContainer.classList.remove('show');
+                
+                // Disable buttons
+                bulkApproveBtn.disabled = true;
+                bulkRejectBtn.disabled = true;
+            }
+        }
+
+        function clearSelection() {
+            selectedClients.clear();
+            
+            // Uncheck all checkboxes
+            document.querySelectorAll('.client-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.closest('tr').classList.remove('selected');
+            });
+            
+            document.getElementById('selectAll').checked = false;
+            document.getElementById('selectAll').indeterminate = false;
+            
+            updateBulkActionsUI();
+        }
+
+        async function bulkAction(action) {
+            if (selectedClients.size === 0) {
+                showAlert('No registrations selected', 'warning');
+                return;
+            }
+            
+            const actionText = action === 'approve' ? 'approve' : 'reject';
+            const confirmMessage = `Are you sure you want to ${actionText} ${selectedClients.size} registration(s)?`;
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            try {
+                // Show loading state
+                const button = document.getElementById(action === 'approve' ? 'bulkApproveBtn' : 'bulkRejectBtn');
+                const originalHTML = button.innerHTML;
+                button.classList.add('loading');
+                button.innerHTML = '<i class="fas fa-spinner"></i> Processing...';
+                button.disabled = true;
+                
+                const response = await fetch('bulk_actions.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: action,
+                        client_ids: Array.from(selectedClients)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    showAlert(data.message, 'success');
+                    
+                    // Clear selection and reload data
+                    clearSelection();
+                    loadData();
+                    
+                    // Update statistics (reload page after a delay)
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    showAlert('Error: ' + data.message, 'danger');
+                }
+                
+                // Restore button state
+                button.classList.remove('loading');
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                
+            } catch (error) {
+                console.error('Bulk action error:', error);
+                showAlert('Error performing bulk action. Please try again.', 'danger');
+                
+                // Restore button state
+                const button = document.getElementById(action === 'approve' ? 'bulkApproveBtn' : 'bulkRejectBtn');
+                button.classList.remove('loading');
+                button.disabled = false;
+            }
+        }
+
+        // Load data function with bulk selection clearing
+        async function loadData() {
+            clearSelection();
+            showLoading(true);
+            
+            try {
+                const params = new URLSearchParams({
+                    page: currentPage,
+                    search: document.getElementById('searchInput').value,
+                    status: document.getElementById('statusFilter').value,
+                    professional: document.getElementById('professionalFilter').value,
+                    category: document.getElementById('categoryFilter').value,
+                    city: document.getElementById('cityFilter').value,
+                    date_range: document.getElementById('dateFilter').value,
+                    influencer_category: document.getElementById('influencerCategoryFilter').value,
+                    influencer_type: document.getElementById('influencerTypeFilter').value,
+                    work_type: document.getElementById('workTypeFilter').value,
+                    payment_range: document.getElementById('paymentRangeFilter').value
+                });
+                
+                const response = await fetch(`fetch_registrations.php?${params}`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    displayData(data.clients);
+                    updatePagination(data.totalPages, data.page);
+                } else {
+                    showAlert('Error loading data: ' + data.message, 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error loading data. Please try again.', 'danger');
+            } finally {
+                showLoading(false);
+            }
         }
     </script>
 </body>
