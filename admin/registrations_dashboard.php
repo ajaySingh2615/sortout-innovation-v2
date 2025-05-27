@@ -1341,9 +1341,19 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     </div>
                 </div>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-outline-primary btn-sm" onclick="exportData()">
-                        <i class="fas fa-download me-1"></i>Export
-                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" title="Export Data">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="exportExcel()">
+                                <i class="fas fa-file-excel text-success me-2"></i>Export as Excel (.xls)
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="exportCSV()">
+                                <i class="fas fa-file-csv text-primary me-2"></i>Export as CSV (.csv)
+                            </a></li>
+                        </ul>
+                    </div>
                     <button class="btn btn-primary btn-sm" onclick="refreshData()">
                         <i class="fas fa-sync-alt me-1"></i>Refresh
                     </button>
@@ -2377,9 +2387,8 @@ $recentResult = mysqli_query($conn, $recentQuery);
             loadData();
         }
         
-        function exportData() {
-            const params = new URLSearchParams({
-                export: 'csv',
+        function getExportParams() {
+            return new URLSearchParams({
                 search: document.getElementById('searchInput').value,
                 status: document.getElementById('statusFilter').value,
                 professional: document.getElementById('professionalFilter').value,
@@ -2391,8 +2400,21 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 work_type: document.getElementById('workTypeFilter').value,
                 payment_range: document.getElementById('paymentRangeFilter').value
             });
-            
-            window.open(`export_registrations.php?${params}`, '_blank');
+        }
+
+        function exportExcel() {
+            const params = getExportParams();
+            window.open(`export_registrations_excel_fixed.php?${params}`, '_blank');
+        }
+
+        function exportCSV() {
+            const params = getExportParams();
+            window.open(`export_registrations_csv_excel.php?${params}`, '_blank');
+        }
+
+        // Keep the old function for backward compatibility
+        function exportData() {
+            exportExcel();
         }
 
         // Bulk Actions Functions
