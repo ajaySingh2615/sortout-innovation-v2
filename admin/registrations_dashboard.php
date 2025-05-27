@@ -688,6 +688,19 @@ $recentResult = mysqli_query($conn, $recentQuery);
             to { transform: rotate(360deg); }
         }
 
+        /* Simple Modal Styles */
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
         @media (max-width: 768px) {
             .table-responsive {
                 border-radius: 12px;
@@ -1596,107 +1609,113 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     
                     modalBody.innerHTML = `
                         <div class="row">
-                            <div class="col-md-4 text-center mb-3">
-                                <img src="${formatImageUrl(client.image_url)}" alt="Profile" class="img-fluid rounded" style="max-width: 200px;">
-                                <h5 class="mt-2">${client.name}</h5>
-                                <span class="badge badge-${client.approval_status}">${client.approval_status}</span>
+                            <div class="col-md-3 text-center mb-4">
+                                <img src="${formatImageUrl(client.image_url)}" alt="Profile" class="img-fluid rounded mb-3" style="max-width: 150px;">
+                                <h5 class="mb-2">${client.name}</h5>
+                                <span class="badge badge-${client.approval_status} mb-2">${client.approval_status.charAt(0).toUpperCase() + client.approval_status.slice(1)}</span>
+                                <p class="text-muted small mb-0">${client.age} years, ${client.gender}</p>
+                                <p class="text-muted small">${client.city || 'City not specified'}</p>
                             </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">Age</label>
-                                        <p class="mb-0">${client.age} years</p>
-                                    </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">Gender</label>
-                                        <p class="mb-0">${client.gender}</p>
-                                    </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">Professional</label>
+                            <div class="col-md-9">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold">PROFESSIONAL TYPE</label>
                                         <p class="mb-0">${client.professional}</p>
                                     </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">${client.professional === 'Artist' ? 'Category' : 'Role'}</label>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold">${client.professional === 'Artist' ? 'CATEGORY' : 'ROLE'}</label>
                                         <p class="mb-0">${client.professional === 'Artist' ? (client.category || '-') : (client.role || '-')}</p>
                                     </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">City</label>
-                                        <p class="mb-0">${client.city || '-'}</p>
-                                    </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <label class="form-label fw-semibold">Phone</label>
-                                        <p class="mb-0">
-                                            ${client.phone ? `<a href="https://wa.me/91${client.phone}" target="_blank" class="whatsapp-link">${client.phone}</a>` : '-'}
-                                        </p>
-                                    </div>
-                                    ${client.email ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Email</label>
-                                            <p class="mb-0">${client.email}</p>
+                                    ${client.phone ? `
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">PHONE</label>
+                                            <p class="mb-0">
+                                                <a href="https://wa.me/91${client.phone}" target="_blank" class="text-success text-decoration-none">
+                                                    <i class="fab fa-whatsapp me-1"></i>${client.phone}
+                                                </a>
+                                            </p>
                                         </div>
                                     ` : ''}
-                                    ${client.followers ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Followers</label>
-                                            <p class="mb-0">${client.followers}</p>
+                                    ${client.email ? `
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">EMAIL</label>
+                                            <p class="mb-0">
+                                                <a href="mailto:${client.email}" class="text-primary text-decoration-none">
+                                                    ${client.email}
+                                                </a>
+                                            </p>
                                         </div>
                                     ` : ''}
                                     ${client.experience ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Experience</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">EXPERIENCE</label>
                                             <p class="mb-0">${client.experience}</p>
                                         </div>
                                     ` : ''}
                                     ${client.language ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Languages</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">LANGUAGES</label>
                                             <p class="mb-0">${client.language}</p>
                                         </div>
                                     ` : ''}
                                     ${client.current_salary ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Current Salary</label>
-                                            <p class="mb-0">${client.current_salary}</p>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">CURRENT SALARY</label>
+                                            <p class="mb-0 text-success fw-bold">${client.current_salary}</p>
                                         </div>
                                     ` : ''}
                                     ${client.influencer_category ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Influencer Category</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">INFLUENCER CATEGORY</label>
                                             <p class="mb-0">${client.influencer_category}</p>
                                         </div>
                                     ` : ''}
                                     ${client.influencer_type ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Influencer Type</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">INFLUENCER TYPE</label>
                                             <p class="mb-0">${client.influencer_type}</p>
                                         </div>
                                     ` : ''}
                                     ${client.expected_payment ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Expected Payment</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">EXPECTED PAYMENT</label>
                                             <p class="mb-0 text-success fw-bold">₹${client.expected_payment}</p>
                                         </div>
                                     ` : ''}
                                     ${client.work_type_preference ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Work Type Preference</label>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">WORK TYPE PREFERENCE</label>
                                             <p class="mb-0">${client.work_type_preference}</p>
                                         </div>
                                     ` : ''}
+                                    ${client.followers ? `
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">FOLLOWERS</label>
+                                            <p class="mb-0">${client.followers}</p>
+                                        </div>
+                                    ` : ''}
                                     ${client.instagram_profile ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Instagram</label>
-                                            <p class="mb-0"><a href="${client.instagram_profile}" target="_blank" class="instagram-link">View Profile</a></p>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">INSTAGRAM</label>
+                                            <p class="mb-0">
+                                                <a href="${client.instagram_profile}" target="_blank" class="text-danger text-decoration-none">
+                                                    <i class="fab fa-instagram me-1"></i>View Profile
+                                                </a>
+                                            </p>
                                         </div>
                                     ` : ''}
                                     ${client.resume_url ? `
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label fw-semibold">Resume</label>
-                                            <p class="mb-0"><a href="../${client.resume_url}" target="_blank" class="btn btn-sm btn-outline-primary">View Resume</a></p>
+                                        <div class="col-md-6">
+                                            <label class="form-label text-muted small fw-semibold">RESUME</label>
+                                            <p class="mb-0">
+                                                <a href="../${client.resume_url}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-download me-1"></i>Download
+                                                </a>
+                                            </p>
                                         </div>
                                     ` : ''}
-                                    <div class="col-12 mb-3">
-                                        <label class="form-label fw-semibold">Registration Date</label>
+                                    <div class="col-12">
+                                        <label class="form-label text-muted small fw-semibold">REGISTRATION DATE</label>
                                         <p class="mb-0">${formatDate(client.created_at)}</p>
                                     </div>
                                 </div>
