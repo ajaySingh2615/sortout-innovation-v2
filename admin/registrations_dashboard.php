@@ -19,8 +19,34 @@ $approvedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
 $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE approval_status = 'rejected'")->fetch_assoc()['count'];
 $totalCount = $conn->query("SELECT COUNT(*) as count FROM clients")->fetch_assoc()['count'];
 
-// ✅ Fetch new registrations (last 2 hours)
-$newCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE created_at >= DATE_SUB(NOW(), INTERVAL 2 HOUR)")->fetch_assoc()['count'];
+// ✅ Get admin's last seen timestamp
+$admin_id = $_SESSION['user_id'] ?? $_SESSION['username'];
+$lastSeenQuery = "SELECT last_seen_timestamp FROM admin_alert_tracking WHERE admin_id = ?";
+$lastSeenStmt = $conn->prepare($lastSeenQuery);
+$lastSeenStmt->bind_param("s", $admin_id);
+$lastSeenStmt->execute();
+$lastSeenResult = $lastSeenStmt->get_result();
+$lastSeen = $lastSeenResult->fetch_assoc();
+
+// If no record exists, create one with current timestamp (so no old alerts show)
+if (!$lastSeen) {
+    $createTrackingQuery = "INSERT INTO admin_alert_tracking (admin_id, last_seen_timestamp) VALUES (?, NOW())";
+    $createStmt = $conn->prepare($createTrackingQuery);
+    $createStmt->bind_param("s", $admin_id);
+    $createStmt->execute();
+    $lastSeenTimestamp = date('Y-m-d H:i:s');
+} else {
+    $lastSeenTimestamp = $lastSeen['last_seen_timestamp'];
+}
+
+// ✅ Fetch NEW registrations (only those the admin hasn't seen)
+$newCountQuery = "SELECT COUNT(*) as count FROM clients WHERE created_at > ?";
+$newCountStmt = $conn->prepare($newCountQuery);
+$newCountStmt->bind_param("s", $lastSeenTimestamp);
+$newCountStmt->execute();
+$newCount = $newCountStmt->get_result()->fetch_assoc()['count'];
+
+// ✅ Fetch other counts
 $todayCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE DATE(created_at) = CURDATE()")->fetch_assoc()['count'];
 $pendingTodayCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE DATE(created_at) = CURDATE() AND approval_status = 'pending'")->fetch_assoc()['count'];
 
@@ -66,25 +92,87 @@ $recentResult = mysqli_query($conn, $recentQuery);
 
         .stats-card {
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
             transition: all 0.3s ease;
             overflow: hidden;
+            position: relative;
+            background: white;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-gradient);
         }
 
         .stats-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-card.pending {
+            --card-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+        }
+
+        .stats-card.approved {
+            --card-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+        }
+
+        .stats-card.rejected {
+            --card-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+        }
+
+        .stats-card.total {
+            --card-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
         }
 
         .stats-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            color: white;
+            background: var(--card-gradient);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            background: var(--card-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-change {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
         }
 
         .table-card {
@@ -328,8 +416,46 @@ $recentResult = mysqli_query($conn, $recentQuery);
 
         .chart-container {
             position: relative;
-            height: 300px;
-            margin-bottom: 2rem;
+            height: 320px;
+            margin-bottom: 1rem;
+            padding: 1rem;
+        }
+
+        .chart-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .chart-header {
+            padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-title i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .chart-body {
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
         }
 
         .loading-spinner {
@@ -751,71 +877,86 @@ $recentResult = mysqli_query($conn, $recentQuery);
 
         <!-- New Registrations Alert -->
         <?php if ($newCount > 0): ?>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show" role="alert" id="newRegistrationsAlert">
             <div class="d-flex align-items-center">
                 <i class="fas fa-bell me-2"></i>
-                <div>
+                <div class="flex-grow-1">
                     <strong>New Registrations Alert!</strong>
-                    <span class="badge bg-primary ms-2"><?= $newCount ?></span> new registration(s) in the last 2 hours.
-                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="quickFilter('last_24h')">
-                        View Recent
+                    <span class="badge bg-primary ms-2"><?= $newCount ?></span> new registration(s) since your last visit.
+                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="viewNewRegistrations()">
+                        View New Registrations
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary ms-1" onclick="markAlertAsSeen()">
+                        Mark as Seen
                     </button>
                 </div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="btn-close" onclick="markAlertAsSeen()"></button>
         </div>
         <?php endif; ?>
 
         <!-- Statistics Cards -->
         <div class="row mb-4">
             <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
+                <div class="card stats-card pending h-100">
+                    <div class="card-body d-flex align-items-center p-4">
+                        <div class="stats-icon me-4">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <div>
-                            <h6 class="card-subtitle mb-1 text-muted">Pending</h6>
-                            <h3 class="card-title mb-0 fw-bold"><?= $pendingCount ?></h3>
+                        <div class="flex-grow-1">
+                            <div class="stats-label">Pending</div>
+                            <div class="stats-number"><?= $pendingCount ?></div>
+                            <div class="stats-change">
+                                <i class="fas fa-arrow-up me-1"></i>+<?= $pendingTodayCount ?> today
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
+                <div class="card stats-card approved h-100">
+                    <div class="card-body d-flex align-items-center p-4">
+                        <div class="stats-icon me-4">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <div>
-                            <h6 class="card-subtitle mb-1 text-muted">Approved</h6>
-                            <h3 class="card-title mb-0 fw-bold"><?= $approvedCount ?></h3>
+                        <div class="flex-grow-1">
+                            <div class="stats-label">Approved</div>
+                            <div class="stats-number"><?= $approvedCount ?></div>
+                            <div class="stats-change">
+                                <i class="fas fa-chart-line me-1"></i><?= round(($approvedCount / max($totalCount, 1)) * 100) ?>% of total
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="stats-icon bg-danger bg-opacity-10 text-danger me-3">
+                <div class="card stats-card rejected h-100">
+                    <div class="card-body d-flex align-items-center p-4">
+                        <div class="stats-icon me-4">
                             <i class="fas fa-times-circle"></i>
                         </div>
-                        <div>
-                            <h6 class="card-subtitle mb-1 text-muted">Rejected</h6>
-                            <h3 class="card-title mb-0 fw-bold"><?= $rejectedCount ?></h3>
+                        <div class="flex-grow-1">
+                            <div class="stats-label">Rejected</div>
+                            <div class="stats-number"><?= $rejectedCount ?></div>
+                            <div class="stats-change" style="background: rgba(239, 68, 68, 0.1); color: #dc2626;">
+                                <i class="fas fa-chart-line me-1"></i><?= round(($rejectedCount / max($totalCount, 1)) * 100) ?>% of total
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="stats-icon bg-info bg-opacity-10 text-info me-3">
+                <div class="card stats-card total h-100">
+                    <div class="card-body d-flex align-items-center p-4">
+                        <div class="stats-icon me-4">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div>
-                            <h6 class="card-subtitle mb-1 text-muted">Total</h6>
-                            <h3 class="card-title mb-0 fw-bold"><?= $totalCount ?></h3>
+                        <div class="flex-grow-1">
+                            <div class="stats-label">Total</div>
+                            <div class="stats-number"><?= $totalCount ?></div>
+                            <div class="stats-change" style="background: rgba(59, 130, 246, 0.1); color: #1d4ed8;">
+                                <i class="fas fa-calendar me-1"></i><?= $todayCount ?> today
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -825,11 +966,14 @@ $recentResult = mysqli_query($conn, $recentQuery);
         <!-- Charts Row -->
         <div class="row mb-4">
             <div class="col-lg-6 mb-3">
-                <div class="card table-card">
-                    <div class="card-header bg-transparent border-0 pb-0">
-                        <h5 class="card-title mb-0">Registration Status</h5>
+                <div class="card chart-card">
+                    <div class="chart-header">
+                        <h5 class="chart-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Registration Status
+                        </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="chart-body">
                         <div class="chart-container">
                             <canvas id="statusChart"></canvas>
                         </div>
@@ -837,11 +981,14 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 </div>
             </div>
             <div class="col-lg-6 mb-3">
-                <div class="card table-card">
-                    <div class="card-header bg-transparent border-0 pb-0">
-                        <h5 class="card-title mb-0">Professional Types</h5>
+                <div class="card chart-card">
+                    <div class="chart-header">
+                        <h5 class="chart-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Professional Types
+                        </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="chart-body">
                         <div class="chart-container">
                             <canvas id="professionalChart"></canvas>
                         </div>
@@ -881,6 +1028,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     <label class="form-label">Date Range</label>
                     <select id="dateFilter" class="form-select">
                         <option value="">📅 All Time</option>
+                        <option value="since_last_visit">🔔 Since Last Visit</option>
                         <option value="today">📅 Today</option>
                         <option value="yesterday">📅 Yesterday</option>
                         <option value="last_24h">⏰ Last 24 Hours</option>
@@ -1204,17 +1352,62 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     labels: ['Pending', 'Approved', 'Rejected'],
                     datasets: [{
                         data: [<?= $pendingCount ?>, <?= $approvedCount ?>, <?= $rejectedCount ?>],
-                        backgroundColor: ['#f59e0b', '#10b981', '#ef4444'],
-                        borderWidth: 0
+                        backgroundColor: [
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderColor: [
+                            '#f59e0b',
+                            '#10b981',
+                            '#ef4444'
+                        ],
+                        borderWidth: 3,
+                        hoverBackgroundColor: [
+                            '#f59e0b',
+                            '#10b981',
+                            '#ef4444'
+                        ],
+                        hoverBorderWidth: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '60%',
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: 'white',
+                            bodyColor: 'white',
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                }
+                            }
                         }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        duration: 1000
                     }
                 }
             });
@@ -1231,8 +1424,27 @@ $recentResult = mysqli_query($conn, $recentQuery);
                             datasets: [{
                                 label: 'Registrations',
                                 data: data.values,
-                                backgroundColor: '#2563eb',
-                                borderRadius: 6
+                                backgroundColor: [
+                                    'rgba(59, 130, 246, 0.8)',
+                                    'rgba(16, 185, 129, 0.8)',
+                                    'rgba(245, 158, 11, 0.8)',
+                                    'rgba(139, 92, 246, 0.8)'
+                                ],
+                                borderColor: [
+                                    '#3b82f6',
+                                    '#10b981',
+                                    '#f59e0b',
+                                    '#8b5cf6'
+                                ],
+                                borderWidth: 2,
+                                borderRadius: 8,
+                                borderSkipped: false,
+                                hoverBackgroundColor: [
+                                    '#3b82f6',
+                                    '#10b981',
+                                    '#f59e0b',
+                                    '#8b5cf6'
+                                ]
                             }]
                         },
                         options: {
@@ -1241,12 +1453,42 @@ $recentResult = mysqli_query($conn, $recentQuery);
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                                    borderWidth: 1,
+                                    cornerRadius: 8
                                 }
                             },
                             scales: {
+                                x: {
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            weight: '600'
+                                        }
+                                    }
+                                },
                                 y: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)'
+                                    },
+                                    ticks: {
+                                        font: {
+                                            weight: '500'
+                                        }
+                                    }
                                 }
+                            },
+                            animation: {
+                                duration: 1000,
+                                easing: 'easeOutQuart'
                             }
                         }
                     });
@@ -2011,6 +2253,45 @@ $recentResult = mysqli_query($conn, $recentQuery);
             loadData();
         }
         
+        // Alert management functions
+        async function markAlertAsSeen() {
+            try {
+                const response = await fetch('mark_alert_seen.php');
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Hide the alert
+                    const alert = document.getElementById('newRegistrationsAlert');
+                    if (alert) {
+                        alert.style.display = 'none';
+                    }
+                    showAlert('Alert marked as seen', 'success');
+                } else {
+                    showAlert('Error: ' + data.message, 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error marking alert as seen', 'danger');
+            }
+        }
+
+        function viewNewRegistrations() {
+            // Clear all filters first
+            clearAllFilters();
+            
+            // Set filter to show only new registrations since last visit
+            document.getElementById('dateFilter').value = 'since_last_visit';
+            
+            // Load data with the new filter
+            currentPage = 1;
+            loadData();
+            
+            // Mark alert as seen after viewing
+            setTimeout(() => {
+                markAlertAsSeen();
+            }, 1000);
+        }
+
         // Utility functions
         function refreshData() {
             loadData();

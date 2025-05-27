@@ -74,6 +74,23 @@ try {
     // Add date range filter
     if ($dateRange) {
         switch ($dateRange) {
+            case 'since_last_visit':
+                // Get admin's last seen timestamp
+                $admin_id = $_SESSION['user_id'] ?? $_SESSION['username'];
+                $lastSeenQuery = "SELECT last_seen_timestamp FROM admin_alert_tracking WHERE admin_id = ?";
+                $lastSeenStmt = $conn->prepare($lastSeenQuery);
+                $lastSeenStmt->bind_param("s", $admin_id);
+                $lastSeenStmt->execute();
+                $lastSeenResult = $lastSeenStmt->get_result();
+                $lastSeen = $lastSeenResult->fetch_assoc();
+                
+                if ($lastSeen) {
+                    $conditions[] = "created_at > '" . $lastSeen['last_seen_timestamp'] . "'";
+                } else {
+                    // If no tracking record, show registrations from last 24 hours
+                    $conditions[] = "created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)";
+                }
+                break;
             case 'today':
                 $conditions[] = "DATE(created_at) = CURDATE()";
                 break;
