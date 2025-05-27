@@ -167,22 +167,66 @@ body.modal-open {
     transform: scale(1);
 }
 
-/* ✅ Improve Input & Select Fields */
+/* ✅ Enhanced Input & Select Fields */
 #addClientModal input,
 #addClientModal select {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    transition: border 0.2s ease-in-out;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    font-size: 14px;
 }
 
-/* ✅ Focus Effect on Inputs */
+/* ✅ Enhanced Focus Effect on Inputs */
 #addClientModal input:focus,
 #addClientModal select:focus {
-    border: 1px solid #ff4757;
+    border: 2px solid #ef4444;
     outline: none;
-    box-shadow: 0 0 6px rgba(255, 71, 87, 0.2);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    transform: translateY(-1px);
+}
+
+/* ✅ File Input Styling */
+#addClientModal input[type="file"] {
+    border: 2px dashed #d1d5db;
+    background-color: #f9fafb;
+    padding: 20px;
+}
+
+#addClientModal input[type="file"]:focus {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+/* ✅ Multi-select Styling */
+#addClientModal select[multiple] {
+    min-height: 120px;
+    padding: 12px;
+}
+
+/* ✅ Section Headers */
+.form-section-header {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-left: 4px solid #ef4444;
+}
+
+/* ✅ Enhanced Labels */
+#addClientModal label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* ✅ Info Text Styling */
+#addClientModal .text-gray-500 {
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
 }
 
 /* ✅ Submit Button Styling */
@@ -1155,48 +1199,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
  <!-- ✅ Profile Submission Form Modal -->
 <div id="addClientModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative">
-        <button id="closeClientFormBtn" class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl font-bold">&times;</button>
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-100">
+        <button id="closeClientFormBtn" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-3xl font-bold transition-colors duration-200 z-10">&times;</button>
             
-            <h2 class="text-2xl font-bold mb-6 text-center text-red-600">Add Profile</h2>
+            <!-- Enhanced Header -->
+            <div class="text-center mb-8 pt-2">
+                <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-plus text-white text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Create Your Profile</h2>
+                <p class="text-gray-600">Join our talent network and showcase your skills</p>
+            </div>
 
-            <form id="addClientForm" enctype="multipart/form-data" class="space-y-4">
+            <form id="addClientForm" enctype="multipart/form-data" class="space-y-6">
             <!-- Professional Type (Hidden) -->
             <input type="hidden" id="professionalField" name="professional" value="">
 
-            <!-- Name -->
-            <div class="form-group">
-                <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+            <!-- Basic Information Section -->
+            <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-user text-red-500 mr-2"></i>
+                    Basic Information
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-id-card text-gray-400 mr-1"></i>
+                            Full Name *
+                        </label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your full name">
+                    </div>
 
-            <!-- Age -->
-            <div class="form-group">
-                <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                <input type="number" id="age" name="age" required min="18" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label for="age" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-birthday-cake text-gray-400 mr-1"></i>
+                            Age *
+                        </label>
+                        <input type="number" id="age" name="age" required min="18" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your age">
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-phone text-gray-400 mr-1"></i>
+                            Phone Number *
+                        </label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter 10-digit phone number">
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label for="gender" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-venus-mars text-gray-400 mr-1"></i>
+                            Gender *
+                        </label>
+                        <select id="gender" name="gender" required 
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <!-- Phone -->
-            <div class="form-group">
-                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
-
-            <!-- Gender -->
-            <div class="form-group">
-                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                <select id="gender" name="gender" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-                </div>
-
-            <!-- City -->
-            <div class="form-group">
-                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                <select id="city" name="city" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+            <!-- Location Information -->
+            <div class="bg-blue-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i>
+                    Location Information
+                </h3>
+                
+                <!-- City -->
+                <div class="form-group">
+                    <label for="city" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-city text-gray-400 mr-1"></i>
+                        City *
+                    </label>
+                    <select id="city" name="city" required 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                     <option value="">Select City</option>
                     <option value="Mumbai">Mumbai</option>
                     <option value="Delhi">Delhi</option>
@@ -1302,19 +1393,45 @@ document.addEventListener('DOMContentLoaded', function() {
                     <option value="Kozhikode">Kozhikode</option>
                     <option value="Kurnool">Kurnool</option>
                 </select>
+                </div>
             </div>
 
             <!-- Artist-specific Fields -->
             <div id="artistFields" style="display: none;">
-                <!-- Email -->
-                <div class="form-group">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                <!-- Contact Information for Artists -->
+                <div class="bg-purple-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-envelope text-purple-500 mr-2"></i>
+                        Contact Information
+                    </h3>
+                    
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-at text-gray-400 mr-1"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="email" name="email" 
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                               placeholder="Enter your email address">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                    <select id="category" name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                <!-- Professional Information for Artists -->
+                <div class="bg-green-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-star text-green-500 mr-2"></i>
+                        Professional Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="category" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-tags text-gray-400 mr-1"></i>
+                                Category
+                            </label>
+                            <select id="category" name="category" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Category</option>
                         <option value="Dating App Host">Dating App Host</option>
                         <option value="Video Live Streamers">Video Live Streamers</option>
@@ -1359,10 +1476,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     </select>
                 </div>
 
-                <!-- Types of Influencers Based on Category -->
-                <div class="form-group">
-                    <label for="influencer_category" class="block text-sm font-medium text-gray-700">Types of Influencers Based on Category</label>
-                    <select id="influencer_category" name="influencer_category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <!-- Types of Influencers Based on Category -->
+                        <div class="form-group">
+                            <label for="influencer_category" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-users text-gray-400 mr-1"></i>
+                                Influencer Category
+                            </label>
+                            <select id="influencer_category" name="influencer_category" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Influencer Category</option>
                         <option value="Video Content Creators">Video Content Creators</option>
                         <option value="Fashion Influencers">Fashion Influencers</option>
@@ -1387,34 +1508,66 @@ document.addEventListener('DOMContentLoaded', function() {
                     </select>
                 </div>
 
-                <!-- Types of Influencers by Follower Count -->
-                <div class="form-group">
-                    <label for="influencer_type" class="block text-sm font-medium text-gray-700">Types of Influencers</label>
-                    <select id="influencer_type" name="influencer_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                        <option value="">Select Influencer Type</option>
-                        <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers – with more than a million followers (think celebrities)</option>
-                        <option value="Macro-influencers – with 500K to 1 million followers">Macro-influencers – with 500K to 1 million followers</option>
-                        <option value="Mid-tier influencers – with 50K to 500K followers">Mid-tier influencers – with 50K to 500K followers</option>
-                        <option value="Micro-influencers – with 10K to 50K followers">Micro-influencers – with 10K to 50K followers</option>
-                        <option value="Nano-influencers – with 1K to 10K followers">Nano-influencers – with 1K to 10K followers</option>
-                    </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6 mt-6">
+                        <!-- Types of Influencers by Follower Count -->
+                        <div class="form-group">
+                            <label for="influencer_type" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-chart-line text-gray-400 mr-1"></i>
+                                Influencer Type by Followers
+                            </label>
+                            <select id="influencer_type" name="influencer_type" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                                <option value="">Select Influencer Type</option>
+                                <option value="Mega-influencers – with more than a million followers (think celebrities)">Mega-influencers – with more than a million followers (think celebrities)</option>
+                                <option value="Macro-influencers – with 500K to 1 million followers">Macro-influencers – with 500K to 1 million followers</option>
+                                <option value="Mid-tier influencers – with 50K to 500K followers">Mid-tier influencers – with 50K to 500K followers</option>
+                                <option value="Micro-influencers – with 10K to 50K followers">Micro-influencers – with 10K to 50K followers</option>
+                                <option value="Nano-influencers – with 1K to 10K followers">Nano-influencers – with 1K to 10K followers</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="followers" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-heart text-gray-400 mr-1"></i>
+                                Number of Followers
+                            </label>
+                            <input type="text" id="followers" name="followers" min="0" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                                   placeholder="e.g., 10K, 50K, 100K">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="followers" class="block text-sm font-medium text-gray-700">Number of Followers</label>
-                    <input type="text" id="followers" name="followers" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+                <!-- Social Media & Payment Information -->
+                <div class="bg-yellow-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fab fa-instagram text-yellow-500 mr-2"></i>
+                        Social Media & Payment
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 gap-6">
 
-                <!-- Instagram Profile Link -->
-                <div class="form-group">
-                    <label for="instagram_profile" class="block text-sm font-medium text-gray-700">Instagram Profile Link</label>
-                    <input type="url" id="instagram_profile" name="instagram_profile" placeholder="https://instagram.com/yourusername" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                </div>
+                        <!-- Instagram Profile Link -->
+                        <div class="form-group">
+                            <label for="instagram_profile" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fab fa-instagram text-gray-400 mr-1"></i>
+                                Instagram Profile Link
+                            </label>
+                            <input type="url" id="instagram_profile" name="instagram_profile" 
+                                   placeholder="https://instagram.com/yourusername" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                        </div>
 
-                <!-- Expected Payment for One Video -->
-                <div class="form-group">
-                    <label for="expected_payment" class="block text-sm font-medium text-gray-700">Expected Payment for One Video</label>
-                    <select id="expected_payment" name="expected_payment" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                        <!-- Expected Payment for One Video -->
+                        <div class="form-group">
+                            <label for="expected_payment" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-rupee-sign text-gray-400 mr-1"></i>
+                                Expected Payment for One Video
+                            </label>
+                            <select id="expected_payment" name="expected_payment" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Payment Range</option>
                         <option value="Rs 500 to 1000">Rs 500 to 1000</option>
                         <option value="Rs 1k to 2k">Rs 1k to 2k</option>
@@ -1429,10 +1582,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     </select>
                 </div>
 
-                <!-- What Type of Product Would You Like to Work On -->
-                <div class="form-group">
-                    <label for="work_type_preference" class="block text-sm font-medium text-gray-700">What type of product would you like to work on?</label>
-                    <select id="work_type_preference" name="work_type_preference" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                    </div>
+                </div>
+
+                <!-- Work Preferences -->
+                <div class="bg-indigo-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-briefcase text-indigo-500 mr-2"></i>
+                        Work Preferences
+                    </h3>
+                    
+                    <!-- What Type of Product Would You Like to Work On -->
+                    <div class="form-group">
+                        <label for="work_type_preference" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-tasks text-gray-400 mr-1"></i>
+                            What type of product would you like to work on?
+                        </label>
+                        <select id="work_type_preference" name="work_type_preference" multiple 
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm min-h-[120px]">
                         <option value="Vlogs (Video Blogs)">Vlogs (Video Blogs)</option>
                         <option value="Tutorials and How-Tos">Tutorials and How-Tos</option>
                         <option value="Product Reviews and Unboxings">Product Reviews and Unboxings</option>
@@ -1454,15 +1621,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         <option value="Night Club Model girls">Night Club Model girls</option>
                         <option value="Other">Other</option>
                     </select>
-                    <p class="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple options</p>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Hold Ctrl/Cmd to select multiple options
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <!-- Employee-specific Fields -->
             <div id="employeeFields" style="display: none;">
-                <div class="form-group">
-                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                    <select id="role" name="role" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
+                <!-- Professional Information for Employees -->
+                <div class="bg-blue-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-briefcase text-blue-500 mr-2"></i>
+                        Professional Information
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-user-tie text-gray-400 mr-1"></i>
+                                Role *
+                            </label>
+                            <select id="role" name="role" 
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         <option value="">Select Role</option>
                         <option value="General Manager (GM)">General Manager (GM)</option>
                         <option value="Business Development Manager (BDM)">Business Development Manager (BDM)</option>
@@ -1530,75 +1713,132 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
             </div>
 
-                <div class="form-group">
-                    <label for="experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
-                    <input type="number" id="experience" name="experience" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-            </div>
+                        <div class="form-group">
+                            <label for="experience" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-clock text-gray-400 mr-1"></i>
+                                Years of Experience
+                            </label>
+                            <input type="number" id="experience" name="experience" min="0" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm"
+                                   placeholder="Enter years of experience">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6 mt-6">
+                        <div class="form-group">
+                            <label for="current_salary" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-rupee-sign text-gray-400 mr-1"></i>
+                                Current Salary (₹)
+                            </label>
+                            <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" 
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                            <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                Enter your current monthly salary in INR
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="form-group">
-                    <label for="current_salary" class="block text-sm font-medium text-gray-700">Current Salary (₹)</label>
-                    <input type="text" id="current_salary" name="current_salary" placeholder="e.g. 50000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <p class="mt-1 text-sm text-gray-500">Enter your current monthly salary in INR</p>
-            </div>
+                <!-- Resume Upload Section for Employees -->
+                <div class="bg-green-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-file-upload text-green-500 mr-2"></i>
+                        Resume Upload
+                    </h3>
 
-                <!-- Resume Upload Field -->
-                <div class="form-group">
-                    <label for="resume" class="block text-sm font-medium text-gray-700">Resume/CV</label>
-                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" class="mt-1 block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-md file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-red-50 file:text-red-700
-                        hover:file:bg-red-100">
-                    <p class="mt-1 text-sm text-gray-500">Please upload your resume in PDF, DOC, or DOCX format (max 5MB)</p>
-                    <div id="resumeError" class="mt-1 text-sm text-red-600 hidden"></div>
+                    <!-- Resume Upload Field -->
+                    <div class="form-group">
+                        <label for="resume" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-file-pdf text-gray-400 mr-1"></i>
+                            Resume/CV *
+                        </label>
+                        <div class="relative">
+                            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" 
+                                   class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                          file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                          file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                          hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Please upload your resume in PDF, DOC, or DOCX format (max 5MB)
+                        </p>
+                        <div id="resumeError" class="mt-2 text-sm text-red-600 hidden bg-red-50 p-2 rounded-lg"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Languages -->
-            <div class="form-group">
-                <label for="languages" class="block text-sm font-medium text-gray-700">Languages Known</label>
-                <select id="languages" name="languages[]" multiple required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500">
-                    <option value="English">English</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Bengali">Bengali</option>
-                    <option value="Telugu">Telugu</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="Marathi">Marathi</option>
-                    <option value="Gujarati">Gujarati</option>
-                    <option value="Kannada">Kannada</option>
-                    <option value="Malayalam">Malayalam</option>
-                    <option value="Punjabi">Punjabi</option>
-                </select>
-                <p class="mt-1 text-sm text-gray-500">Hold Ctrl/Cmd to select multiple languages</p>
-            </div>
+            <!-- Additional Information Section -->
+            <div class="bg-orange-50 rounded-2xl p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-info-circle text-orange-500 mr-2"></i>
+                    Additional Information
+                </h3>
+                
+                <!-- Languages -->
+                <div class="form-group mb-6">
+                    <label for="languages" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-language text-gray-400 mr-1"></i>
+                        Languages Known *
+                    </label>
+                    <select id="languages" name="languages[]" multiple required 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm min-h-[120px]">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Bengali">Bengali</option>
+                        <option value="Telugu">Telugu</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Marathi">Marathi</option>
+                        <option value="Gujarati">Gujarati</option>
+                        <option value="Kannada">Kannada</option>
+                        <option value="Malayalam">Malayalam</option>
+                        <option value="Punjabi">Punjabi</option>
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        Hold Ctrl/Cmd to select multiple languages
+                    </p>
+                </div>
 
-            <!-- Profile Image -->
-            <div class="form-group">
-                <label for="image" class="block text-sm font-medium text-gray-700">Profile Image</label>
-                <input type="file" id="image" name="image" accept="image/*" capture="camera" required class="mt-1 block w-full text-sm text-gray-500
-                    file:mr-4 file:py-2 file:px-4
-                    file:rounded-md file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-red-50 file:text-red-700
-                    hover:file:bg-red-100">
-                <p class="mt-1 text-sm text-gray-500">Please take a portrait photo with your camera (9:16 aspect ratio recommended)</p>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-group">
-                <button type="submit" class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center">
-                    <span>Submit Profile</span>
-                    <div class="loading-spinner ml-2 hidden">
-                        <i class="fas fa-spinner fa-spin"></i>
+                <!-- Profile Image -->
+                <div class="form-group">
+                    <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-camera text-gray-400 mr-1"></i>
+                        Profile Image *
+                    </label>
+                    <div class="relative">
+                        <input type="file" id="image" name="image" accept="image/*" capture="camera" required 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                      file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                      file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                      hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
                     </div>
-    </button>
-</div>
-        </form>
+                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        Please take a portrait photo with your camera (9:16 aspect ratio recommended)
+                    </p>
+                </div>
+            </div>
 
-        <button id="cancelClientFormBtn" class="mt-4 w-full text-red-500 font-semibold hover:underline text-center">
-            Cancel
-        </button>
+            <!-- Submit Button Section -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-2xl p-6 mt-8">
+                <div class="form-group">
+                    <button type="submit" class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        <span>Submit Profile</span>
+                        <div class="loading-spinner ml-2 hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                </div>
+                
+                <button id="cancelClientFormBtn" class="mt-4 w-full text-gray-500 hover:text-red-500 font-semibold py-2 transition-colors duration-200 flex items-center justify-center">
+                    <i class="fas fa-times mr-2"></i>
+                    Cancel
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
