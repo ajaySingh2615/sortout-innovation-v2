@@ -429,11 +429,65 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-gray-900">Approved Clients</h2>
                 <div class="flex gap-4">
-                    <input type="text" id="approvedSearch" placeholder="Search..." class="px-4 py-2 border rounded-lg">
-                    <select id="approvedFilter" class="px-4 py-2 border rounded-lg">
-                        <option value="">All Types</option>
+                    <input type="text" 
+                           id="approvedSearch" 
+                           placeholder="Search..." 
+                           class="px-4 py-2 border rounded-lg">
+                    
+                    <!-- Professional Type Filter -->
+                    <select id="approvedProfessionalFilter" 
+                            class="px-4 py-2 border rounded-lg" 
+                            title="Filter by Professional Type">
+                        <option value="">All Professionals</option>
                         <option value="Artist">Artist</option>
                         <option value="Employee">Employee</option>
+                    </select>
+
+                    <!-- Artist Category Filter -->
+                    <select id="approvedCategoryFilter" 
+                            class="px-4 py-2 border rounded-lg" 
+                            title="Filter by Artist Category">
+                        <option value="">All Categories</option>
+                        <option value="Dating App Host">Dating App Host</option>
+                        <option value="Video Live Streamers">Video Live Streamers</option>
+                        <option value="Voice Live Streamers">Voice Live Streamers</option>
+                        <option value="Singer">Singer</option>
+                        <option value="Dancer">Dancer</option>
+                        <option value="Actor / Actress">Actor / Actress</option>
+                        <option value="Model">Model</option>
+                        <option value="Artist / Painter">Artist / Painter</option>
+                        <option value="Social Media Influencer">Social Media Influencer</option>
+                        <option value="Content Creator">Content Creator</option>
+                        <option value="Vlogger">Vlogger</option>
+                        <option value="Gamer / Streamer">Gamer / Streamer</option>
+                        <option value="YouTuber">YouTuber</option>
+                        <option value="Anchor / Emcee / Host">Anchor / Emcee / Host</option>
+                        <option value="DJ / Music Producer">DJ / Music Producer</option>
+                        <option value="Photographer / Videographer">Photographer / Videographer</option>
+                        <option value="Makeup Artist / Hair Stylist">Makeup Artist / Hair Stylist</option>
+                        <option value="Fashion Designer / Stylist">Fashion Designer / Stylist</option>
+                        <option value="Fitness Trainer / Yoga Instructor">Fitness Trainer / Yoga Instructor</option>
+                        <option value="Motivational Speaker / Life Coach">Motivational Speaker / Life Coach</option>
+                        <option value="Chef / Culinary Artist">Chef / Culinary Artist</option>
+                        <option value="Child Artist">Child Artist</option>
+                        <option value="Pet Performer / Pet Model">Pet Performer / Pet Model</option>
+                        <option value="Instrumental Musician">Instrumental Musician</option>
+                        <option value="Director / Scriptwriter / Editor">Director / Scriptwriter / Editor</option>
+                        <option value="Voice Over Artist">Voice Over Artist</option>
+                        <option value="Magician / Illusionist">Magician / Illusionist</option>
+                        <option value="Stand-up Comedian">Stand-up Comedian</option>
+                        <option value="Mimicry Artist">Mimicry Artist</option>
+                        <option value="Poet / Storyteller">Poet / Storyteller</option>
+                        <option value="Language Trainer / Public Speaking Coach">Language Trainer / Public Speaking Coach</option>
+                        <option value="Craft Expert / DIY Creator">Craft Expert / DIY Creator</option>
+                        <option value="Travel Blogger / Explorer">Travel Blogger / Explorer</option>
+                        <option value="Astrologer / Tarot Reader">Astrologer / Tarot Reader</option>
+                        <option value="Educator / Subject Matter Expert">Educator / Subject Matter Expert</option>
+                        <option value="Tech Reviewer / Gadget Expert">Tech Reviewer / Gadget Expert</option>
+                        <option value="Unboxing / Product Reviewer">Unboxing / Product Reviewer</option>
+                        <option value="Business Coach / Startup Mentor">Business Coach / Startup Mentor</option>
+                        <option value="Health & Wellness Coach">Health & Wellness Coach</option>
+                        <option value="Event Anchor / Wedding Host">Event Anchor / Wedding Host</option>
                     </select>
                 </div>
             </div>
@@ -653,9 +707,21 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
         }
 
         // Load clients function
-        async function loadClients(status, page = 1, search = '', filter = '') {
+        async function loadClients(status, page = 1, search = '', professionalFilter = '', categoryFilter = '') {
             try {
-                const response = await fetch(`fetch_clients.php?status=${status}&page=${page}&search=${search}&filter=${filter}`);
+                let queryParams = `status=${status}&page=${page}&search=${search}`;
+                
+                // Add professional filter if provided
+                if (professionalFilter) {
+                    queryParams += `&professional=${encodeURIComponent(professionalFilter)}`;
+                }
+                
+                // Add category filter if provided
+                if (categoryFilter) {
+                    queryParams += `&category=${encodeURIComponent(categoryFilter)}`;
+                }
+                
+                const response = await fetch(`fetch_clients.php?${queryParams}`);
                 const data = await response.json();
                 
                 const tbody = document.getElementById(`${status}TableBody`);
@@ -797,7 +863,7 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
                     Math.ceil(data.total / 10),
                     page,
                     `${status}Pagination`,
-                    (newPage) => loadClients(status, newPage, search, filter)
+                    (newPage) => loadClients(status, newPage, search, professionalFilter, categoryFilter)
                 );
             } catch (error) {
                 console.error('Error loading clients:', error);
@@ -948,18 +1014,53 @@ $rejectedCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE appro
         document.getElementById('approvedSearch').addEventListener('input', (e) => {
             clearTimeout(approvedSearchTimeout);
             approvedSearchTimeout = setTimeout(() => {
-                loadClients('approved', 1, e.target.value, document.getElementById('approvedFilter').value);
+                loadClients(
+                    'approved',
+                    1,
+                    e.target.value,
+                    document.getElementById('approvedProfessionalFilter').value,
+                    document.getElementById('approvedCategoryFilter').value
+                );
             }, 300);
         });
 
-        document.getElementById('approvedFilter').addEventListener('change', (e) => {
-            loadClients('approved', 1, document.getElementById('approvedSearch').value, e.target.value);
+        document.getElementById('approvedProfessionalFilter').addEventListener('change', (e) => {
+            loadClients(
+                'approved',
+                1,
+                document.getElementById('approvedSearch').value,
+                e.target.value,
+                document.getElementById('approvedCategoryFilter').value
+            );
+        });
+
+        document.getElementById('approvedCategoryFilter').addEventListener('change', (e) => {
+            loadClients(
+                'approved',
+                1,
+                document.getElementById('approvedSearch').value,
+                document.getElementById('approvedProfessionalFilter').value,
+                e.target.value
+            );
         });
 
         // Initial load
         document.addEventListener('DOMContentLoaded', () => {
             loadClients('pending');
             loadClients('approved');
+            
+            // Add filter dependency logic
+            const professionalFilter = document.getElementById('approvedProfessionalFilter');
+            const categoryFilter = document.getElementById('approvedCategoryFilter');
+            
+            professionalFilter.addEventListener('change', function() {
+                if (this.value !== 'Artist') {
+                    categoryFilter.value = '';
+                    categoryFilter.disabled = true;
+                } else {
+                    categoryFilter.disabled = false;
+                }
+            });
         });
         
         // Image Modal Functions

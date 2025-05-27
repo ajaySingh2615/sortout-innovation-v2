@@ -34,79 +34,65 @@ try {
     }
 
     // Get parameters
-    $status = isset($_GET['status']) ? $_GET['status'] : 'pending';
-    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = 10; // Items per page
-    $offset = ($page - 1) * $limit;
-    $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
-    $filter = isset($_GET['filter']) ? mysqli_real_escape_string($conn, $_GET['filter']) : '';
+    $status = mysqli_real_escape_string($conn, $_GET['status'] ?? '');
+    $page = max(1, intval($_GET['page'] ?? 1));
+    $search = mysqli_real_escape_string($conn, $_GET['search'] ?? '');
+    $professional = mysqli_real_escape_string($conn, $_GET['professional'] ?? '');
+    $category = mysqli_real_escape_string($conn, $_GET['category'] ?? '');
 
-    // Build search condition
-    $searchCondition = '';
-    if (!empty($search)) {
-        $searchCondition = " AND (
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    // Build the base query
+    $query = "SELECT * FROM clients WHERE approval_status = '$status'";
+
+    // Add search condition if search term is provided
+    if ($search) {
+        $query .= " AND (
             name LIKE '%$search%' OR 
-            gender LIKE '%$search%' OR 
-            professional LIKE '%$search%' OR 
+            city LIKE '%$search%' OR 
+            phone LIKE '%$search%' OR 
+            email LIKE '%$search%' OR 
             category LIKE '%$search%' OR 
-            role LIKE '%$search%' OR 
-            city LIKE '%$search%' OR
-            email LIKE '%$search%' OR
-            influencer_category LIKE '%$search%' OR
-            influencer_type LIKE '%$search%' OR
-            expected_payment LIKE '%$search%' OR
-            work_type_preference LIKE '%$search%'
+            role LIKE '%$search%'
         )";
     }
 
-    // Build filter condition
-    $filterCondition = '';
-    if (!empty($filter)) {
-        $filterCondition = " AND professional = '$filter'";
+    // Add professional filter if provided
+    if ($professional) {
+        $query .= " AND professional = '$professional'";
     }
 
-    // Prepare query
-    $query = "SELECT id, name, age, gender, professional, category, role, city, followers, 
-              experience, language, image_url, resume_url, current_salary, is_visible,
-              email, influencer_category, influencer_type, instagram_profile, 
-              expected_payment, work_type_preference, phone
-              FROM clients 
-              WHERE approval_status = '$status'$searchCondition$filterCondition 
-              ORDER BY id DESC 
-              LIMIT $limit OFFSET $offset";
+    // Add category filter if provided
+    if ($category) {
+        $query .= " AND category = '$category'";
+    }
 
-    $countQuery = "SELECT COUNT(*) as total FROM clients WHERE approval_status = '$status'$searchCondition$filterCondition";
+    // Get total count for pagination
+    $countQuery = str_replace("SELECT *", "SELECT COUNT(*) as count", $query);
+    $totalResult = mysqli_query($conn, $countQuery);
+    $total = mysqli_fetch_assoc($totalResult)['count'];
 
-    // Execute queries
+    // Add pagination
+    $query .= " LIMIT $offset, $limit";
+
+    // Execute the final query
     $result = mysqli_query($conn, $query);
-    $countResult = mysqli_query($conn, $countQuery);
-    $total = mysqli_fetch_assoc($countResult)['total'];
 
-    // Prepare response
+    // Prepare the response
     $clients = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        // Ensure is_visible has a default value if not set
-        if (!isset($row['is_visible'])) {
-            $row['is_visible'] = 1; // Default to visible
-        } else {
-            // Ensure is_visible is correctly cast to integer
-            $row['is_visible'] = (int)$row['is_visible'];
-        }
-        
-        // Debug: Log if this is an Artist with new fields
-        if ($row['professional'] === 'Artist') {
-            error_log("Artist found: " . $row['name'] . " - Email: " . ($row['email'] ?? 'NULL') . " - Influencer Category: " . ($row['influencer_category'] ?? 'NULL'));
-        }
-        
+        // Clean sensitive data
+        unset($row['password']);
         $clients[] = $row;
     }
 
     echo json_encode([
         'status' => 'success',
         'clients' => $clients,
-        'total' => (int)$total,
+        'total' => $total,
         'page' => $page,
-        'pages' => ceil($total / $limit)
+        'totalPages' => ceil($total / $limit)
     ]);
 
 } catch (Exception $e) {
