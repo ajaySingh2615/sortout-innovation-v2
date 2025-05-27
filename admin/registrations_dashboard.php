@@ -2259,6 +2259,12 @@ $recentResult = mysqli_query($conn, $recentQuery);
             const diffInDays = Math.floor(diffInHours / 24);
             
             const isNew = diffInHours <= 2; // New if registered within 2 hours
+            // To change duration: 
+            // 1 hour = diffInHours <= 1
+            // 4 hours = diffInHours <= 4  
+            // 6 hours = diffInHours <= 6
+            // 12 hours = diffInHours <= 12
+            // 24 hours = diffInHours <= 24
             const isToday = diffInDays === 0 && !isNew;
             
             let display = '';
