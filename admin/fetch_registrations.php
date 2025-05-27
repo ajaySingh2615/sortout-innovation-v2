@@ -32,7 +32,7 @@ try {
     $workType = mysqli_real_escape_string($conn, $_GET['work_type'] ?? '');
     $paymentRange = mysqli_real_escape_string($conn, $_GET['payment_range'] ?? '');
 
-    $limit = 10;
+    $limit = 30; // Show 30 profiles per page (increased from 10)
     $offset = ($page - 1) * $limit;
 
     // Build the base query

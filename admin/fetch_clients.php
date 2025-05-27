@@ -40,8 +40,8 @@ try {
     $professional = mysqli_real_escape_string($conn, $_GET['professional'] ?? '');
     $category = mysqli_real_escape_string($conn, $_GET['category'] ?? '');
 
-    $limit = 10;
-    $offset = ($page - 1) * $limit;
+    $limit = 30; // Show 30 profiles per page (increased from 10)
+$offset = ($page - 1) * $limit;
 
     // Build the base query
     $query = "SELECT * FROM clients WHERE approval_status = '$status'";

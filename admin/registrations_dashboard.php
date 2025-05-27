@@ -51,7 +51,7 @@ $todayCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE DATE(cre
 $pendingTodayCount = $conn->query("SELECT COUNT(*) as count FROM clients WHERE DATE(created_at) = CURDATE() AND approval_status = 'pending'")->fetch_assoc()['count'];
 
 // ✅ Fetch recent registrations
-$recentQuery = "SELECT * FROM clients ORDER BY created_at DESC LIMIT 10";
+$recentQuery = "SELECT * FROM clients ORDER BY created_at DESC LIMIT 30";
 $recentResult = mysqli_query($conn, $recentQuery);
 ?>
 
@@ -659,6 +659,25 @@ $recentResult = mysqli_query($conn, $recentQuery);
         .pagination {
             justify-content: center;
             margin-top: 2rem;
+        }
+
+        /* Pagination Info Styling */
+        .pagination-info {
+            transition: all 0.3s ease;
+        }
+
+        .pagination-info .badge {
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .pagination-info .badge.bg-light {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+            color: #475569 !important;
         }
 
         .page-link {
@@ -1500,7 +1519,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
                     </select>
                 </div>
                 <div class="col-lg-1 col-md-6">
-                    <label class="form-label">Professional</label>
+                    <label class="form-label">Prof.</label>
                     <select id="professionalFilter" class="form-select">
                         <option value="">All Types</option>
                         <option value="Artist">🎨 Artist</option>
@@ -1702,6 +1721,12 @@ $recentResult = mysqli_query($conn, $recentQuery);
             <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-3">
                     <h5 class="card-title mb-0">All Registrations</h5>
+                    <div class="pagination-info d-none d-md-block">
+                        <span class="badge bg-light text-dark" id="paginationInfo">
+                            <i class="fas fa-list me-1"></i>
+                            Showing <span id="currentRange">1-30</span> of <span id="totalRecords">0</span> profiles
+                        </span>
+                    </div>
                     <!-- Bulk Actions -->
                     <div class="bulk-actions d-none" id="bulkActionsContainer">
                         <span class="badge bg-primary me-2" id="selectedCount">0 selected</span>
@@ -2243,6 +2268,26 @@ $recentResult = mysqli_query($conn, $recentQuery);
         function changePage(page) {
             currentPage = page;
             loadData();
+        }
+        
+        // Update pagination info
+        function updatePaginationInfo(total, page, currentCount) {
+            const perPage = 30; // Should match the backend limit
+            const start = ((page - 1) * perPage) + 1;
+            const end = Math.min(start + currentCount - 1, total);
+            
+            document.getElementById('currentRange').textContent = `${start}-${end}`;
+            document.getElementById('totalRecords').textContent = total;
+            
+            // Update the pagination info badge color based on results
+            const badge = document.getElementById('paginationInfo');
+            if (total === 0) {
+                badge.className = 'badge bg-secondary text-white';
+                badge.innerHTML = '<i class="fas fa-inbox me-1"></i>No profiles found';
+            } else {
+                badge.className = 'badge bg-light text-dark';
+                badge.innerHTML = `<i class="fas fa-list me-1"></i>Showing <span id="currentRange">${start}-${end}</span> of <span id="totalRecords">${total}</span> profiles`;
+            }
         }
         
         // Show loading state
@@ -2994,6 +3039,7 @@ $recentResult = mysqli_query($conn, $recentQuery);
                 if (data.status === 'success') {
                     displayData(data.clients);
                     updatePagination(data.totalPages, data.page);
+                    updatePaginationInfo(data.total, data.page, data.clients.length);
                 } else {
                     showAlert('Error loading data: ' + data.message, 'danger');
                 }
