@@ -197,64 +197,74 @@
     </section>
 
     <script>
+      // Check if elements exist before using them
       const slider = document.querySelector(".banner-slider");
       const slides = document.querySelectorAll(".banner-slide");
       const prevBtn = document.querySelector(".prev-btn");
       const nextBtn = document.querySelector(".next-btn");
 
-      let currentIndex = 0;
-      const totalSlides = slides.length;
-      const slideDuration = 4000; // 4 seconds
+      // Only run slider code if elements exist
+      if (slider && slides.length > 0 && prevBtn && nextBtn) {
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        const slideDuration = 4000; // 4 seconds
 
-      // Function to Update Slide Position Smoothly
-      function updateSlide() {
-        slider.style.transition = "transform 1s ease-in-out";
-        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-      }
-
-      // Move to Next Slide
-      function nextSlide() {
-        if (currentIndex >= totalSlides - 1) {
-          currentIndex = 0; // Reset to first slide
-        } else {
-          currentIndex++;
+        // Function to Update Slide Position Smoothly
+        function updateSlide() {
+          if (slider) {
+            slider.style.transition = "transform 1s ease-in-out";
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+          }
         }
+
+        // Move to Next Slide
+        function nextSlide() {
+          if (currentIndex >= totalSlides - 1) {
+            currentIndex = 0; // Reset to first slide
+          } else {
+            currentIndex++;
+          }
+          updateSlide();
+        }
+
+        // Move to Previous Slide
+        function prevSlide() {
+          if (currentIndex <= 0) {
+            currentIndex = totalSlides - 1; // Go to last slide
+          } else {
+            currentIndex--;
+          }
+          updateSlide();
+        }
+
+        // Auto-Slide Every 4 Seconds
+        let autoSlide = setInterval(nextSlide, slideDuration);
+
+        // Restart Auto-Slide When Clicking Buttons
+        function resetAutoSlide() {
+          clearInterval(autoSlide);
+          autoSlide = setInterval(nextSlide, slideDuration);
+        }
+
+        // Next Button Click
+        if (nextBtn) {
+          nextBtn.addEventListener("click", () => {
+            nextSlide();
+            resetAutoSlide();
+          });
+        }
+
+        // Previous Button Click
+        if (prevBtn) {
+          prevBtn.addEventListener("click", () => {
+            prevSlide();
+            resetAutoSlide();
+          });
+        }
+
+        // Initial Setup
         updateSlide();
       }
-
-      // Move to Previous Slide
-      function prevSlide() {
-        if (currentIndex <= 0) {
-          currentIndex = totalSlides - 1; // Go to last slide
-        } else {
-          currentIndex--;
-        }
-        updateSlide();
-      }
-
-      // Auto-Slide Every 4 Seconds
-      let autoSlide = setInterval(nextSlide, slideDuration);
-
-      // Restart Auto-Slide When Clicking Buttons
-      function resetAutoSlide() {
-        clearInterval(autoSlide);
-        autoSlide = setInterval(nextSlide, slideDuration);
-      }
-
-      // Next Button Click
-      nextBtn.addEventListener("click", () => {
-        nextSlide();
-        resetAutoSlide();
-      });
-
-      // Previous Button Click
-      prevBtn.addEventListener("click", () => {
-        prevSlide();
-        resetAutoSlide();
-      });
-
-      // Initial Setup
-      updateSlide();
     </script>
 
     <!-- Our Partners Brands Section -->
@@ -797,12 +807,17 @@
     include 'components/footer/footer.php'; 
     ?>
 
+    <!-- Bootstrap Accordion Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
       var myCarousel = document.querySelector("#testimonialCarousel");
-      var carousel = new bootstrap.Carousel(myCarousel, {
-        interval: 5000, // Change slide every 5 seconds
-        wrap: true,
-      });
+      if (myCarousel && typeof bootstrap !== 'undefined') {
+        var carousel = new bootstrap.Carousel(myCarousel, {
+          interval: 5000, // Change slide every 5 seconds
+          wrap: true,
+        });
+      }
     </script>
 
     <script>
@@ -810,21 +825,25 @@
       document.addEventListener("DOMContentLoaded", function () {
         const glowingCore = document.querySelector(".glowing-core");
 
-        setInterval(() => {
-          glowingCore.style.boxShadow = `0 0 ${
-            Math.random() * 50 + 30
-          }px rgba(255, 75, 75, 0.8)`;
-        }, 1000);
+        if (glowingCore) {
+          setInterval(() => {
+            glowingCore.style.boxShadow = `0 0 ${
+              Math.random() * 50 + 30
+            }px rgba(255, 75, 75, 0.8)`;
+          }, 1000);
+        }
       });
     </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         let logoContainer = document.querySelector(".logos");
-        let clonedLogos = logoContainer.innerHTML; // Clone inner content
+        if (logoContainer) {
+          let clonedLogos = logoContainer.innerHTML; // Clone inner content
 
-        // Append cloned logos only once to avoid duplicates
-        logoContainer.innerHTML += clonedLogos;
+          // Append cloned logos only once to avoid duplicates
+          logoContainer.innerHTML += clonedLogos;
+        }
       });
     </script>
 
@@ -838,9 +857,6 @@
         }
       }
     </script>
-
-    <!-- Bootstrap Accordion Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Force Red Colors Script - Fallback for Hostinger -->
     <script>
