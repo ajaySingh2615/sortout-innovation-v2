@@ -47,9 +47,10 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/CSS/styles.css" />
-  <link rel="stylesheet" href="/CSS/floating-social-media.css" />
+      <!-- Custom CSS -->
+  <link rel="stylesheet" href="/CSS/styles.css?v=2.0" />
+
+
 </head>
 
   <body>
@@ -69,7 +70,7 @@
                 <div class="col-lg-6 order-2 order-lg-1">
                     <div class="hero-content text-center text-lg-start">
                         <h1 class="display-3 fw-bold mb-3">
-                            One <span class="text-primary px-3 py-1 rounded bg-primary bg-opacity-10">Source,</span> 
+                            One <span class="text-primary px-3 py-1 rounded bg-primary bg-opacity-10" style="color: #d10000 !important; background-color: rgba(209, 0, 0, 0.1) !important;">Source,</span> 
                             <br class="d-none d-lg-block">
                             Infinite Solutions
                         </h1>
@@ -291,20 +292,20 @@
               <!-- Stats Section -->
               <div class="row g-4 mt-2">
                 <div class="col-sm-4">
-                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
-                    <h3 class="display-6 fw-bold text-primary mb-2">10+</h3>
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift" style="border-left-color: #d10000 !important;">
+                    <h3 class="display-6 fw-bold text-primary mb-2" style="color: #d10000 !important;">10+</h3>
                     <p class="text-secondary mb-0 fw-medium">Years of Experience</p>
                   </div>
                 </div>
                 <div class="col-sm-4">
-                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
-                    <h3 class="display-6 fw-bold text-primary mb-2">500+</h3>
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift" style="border-left-color: #d10000 !important;">
+                    <h3 class="display-6 fw-bold text-primary mb-2" style="color: #d10000 !important;">500+</h3>
                     <p class="text-secondary mb-0 fw-medium">Successful Projects</p>
                   </div>
                 </div>
                 <div class="col-sm-4">
-                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift">
-                    <h3 class="display-6 fw-bold text-primary mb-2">300+</h3>
+                  <div class="p-4 bg-white rounded-4 shadow-sm text-center h-100 border-start border-5 border-primary hover-lift" style="border-left-color: #d10000 !important;">
+                    <h3 class="display-6 fw-bold text-primary mb-2" style="color: #d10000 !important;">300+</h3>
                     <p class="text-secondary mb-0 fw-medium">Trusted Clients</p>
                   </div>
                 </div>
@@ -840,5 +841,51 @@
 
     <!-- Bootstrap Accordion Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Force Red Colors Script - Fallback for Hostinger -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Force red color for all primary text elements
+        const primaryTextElements = document.querySelectorAll('.text-primary');
+        primaryTextElements.forEach(function(element) {
+          element.style.color = '#d10000';
+        });
+
+        // Force red background for all primary background elements
+        const primaryBgElements = document.querySelectorAll('.bg-primary');
+        primaryBgElements.forEach(function(element) {
+          element.style.backgroundColor = '#d10000';
+        });
+
+        // Force red border for all primary border elements
+        const primaryBorderElements = document.querySelectorAll('.border-primary, .border-start-primary');
+        primaryBorderElements.forEach(function(element) {
+          element.style.borderColor = '#d10000';
+        });
+
+        // Force red for primary buttons
+        const primaryButtons = document.querySelectorAll('.btn-primary');
+        primaryButtons.forEach(function(element) {
+          element.style.backgroundColor = '#d10000';
+          element.style.borderColor = '#d10000';
+          element.style.color = '#fff';
+        });
+
+        // Force red for outline primary buttons
+        const outlinePrimaryButtons = document.querySelectorAll('.btn-outline-primary');
+        outlinePrimaryButtons.forEach(function(element) {
+          element.style.color = '#d10000';
+          element.style.borderColor = '#d10000';
+        });
+
+        // Force red background with opacity
+        const bgOpacityElements = document.querySelectorAll('.bg-primary.bg-opacity-10');
+        bgOpacityElements.forEach(function(element) {
+          element.style.backgroundColor = 'rgba(209, 0, 0, 0.1)';
+        });
+
+        console.log('Red color override script executed');
+      });
+    </script>
   </body>
 </html>
