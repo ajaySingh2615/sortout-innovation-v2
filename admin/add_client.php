@@ -46,6 +46,22 @@ try {
     // Debug log
     error_log("POST data received: " . print_r($_POST, true));
     error_log("FILES data received: " . print_r($_FILES, true));
+    
+    // Simple duplicate submission prevention
+    session_start();
+    $submission_key = md5(serialize($_POST) . serialize($_FILES));
+    $current_time = time();
+    
+    if (isset($_SESSION['last_submission']) && 
+        isset($_SESSION['last_submission_key']) && 
+        $_SESSION['last_submission_key'] === $submission_key && 
+        ($current_time - $_SESSION['last_submission']) < 10) {
+        
+        throw new Exception("Duplicate submission detected. Please wait before submitting again.");
+    }
+    
+    $_SESSION['last_submission'] = $current_time;
+    $_SESSION['last_submission_key'] = $submission_key;
 
     // Get form data safely
     $name = isset($_POST['name']) ? trim($_POST['name']) : "";
@@ -55,8 +71,13 @@ try {
     $professional = isset($_POST['professional']) ? trim($_POST['professional']) : "";
     $city = isset($_POST['city']) ? trim($_POST['city']) : "";
     
-    // Handle multiple languages properly
-    $language = isset($_POST['languages']) ? trim($_POST['languages']) : "";
+    // Handle multiple languages properly - it comes as an array from multi-select
+    $language = "";
+    if (isset($_POST['languages']) && is_array($_POST['languages'])) {
+        $language = implode(', ', array_map('trim', $_POST['languages']));
+    } elseif (isset($_POST['languages'])) {
+        $language = trim($_POST['languages']);
+    }
 
     // Get both fields regardless of professional type
     $followers = isset($_POST['followers']) ? trim($_POST['followers']) : "";
@@ -71,8 +92,15 @@ try {
     $influencer_type = isset($_POST['influencer_type']) ? trim($_POST['influencer_type']) : "";
     $instagram_profile = isset($_POST['instagram_profile']) ? trim($_POST['instagram_profile']) : "";
     $expected_payment = isset($_POST['expected_payment']) ? trim($_POST['expected_payment']) : "";
-    $work_type_preference = isset($_POST['work_type_preference']) ? trim($_POST['work_type_preference']) : "";
     
+    // Handle work_type_preference properly - it's also a multi-select array
+    $work_type_preference = "";
+    if (isset($_POST['work_type_preference']) && is_array($_POST['work_type_preference'])) {
+        $work_type_preference = implode(', ', array_map('trim', $_POST['work_type_preference']));
+    } elseif (isset($_POST['work_type_preference'])) {
+        $work_type_preference = trim($_POST['work_type_preference']);
+    }
+
     // Initialize resume_url
     $resume_url = "";
 
@@ -289,10 +317,8 @@ try {
         throw new Exception("Database error occurred: " . $stmt->error);
     }
 
-    $response = [
-        "status" => "success",
-        "message" => "Profile submitted successfully. It will be visible after admin approval."
-    ];
+    // Success - just exit without any response
+    exit;
 
 } catch (Exception $e) {
     error_log("Error in add_client.php: " . $e->getMessage());
@@ -304,8 +330,9 @@ try {
         "status" => "error",
         "message" => $e->getMessage()
     ];
+    
+    // Send JSON response only for errors
+    echo json_encode($response);
 }
 
-// Send JSON response
-echo json_encode($response);
 exit;

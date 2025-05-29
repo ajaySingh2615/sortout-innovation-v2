@@ -125,6 +125,48 @@ body.modal-open {
     #addClientModal > div {
         max-width: 90%;
     }
+    
+    /* ✅ Mobile-specific file input styles */
+    #addClientModal input[type="file"] {
+        padding: 16px;
+        font-size: 16px; /* Prevent zoom on iOS */
+        border-radius: 12px;
+    }
+    
+    /* ✅ Enhance camera/gallery selection on mobile */
+    #artistImage, #employeeImage {
+        padding: 20px !important;
+        min-height: 60px;
+        text-align: center;
+    }
+    
+    /* ✅ Better touch targets for mobile */
+    #addClientModal .form-group label {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+}
+
+/* ✅ Additional mobile styles for smaller devices */
+@media (max-width: 480px) {
+    #addClientModal > div {
+        max-width: 95%;
+        padding: 20px;
+    }
+    
+    #addClientModal input[type="file"] {
+        padding: 18px;
+        font-size: 14px;
+    }
+    
+    /* ✅ Adjust file input button styling for mobile */
+    #artistImage::-webkit-file-upload-button,
+    #employeeImage::-webkit-file-upload-button {
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-right: 12px;
+    }
 }
 
 /* ✅ Center Modal & Enhance Appearance */
@@ -857,6 +899,18 @@ body.modal-open {
     }
 }
 
+/* ✅ Notification styles */
+.notification {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
 </style>
 
 
@@ -876,7 +930,6 @@ body.modal-open {
                 <!-- Success Message -->
                 <h3 class="text-2xl font-bold text-gray-800 mb-4">Profile Submitted Successfully!</h3>
                 <p class="text-gray-600 mb-3">Thank you for submitting your profile. Our admin team will review your submission shortly.</p>
-                <!-- <p class="text-gray-500 text-sm mb-6">You will receive a notification once your profile is approved.</p> -->
                 
                 <!-- Status Timeline -->
                 <div class="flex items-center justify-center mb-6">
@@ -934,7 +987,7 @@ body.modal-open {
                             <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
                         </div>
                     </div>
-                    <a href="/registration.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
+                    <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
                     <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
                     <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
                     <a href="/blog/index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Blog</a>
@@ -972,7 +1025,7 @@ body.modal-open {
                         <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
                     </div>
                 </div>
-                <a href="/registration.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
+                <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
                 <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
                 <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
                 <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>
@@ -1211,7 +1264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="text-gray-600">Join our talent network and showcase your skills</p>
             </div>
 
-            <form id="addClientForm" enctype="multipart/form-data" class="space-y-6">
+            <form id="addClientForm" method="POST" enctype="multipart/form-data" class="space-y-6">
             <!-- Professional Type (Hidden) -->
             <input type="hidden" id="professionalField" name="professional" value="">
 
@@ -1627,6 +1680,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
+
+                <!-- Profile Image for Artists (Camera + Gallery) -->
+                <div class="bg-pink-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-camera text-pink-500 mr-2"></i>
+                        Profile Image
+                    </h3>
+                    <div class="form-group">
+                        <label for="artistImage" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-camera text-gray-400 mr-1"></i>
+                            Profile Image *
+                        </label>
+                        <div class="relative">
+                            <input type="file" id="artistImage" name="image" accept="image/*" 
+                                   class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                          file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                          file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                          hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Choose from gallery or take a photo with your camera (9:16 aspect ratio recommended)
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Employee-specific Fields -->
@@ -1767,6 +1845,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div id="resumeError" class="mt-2 text-sm text-red-600 hidden bg-red-50 p-2 rounded-lg"></div>
                     </div>
                 </div>
+
+                <!-- Profile Image for Employees (Camera Only) -->
+                <div class="bg-teal-50 rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-camera text-teal-500 mr-2"></i>
+                        Profile Image
+                    </h3>
+                    <div class="form-group">
+                        <label for="employeeImage" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-camera text-gray-400 mr-1"></i>
+                            Profile Image *
+                        </label>
+                        <div class="relative">
+                            <input type="file" id="employeeImage" name="image" accept="image/*" capture="camera" 
+                                   class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
+                                          file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                                          file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
+                                          hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                            Please take a new photo with your camera (9:16 aspect ratio recommended)
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <!-- Additional Information Section -->
@@ -1798,25 +1901,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
                         <i class="fas fa-info-circle text-blue-500 mr-1"></i>
                         Hold Ctrl/Cmd to select multiple languages
-                    </p>
-                </div>
-
-                <!-- Profile Image -->
-                <div class="form-group">
-                    <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
-                        <i class="fas fa-camera text-gray-400 mr-1"></i>
-                        Profile Image *
-                    </label>
-                    <div class="relative">
-                        <input type="file" id="image" name="image" accept="image/*" capture="camera" required 
-                               class="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white
-                                      file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
-                                      file:bg-gradient-to-r file:from-red-500 file:to-pink-500 file:text-white 
-                                      hover:file:from-red-600 hover:file:to-pink-600 file:transition-all file:duration-200">
-                    </div>
-                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
-                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
-                        Please take a portrait photo with your camera (9:16 aspect ratio recommended)
                     </p>
                 </div>
             </div>
@@ -1906,7 +1990,11 @@ document.addEventListener('DOMContentLoaded', function() {
             professionalField.value = type;
         }
         
-        // Toggle fields visibility
+        // Get image input fields
+        const artistImageField = document.getElementById('artistImage');
+        const employeeImageField = document.getElementById('employeeImage');
+        
+        // Toggle fields visibility and enable/disable inputs
         const artistFields = document.getElementById('artistFields');
         const employeeFields = document.getElementById('employeeFields');
         
@@ -1914,9 +2002,29 @@ document.addEventListener('DOMContentLoaded', function() {
             if (type === 'Employee') {
                 artistFields.style.display = 'none';
                 employeeFields.style.display = 'block';
-        } else {
+                
+                // Disable artist field and enable employee field
+                if (artistImageField) {
+                    artistImageField.disabled = true;
+                    artistImageField.removeAttribute('required');
+                }
+                if (employeeImageField) {
+                    employeeImageField.disabled = false;
+                    employeeImageField.setAttribute('required', 'required');
+                }
+            } else {
                 artistFields.style.display = 'block';
                 employeeFields.style.display = 'none';
+                
+                // Enable artist field and disable employee field
+                if (artistImageField) {
+                    artistImageField.disabled = false;
+                    artistImageField.setAttribute('required', 'required');
+                }
+                if (employeeImageField) {
+                    employeeImageField.disabled = true;
+                    employeeImageField.removeAttribute('required');
+                }
             }
         }
     }
@@ -1955,6 +2063,180 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cancelClientFormBtn) {
         cancelClientFormBtn.addEventListener('click', hideClientForm);
     }
+    
+    // Add form validation
+    const addClientForm = document.getElementById('addClientForm');
+    if (addClientForm) {
+        let isSubmitting = false; // Flag to prevent double submission
+        
+        addClientForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Prevent double submission
+            if (isSubmitting) {
+                console.log('Form is already being submitted, ignoring...');
+                return false;
+            }
+            
+            // Check which professional type is selected
+            const professionalType = document.getElementById('professionalField').value;
+            let imageField = null;
+            
+            if (professionalType === 'Artist') {
+                imageField = document.getElementById('artistImage');
+            } else if (professionalType === 'Employee') {
+                imageField = document.getElementById('employeeImage');
+            }
+            
+            // Validate image field
+            if (!imageField || !imageField.files || imageField.files.length === 0) {
+                alert('Please select a profile image before submitting.');
+                if (imageField) {
+                    imageField.focus();
+                    imageField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return false;
+            }
+            
+            // Set submitting flag
+            isSubmitting = true;
+            
+            // Show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const buttonText = submitButton.querySelector('span');
+            const loadingSpinner = submitButton.querySelector('.loading-spinner');
+            
+            submitButton.disabled = true;
+            buttonText.textContent = 'Submitting...';
+            if (loadingSpinner) {
+                loadingSpinner.classList.remove('hidden');
+            }
+            
+            // Create FormData object for AJAX submission
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('admin/add_client.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // Handle response properly - empty response means success
+                let result;
+                if (response.ok && response.status === 200) {
+                    const text = await response.text();
+                    // If no text (empty response), it's success
+                    if (!text || text.trim() === '') {
+                        result = { status: 'success' };
+                    } else {
+                        // Try to parse as JSON (error response)
+                        try {
+                            result = JSON.parse(text);
+                        } catch (e) {
+                            result = { status: 'error', message: 'Unknown server error' };
+                        }
+                    }
+                } else {
+                    result = { status: 'error', message: 'Server error: ' + response.status };
+                }
+                
+                console.log('Submission result:', result);
+
+                if (result.status === 'success') {
+                    // Hide the form modal
+                    const addClientModal = document.getElementById('addClientModal');
+                    if (addClientModal) {
+                        addClientModal.style.display = 'none';
+                    }
+
+                    // Show success message
+                    const successMessage = document.getElementById('successMessage');
+                    if (successMessage) {
+                        successMessage.style.display = 'flex';
+                        document.body.classList.add('modal-open');
+                        
+                        // Animate the modal in
+                        setTimeout(() => {
+                            const modalContent = successMessage.querySelector('.bg-white');
+                            if (modalContent) {
+                                modalContent.style.transform = 'scale(1)';
+                                modalContent.style.opacity = '1';
+                            }
+                        }, 10);
+                    }
+
+                    // Reset the form
+                    this.reset();
+                } else {
+                    // Show error message
+                    alert(result.message || 'Error submitting form. Please try again.');
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('Error submitting form. Please try again.');
+            } finally {
+                // Reset submission flag and button state
+                isSubmitting = false;
+                submitButton.disabled = false;
+                buttonText.textContent = 'Submit Profile';
+                if (loadingSpinner) {
+                    loadingSpinner.classList.add('hidden');
+                }
+            }
+            
+            return false; // Additional safeguard
+        });
+    }
+
+    // Function to show notifications
+    function showNotification(type, message) {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => notification.remove());
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification fixed top-4 right-4 z-[100000] px-6 py-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`;
+        
+        notification.innerHTML = `
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm font-medium">${message}</p>
+                </div>
+                <div class="ml-auto">
+                    <button onclick="this.parentElement.parentElement.remove()" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+            notification.style.opacity = '1';
+        }, 100);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
 
     // Close modals when clicking outside
     window.addEventListener('click', function(event) {
@@ -1973,6 +2255,23 @@ document.addEventListener('DOMContentLoaded', function() {
             hideClientForm();
         }
     });
+
+    // Function to close success message
+    window.closeSuccessMessage = function() {
+        const successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            const modalContent = successMessage.querySelector('.bg-white');
+            if (modalContent) {
+                modalContent.style.transform = 'scale(0.95)';
+                modalContent.style.opacity = '0';
+            }
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }, 300);
+        }
+    }
     });
 </script>
 
@@ -2602,7 +2901,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li><a href="/pages/our-services-page/service.html" class="text-gray-300 hover:text-white transition duration-300">Services</a></li>
                     <li><a href="/blog/index.php" class="text-gray-300 hover:text-white transition duration-300">Blogs</a></li>
                     <li><a href="/auth/register.php" class="text-gray-300 hover:text-white transition duration-300">Register</a></li>
-                    <li><a href="/registration.php" class="text-gray-300 hover:text-white transition duration-300">talent</a></li>
+                    <li><a href="/modal_agency.php" class="text-gray-300 hover:text-white transition duration-300">talent</a></li>
                 </ul>
             </div>
 
@@ -3365,181 +3664,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the form element
-    const addClientForm = document.getElementById('addClientForm');
-    const successMessage = document.getElementById('successMessage');
-
-    if (addClientForm) {
-        addClientForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            console.log('Form submission started');
-
-            // Show loading spinner
-            const submitButton = addClientForm.querySelector('button[type="submit"]');
-            const loadingSpinner = submitButton.querySelector('.loading-spinner');
-            const buttonText = submitButton.querySelector('span');
-            
-            if (loadingSpinner && buttonText) {
-                buttonText.style.display = 'none';
-                loadingSpinner.classList.remove('hidden');
-            }
-
-            // Reset any previous error messages
-            const resumeError = document.getElementById('resumeError');
-            if (resumeError) {
-                resumeError.textContent = '';
-                resumeError.classList.add('hidden');
-            }
-
-            try {
-                const formData = new FormData(addClientForm);
-                
-                // Get professional type
-                const professionalType = formData.get('professional');
-                
-                // Validate resume upload for Employee type
-                if (professionalType === 'Employee') {
-                    const resumeFile = document.getElementById('resume').files[0];
-                    
-                    if (!resumeFile) {
-                        if (resumeError) {
-                            resumeError.textContent = 'Please upload your resume';
-                            resumeError.classList.remove('hidden');
-                        }
-                        throw new Error('Resume is required for Employee profiles');
-                    }
-                    
-                    // Check file type
-                    const allowedTypes = [
-                        'application/pdf', 
-                        'application/msword', 
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                    ];
-                    
-                    if (!allowedTypes.includes(resumeFile.type)) {
-                        if (resumeError) {
-                            resumeError.textContent = 'Invalid file type. Please upload PDF, DOC, or DOCX file';
-                            resumeError.classList.remove('hidden');
-                        }
-                        throw new Error('Invalid resume file type');
-                    }
-                    
-                    // Check file size (5MB max)
-                    if (resumeFile.size > 5 * 1024 * 1024) {
-                        if (resumeError) {
-                            resumeError.textContent = 'File size too large. Maximum size is 5MB';
-                            resumeError.classList.remove('hidden');
-                        }
-                        throw new Error('Resume file size too large');
-                    }
-        } else {
-                    // Remove resume field from formData if not an Employee
-                    formData.delete('resume');
-                }
-                
-                // Handle multiple language selections
-                const languagesSelect = document.getElementById('languages');
-                const selectedLanguages = Array.from(languagesSelect.selectedOptions).map(option => option.value);
-                
-                // Remove the original languages array
-                formData.delete('languages[]');
-                
-                // Add the languages as a comma-separated string
-                formData.append('languages', selectedLanguages.join(','));
-                
-                // Handle multiple work type preference selections (for Artists only)
-                const workTypeSelect = document.getElementById('work_type_preference');
-                if (workTypeSelect && professionalType === 'Artist') {
-                    const selectedWorkTypes = Array.from(workTypeSelect.selectedOptions).map(option => option.value);
-                    
-                    // Remove the original work_type_preference array
-                    formData.delete('work_type_preference[]');
-                    
-                    // Add the work types as a comma-separated string
-                    formData.set('work_type_preference', selectedWorkTypes.join(','));
-                }
-                
-                // Log form data for debugging
-                for (let pair of formData.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
-
-                const response = await fetch('admin/add_client.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-                console.log('Submission result:', result);
-
-                if (result.status === 'success') {
-                    // Hide the form modal
-                    const addClientModal = document.getElementById('addClientModal');
-                    if (addClientModal) {
-                        addClientModal.style.display = 'none';
-                    }
-
-                    // Show success message
-                    if (successMessage) {
-                        successMessage.style.display = 'flex';
-                        const modalContent = successMessage.querySelector('.bg-white');
-                        if (modalContent) {
-                            setTimeout(() => {
-                                modalContent.style.transform = 'scale(1)';
-                                modalContent.style.opacity = '1';
-                            }, 10);
-                        }
-                    }
-
-                    // Reset the form
-                    addClientForm.reset();
-        } else {
-                    // Show specific error message if available
-                    if (result.field && result.field === 'resume') {
-                        if (resumeError) {
-                            resumeError.textContent = result.message || 'Error with resume upload';
-                            resumeError.classList.remove('hidden');
-                        }
-                    } else {
-                        alert(result.message || 'Error submitting form. Please try again.');
-                    }
-                }
-            } catch (error) {
-                console.error('Form submission error:', error);
-                // Don't show alert for validation errors we've already handled
-                if (!error.message.includes('Resume')) {
-                    alert('Error submitting form. Please try again.');
-                }
-            } finally {
-                // Hide loading spinner and show button text
-                if (loadingSpinner && buttonText) {
-                    buttonText.style.display = 'inline';
-                    loadingSpinner.classList.add('hidden');
-                }
-            }
-        });
-    }
-
-    // Function to close success message
-    window.closeSuccessMessage = function() {
-        if (successMessage) {
-            const modalContent = successMessage.querySelector('.bg-white');
-            if (modalContent) {
-                modalContent.style.transform = 'scale(0.95)';
-                modalContent.style.opacity = '0';
-            }
-            
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-                document.body.classList.remove('modal-open');
-            }, 300);
-        }
-    }
-    });
-</script>
-
 <!-- Add this script to handle dynamic client cards -->
 <script>
 // Function to initialize touch events for client cards
@@ -3990,24 +4114,37 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Add this script at the end of the file, before the closing </body> tag
 document.addEventListener('DOMContentLoaded', function() {
-    // Add event listener to the image input
-    const imageInput = document.getElementById('image');
-    if (imageInput) {
-        imageInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                // Check if file is larger than 5MB
-                if (file.size > 5 * 1024 * 1024) {
-                    // Compress the image before upload
-                    compressImage(file, function(compressedFile) {
-                        // Replace the file in the input
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(compressedFile);
-                        imageInput.files = dataTransfer.files;
-                    });
-                }
-            }
+    // Add event listener to both artist and employee image inputs
+    const artistImageInput = document.getElementById('artistImage');
+    const employeeImageInput = document.getElementById('employeeImage');
+    
+    if (artistImageInput) {
+        artistImageInput.addEventListener('change', function(e) {
+            handleImageSelection(e);
         });
+    }
+    
+    if (employeeImageInput) {
+        employeeImageInput.addEventListener('change', function(e) {
+            handleImageSelection(e);
+        });
+    }
+    
+    // Function to handle image selection
+    function handleImageSelection(e) {
+        const file = e.target.files[0];
+        if (file) {
+            // Check if file is larger than 5MB
+            if (file.size > 5 * 1024 * 1024) {
+                // Compress the image before upload
+                compressImage(file, function(compressedFile) {
+                    // Replace the file in the input
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(compressedFile);
+                    e.target.files = dataTransfer.files;
+                });
+            }
+        }
     }
     
     // Function to compress image
