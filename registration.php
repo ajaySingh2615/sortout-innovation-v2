@@ -28,7 +28,7 @@ unset($_SESSION['message']); // Clear the session message after displaying
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="/images/sortoutInnovation-icon/sortout-innovation-only-s.gif" />
-    <title>Models Agency</title>
+    <title>Profile Registration</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
       <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
