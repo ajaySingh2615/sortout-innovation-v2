@@ -1339,113 +1339,30 @@ document.addEventListener('DOMContentLoaded', function() {
                         <i class="fas fa-city text-gray-400 mr-1"></i>
                         City *
                     </label>
-                    <select id="city" name="city" required 
-                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
-                    <option value="">Select City</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Bangalore">Bangalore</option>
-                    <option value="Hyderabad">Hyderabad</option>
-                    <option value="Ahmedabad">Ahmedabad</option>
-                    <option value="Chennai">Chennai</option>
-                    <option value="Kolkata">Kolkata</option>
-                    <option value="Surat">Surat</option>
-                    <option value="Pune">Pune</option>
-                    <option value="Jaipur">Jaipur</option>
-                    <option value="Lucknow">Lucknow</option>
-                    <option value="Kanpur">Kanpur</option>
-                    <option value="Nagpur">Nagpur</option>
-                    <option value="Indore">Indore</option>
-                    <option value="Thane">Thane</option>
-                    <option value="Bhopal">Bhopal</option>
-                    <option value="Visakhapatnam">Visakhapatnam</option>
-                    <option value="Pimpri and Chinchwad">Pimpri and Chinchwad</option>
-                    <option value="Patna">Patna</option>
-                    <option value="Vadodara">Vadodara</option>
-                    <option value="Ghaziabad">Ghaziabad</option>
-                    <option value="Ludhiana">Ludhiana</option>
-                    <option value="Agra">Agra</option>
-                    <option value="Nashik">Nashik</option>
-                    <option value="Faridabad">Faridabad</option>
-                    <option value="Meerut">Meerut</option>
-                    <option value="Rajkot">Rajkot</option>
-                    <option value="Kalyan and Dombivali">Kalyan and Dombivali</option>
-                    <option value="Vasai Virar">Vasai Virar</option>
-                    <option value="Varanasi">Varanasi</option>
-                    <option value="Srinagar">Srinagar</option>
-                    <option value="Aurangabad">Aurangabad</option>
-                    <option value="Dhanbad">Dhanbad</option>
-                    <option value="Amritsar">Amritsar</option>
-                    <option value="Navi Mumbai">Navi Mumbai</option>
-                    <option value="Allahabad">Allahabad</option>
-                    <option value="Ranchi">Ranchi</option>
-                    <option value="Gwalior">Gwalior</option>
-                    <option value="Jabalpur">Jabalpur</option>
-                    <option value="Coimbatore">Coimbatore</option>
-                    <option value="Vijayawada">Vijayawada</option>
-                    <option value="Jodhpur">Jodhpur</option>
-                    <option value="Madurai">Madurai</option>
-                    <option value="Raipur">Raipur</option>
-                    <option value="Kota">Kota</option>
-                    <option value="Chandigarh">Chandigarh</option>
-                    <option value="Guwahati">Guwahati</option>
-                    <option value="Solapur">Solapur</option>
-                    <option value="Hubli and Dharwad">Hubli and Dharwad</option>
-                    <option value="Bareilly">Bareilly</option>
-                    <option value="Mysore">Mysore</option>
-                    <option value="Moradabad">Moradabad</option>
-                    <option value="Gurgaon">Gurgaon</option>
-                    <option value="Aligarh">Aligarh</option>
-                    <option value="Jalandhar">Jalandhar</option>
-                    <option value="Tiruchirappalli">Tiruchirappalli</option>
-                    <option value="Bhubaneswar">Bhubaneswar</option>
-                    <option value="Salem">Salem</option>
-                    <option value="Mira and Bhayander">Mira and Bhayander</option>
-                    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                    <option value="Bhiwandi">Bhiwandi</option>
-                    <option value="Saharanpur">Saharanpur</option>
-                    <option value="Gorakhpur">Gorakhpur</option>
-                    <option value="Guntur">Guntur</option>
-                    <option value="Amravati">Amravati</option>
-                    <option value="Bikaner">Bikaner</option>
-                    <option value="Noida">Noida</option>
-                    <option value="Jamshedpur">Jamshedpur</option>
-                    <option value="Bhilai Nagar">Bhilai Nagar</option>
-                    <option value="Warangal">Warangal</option>
-                    <option value="Cuttack">Cuttack</option>
-                    <option value="Firozabad">Firozabad</option>
-                    <option value="Kochi">Kochi</option>
-                    <option value="Bhavnagar">Bhavnagar</option>
-                    <option value="Dehradun">Dehradun</option>
-                    <option value="Durgapur">Durgapur</option>
-                    <option value="Asansol">Asansol</option>
-                    <option value="Nanded Waghala">Nanded Waghala</option>
-                    <option value="Kolapur">Kolapur</option>
-                    <option value="Ajmer">Ajmer</option>
-                    <option value="Gulbarga">Gulbarga</option>
-                    <option value="Jamnagar">Jamnagar</option>
-                    <option value="Ujjain">Ujjain</option>
-                    <option value="Loni">Loni</option>
-                    <option value="Siliguri">Siliguri</option>
-                    <option value="Jhansi">Jhansi</option>
-                    <option value="Ulhasnagar">Ulhasnagar</option>
-                    <option value="Nellore">Nellore</option>
-                    <option value="Jammu">Jammu</option>
-                    <option value="Sangli Miraj Kupwad">Sangli Miraj Kupwad</option>
-                    <option value="Belgaum">Belgaum</option>
-                    <option value="Mangalore">Mangalore</option>
-                    <option value="Ambattur">Ambattur</option>
-                    <option value="Tirunelveli">Tirunelveli</option>
-                    <option value="Malegaon">Malegaon</option>
-                    <option value="Gaya">Gaya</option>
-                    <option value="Jalgaon">Jalgaon</option>
-                    <option value="Udaipur">Udaipur</option>
-                    <option value="Maheshtala">Maheshtala</option>
-                    <option value="Tiruppur">Tiruppur</option>
-                    <option value="Davanagere">Davanagere</option>
-                    <option value="Kozhikode">Kozhikode</option>
-                    <option value="Kurnool">Kurnool</option>
-                </select>
+                    <div class="relative">
+                        <input type="text" 
+                               id="city" 
+                               name="city" 
+                               required 
+                               autocomplete="off"
+                               placeholder="Search for your city..."
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
+                        
+                        <!-- Loading indicator -->
+                        <div id="cityLoading" class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden">
+                            <i class="fas fa-spinner fa-spin text-gray-400"></i>
+                        </div>
+                        
+                        <!-- Dropdown for city suggestions -->
+                        <div id="cityDropdown" 
+                             class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-xl shadow-lg max-h-60 overflow-y-auto hidden">
+                            <!-- City options will be populated dynamically -->
+                        </div>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                        Start typing to search for cities in India
+                    </p>
                 </div>
             </div>
 
@@ -4196,6 +4113,252 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 });
+</script>
+
+<script>
+// Dynamic City Search using GeoDB Cities API
+document.addEventListener('DOMContentLoaded', function() {
+    const cityInput = document.getElementById('city');
+    const cityDropdown = document.getElementById('cityDropdown');
+    const cityLoading = document.getElementById('cityLoading');
+    
+    if (!cityInput || !cityDropdown || !cityLoading) {
+        console.log('City search elements not found');
+        return;
+    }
+    
+    // API configuration
+    const API_KEY = '47947e74c2mshca12d801e45fd20p1266f6jsn338754475961';
+    const API_HOST = 'wft-geo-db.p.rapidapi.com';
+    const API_URL = 'https://wft-geo-db.p.rapidapi.com/v1/geo/cities';
+    
+    let debounceTimer;
+    let currentRequest;
+    
+    // Function to search cities
+    async function searchCities(query) {
+        if (query.length < 2) {
+            hideCityDropdown();
+            return;
+        }
+        
+        // Cancel previous request if it exists
+        if (currentRequest) {
+            currentRequest.abort();
+        }
+        
+        // Show loading indicator
+        showLoading();
+        
+        try {
+            // Create new AbortController for this request
+            const controller = new AbortController();
+            currentRequest = controller;
+            
+            const url = `${API_URL}?countryIds=IN&namePrefix=${encodeURIComponent(query)}&limit=10`;
+            
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': API_KEY,
+                    'X-RapidAPI-Host': API_HOST
+                },
+                signal: controller.signal
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // Check if request was aborted
+            if (controller.signal.aborted) {
+                return;
+            }
+            
+            hideLoading();
+            displayCities(data.data || []);
+            
+        } catch (error) {
+            hideLoading();
+            
+            if (error.name === 'AbortError') {
+                console.log('Request was aborted');
+                return;
+            }
+            
+            console.error('Error fetching cities:', error);
+            
+            // Show error message in dropdown
+            cityDropdown.innerHTML = `
+                <div class="px-4 py-3 text-sm text-red-600 border-b border-gray-100">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Error loading cities. Please try again.
+                </div>
+            `;
+            showCityDropdown();
+        }
+    }
+    
+    // Function to display cities in dropdown
+    function displayCities(cities) {
+        if (cities.length === 0) {
+            cityDropdown.innerHTML = `
+                <div class="px-4 py-3 text-sm text-gray-500 border-b border-gray-100">
+                    <i class="fas fa-search mr-2"></i>
+                    No cities found. Try a different search.
+                </div>
+            `;
+            showCityDropdown();
+            return;
+        }
+        
+        let html = '';
+        cities.forEach(city => {
+            const cityName = city.name;
+            const region = city.region ? `, ${city.region}` : '';
+            const country = city.country ? `, ${city.country}` : '';
+            const fullName = `${cityName}${region}${country}`;
+            
+            html += `
+                <div class="city-option px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 transition-colors duration-200" 
+                     data-city="${cityName}" 
+                     data-full="${fullName}">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-blue-500 mr-3"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">${cityName}</div>
+                            ${region ? `<div class="text-sm text-gray-500">${region.substring(2)}${country}</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        cityDropdown.innerHTML = html;
+        showCityDropdown();
+        
+        // Add click event listeners to city options
+        const cityOptions = cityDropdown.querySelectorAll('.city-option');
+        cityOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const cityName = this.getAttribute('data-city');
+                selectCity(cityName);
+            });
+        });
+    }
+    
+    // Function to select a city
+    function selectCity(cityName) {
+        cityInput.value = cityName;
+        hideCityDropdown();
+        
+        // Trigger change event for form validation
+        cityInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    
+    // Function to show loading indicator
+    function showLoading() {
+        cityLoading.classList.remove('hidden');
+    }
+    
+    // Function to hide loading indicator
+    function hideLoading() {
+        cityLoading.classList.add('hidden');
+    }
+    
+    // Function to show city dropdown
+    function showCityDropdown() {
+        cityDropdown.classList.remove('hidden');
+    }
+    
+    // Function to hide city dropdown
+    function hideCityDropdown() {
+        cityDropdown.classList.add('hidden');
+    }
+    
+    // Debounced search function
+    function debouncedSearch(query) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            searchCities(query);
+        }, 300); // 300ms delay
+    }
+    
+    // Event listeners
+    cityInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim();
+        debouncedSearch(query);
+    });
+    
+    cityInput.addEventListener('focus', function(e) {
+        const query = e.target.value.trim();
+        if (query.length >= 2) {
+            debouncedSearch(query);
+        }
+    });
+    
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!cityInput.contains(e.target) && !cityDropdown.contains(e.target)) {
+            hideCityDropdown();
+        }
+    });
+    
+    // Handle keyboard navigation
+    cityInput.addEventListener('keydown', function(e) {
+        const cityOptions = cityDropdown.querySelectorAll('.city-option');
+        const currentActive = cityDropdown.querySelector('.city-option.active');
+        let activeIndex = -1;
+        
+        if (currentActive) {
+            activeIndex = Array.from(cityOptions).indexOf(currentActive);
+        }
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (activeIndex < cityOptions.length - 1) {
+                if (currentActive) currentActive.classList.remove('active');
+                const nextOption = cityOptions[activeIndex + 1];
+                nextOption.classList.add('active');
+                nextOption.scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (activeIndex > 0) {
+                if (currentActive) currentActive.classList.remove('active');
+                const prevOption = cityOptions[activeIndex - 1];
+                prevOption.classList.add('active');
+                prevOption.scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (currentActive) {
+                const cityName = currentActive.getAttribute('data-city');
+                selectCity(cityName);
+            }
+        } else if (e.key === 'Escape') {
+            hideCityDropdown();
+        }
+    });
+    
+    // Add CSS for active state
+    const style = document.createElement('style');
+    style.textContent = `
+        .city-option.active {
+            background-color: #f3f4f6 !important;
+        }
+        .city-option:hover {
+            background-color: #f9fafb;
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+
+<script>
+// Add this script at the end of the file, before the closing </body> tag
 </script>
 
 
