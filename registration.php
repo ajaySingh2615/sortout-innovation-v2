@@ -1345,7 +1345,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                name="city" 
                                required 
                                autocomplete="off"
-                               placeholder="Search for your city..."
+                               placeholder="Type your city name (minimum 3 characters)..."
                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
                         
                         <!-- Loading indicator -->
@@ -1359,9 +1359,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             <!-- City options will be populated dynamically -->
                         </div>
                     </div>
+                    <div id="cityError" class="mt-2 text-sm text-red-600 hidden">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        <span id="cityErrorText"></span>
+                    </div>
                     <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
                         <i class="fas fa-info-circle text-blue-500 mr-1"></i>
-                        Start typing to search for cities in India
+                        Start typing to search for cities or enter your city manually
                     </p>
                 </div>
             </div>
@@ -4121,6 +4125,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const cityInput = document.getElementById('city');
     const cityDropdown = document.getElementById('cityDropdown');
     const cityLoading = document.getElementById('cityLoading');
+    const cityError = document.getElementById('cityError');
+    const cityErrorText = document.getElementById('cityErrorText');
     
     if (!cityInput || !cityDropdown || !cityLoading) {
         console.log('City search elements not found');
@@ -4134,10 +4140,85 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let debounceTimer;
     let currentRequest;
+    let isApiWorking = true;
+    let rateLimitHit = false;
+    let cooldownUntil = 0;
+    let requestCount = 0;
+    let lastMinuteReset = Date.now();
+    
+    // Rate limiting configuration
+    const MAX_REQUESTS_PER_MINUTE = 3; // Conservative limit
+    const RATE_LIMIT_COOLDOWN = 180000; // 3 minutes cooldown
+    const DEBOUNCE_DELAY = 800; // Increased from 500ms to 800ms
+    
+    // Function to show error message
+    function showError(message) {
+        if (cityError && cityErrorText) {
+            cityErrorText.textContent = message;
+            cityError.classList.remove('hidden');
+            setTimeout(() => {
+                hideError();
+            }, 5000); // Auto-hide after 5 seconds
+        }
+    }
+    
+    // Function to hide error message
+    function hideError() {
+        if (cityError) {
+            cityError.classList.add('hidden');
+        }
+    }
+    
+    // Function to check rate limits
+    function checkRateLimit() {
+        const now = Date.now();
+        
+        // Check if we're in cooldown period
+        if (rateLimitHit && now < cooldownUntil) {
+            const remainingMinutes = Math.ceil((cooldownUntil - now) / 60000);
+            showError(`City search is temporarily limited. Please try again in ${remainingMinutes} minute(s) or type manually.`);
+            return false;
+        }
+        
+        // Reset rate limit if cooldown is over
+        if (rateLimitHit && now >= cooldownUntil) {
+            rateLimitHit = false;
+            requestCount = 0;
+            lastMinuteReset = now;
+        }
+        
+        // Reset request count every minute
+        if (now - lastMinuteReset >= 60000) {
+            requestCount = 0;
+            lastMinuteReset = now;
+        }
+        
+        // Check if we've exceeded the limit
+        if (requestCount >= MAX_REQUESTS_PER_MINUTE) {
+            rateLimitHit = true;
+            cooldownUntil = now + RATE_LIMIT_COOLDOWN;
+            showError('Too many city searches. Please wait a few minutes or type your city manually.');
+            return false;
+        }
+        
+        return true;
+    }
     
     // Function to search cities
     async function searchCities(query) {
         if (query.length < 2) {
+            hideCityDropdown();
+            hideError();
+            return;
+        }
+        
+        // If API failed before, don't try again for this session
+        if (!isApiWorking) {
+            return;
+        }
+        
+        // Check rate limits
+        if (!checkRateLimit()) {
             hideCityDropdown();
             return;
         }
@@ -4147,8 +4228,12 @@ document.addEventListener('DOMContentLoaded', function() {
             currentRequest.abort();
         }
         
+        // Increment request count
+        requestCount++;
+        
         // Show loading indicator
         showLoading();
+        hideError();
         
         try {
             // Create new AbortController for this request
@@ -4167,7 +4252,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Server returned ${response.status}`);
             }
             
             const data = await response.json();
@@ -4190,24 +4275,37 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.error('Error fetching cities:', error);
             
-            // Show error message in dropdown
-            cityDropdown.innerHTML = `
-                <div class="px-4 py-3 text-sm text-red-600 border-b border-gray-100">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    Error loading cities. Please try again.
-                </div>
-            `;
-            showCityDropdown();
+            // Handle different error types
+            if (error.message.includes('429')) {
+                // Rate limit hit - trigger cooldown
+                rateLimitHit = true;
+                cooldownUntil = Date.now() + RATE_LIMIT_COOLDOWN;
+                showError('City search limit reached. Please wait a few minutes or type your city manually.');
+            } else if (error.message.includes('500') || error.message.includes('502') || error.message.includes('503')) {
+                // Server errors - temporary issue
+                showError('City search service is temporarily down. Please type your city manually.');
+            } else if (error.message.includes('403') || error.message.includes('401')) {
+                // API key issues
+                isApiWorking = false;
+                showError('City search is unavailable. Please type your city manually.');
+            } else {
+                // Generic network error
+                showError('Unable to search cities. Please check your internet connection or type manually.');
+            }
+            
+            hideCityDropdown();
         }
     }
     
     // Function to display cities in dropdown
     function displayCities(cities) {
         if (cities.length === 0) {
+            const currentValue = cityInput.value.trim();
             cityDropdown.innerHTML = `
                 <div class="px-4 py-3 text-sm text-gray-500 border-b border-gray-100">
                     <i class="fas fa-search mr-2"></i>
-                    No cities found. Try a different search.
+                    No cities found for "${currentValue}". 
+                    <span class="text-blue-600">You can continue typing your city name manually.</span>
                 </div>
             `;
             showCityDropdown();
@@ -4215,6 +4313,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         let html = '';
+        
+        // Add option to use manual input
+        const currentValue = cityInput.value.trim();
+        if (currentValue.length >= 2) {
+            html += `
+                <div class="city-option px-4 py-3 cursor-pointer hover:bg-blue-50 border-b border-gray-100 transition-colors duration-200 bg-blue-25" 
+                     data-city="${currentValue}" 
+                     data-manual="true">
+                    <div class="flex items-center">
+                        <i class="fas fa-edit text-blue-500 mr-3"></i>
+                        <div>
+                            <div class="font-medium text-blue-900">Use "${currentValue}"</div>
+                            <div class="text-sm text-blue-600">Enter manually</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
         cities.forEach(city => {
             const cityName = city.name;
             const region = city.region ? `, ${city.region}` : '';
@@ -4226,7 +4343,7 @@ document.addEventListener('DOMContentLoaded', function() {
                      data-city="${cityName}" 
                      data-full="${fullName}">
                     <div class="flex items-center">
-                        <i class="fas fa-map-marker-alt text-blue-500 mr-3"></i>
+                        <i class="fas fa-map-marker-alt text-green-500 mr-3"></i>
                         <div>
                             <div class="font-medium text-gray-900">${cityName}</div>
                             ${region ? `<div class="text-sm text-gray-500">${region.substring(2)}${country}</div>` : ''}
@@ -4283,20 +4400,46 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
             searchCities(query);
-        }, 300); // 300ms delay
+        }, DEBOUNCE_DELAY); // 800ms delay to reduce API calls
     }
     
     // Event listeners
     cityInput.addEventListener('input', function(e) {
         const query = e.target.value.trim();
-        debouncedSearch(query);
+        hideError(); // Hide error when user starts typing
+        
+        if (query.length >= 3 && isApiWorking && !rateLimitHit) { // Increased to 3 chars minimum
+            debouncedSearch(query);
+        } else if (query.length < 2) {
+            hideCityDropdown();
+        } else if (query.length >= 2 && (rateLimitHit || !isApiWorking)) {
+            // Show manual input option when API is not available
+            displayCities([]);
+        }
     });
     
     cityInput.addEventListener('focus', function(e) {
         const query = e.target.value.trim();
-        if (query.length >= 2) {
+        hideError(); // Hide error when user focuses
+        
+        if (query.length >= 3 && isApiWorking && !rateLimitHit) {
             debouncedSearch(query);
+        } else if (query.length >= 2 && (rateLimitHit || !isApiWorking)) {
+            // Show manual input option when API is not available
+            displayCities([]);
         }
+    });
+    
+    // Allow form submission even with manual city input
+    cityInput.addEventListener('blur', function(e) {
+        const value = e.target.value.trim();
+        if (value.length >= 2) {
+            // City is valid, no need to show error
+            hideError();
+        }
+        setTimeout(() => {
+            hideCityDropdown();
+        }, 200); // Delay to allow dropdown clicks
     });
     
     // Hide dropdown when clicking outside

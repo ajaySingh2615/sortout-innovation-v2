@@ -1,7 +1,15 @@
 <?php
+// Disable error display to prevent JSON corruption
 error_reporting(E_ALL);
-ini_set('display_errors', 1); // Temporarily enable display errors for debugging
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 header('Content-Type: application/json');
+
+// Clean any previous output
+if (ob_get_level()) {
+    ob_end_clean();
+}
+ob_start();
 
 // Fix file paths
 $root_path = dirname(dirname(__FILE__));
@@ -108,6 +116,18 @@ try {
     if (empty($name) || empty($professional) || empty($city)) {
         throw new Exception("Name, Professional type, and City are required.");
     }
+    
+    // Sanitize city input to prevent issues
+    $city = htmlspecialchars(strip_tags(trim($city)), ENT_QUOTES, 'UTF-8');
+    
+    // Additional city validation
+    if (strlen($city) < 2) {
+        throw new Exception("Please enter a valid city name (minimum 2 characters).");
+    }
+    
+    if (strlen($city) > 255) {
+        throw new Exception("City name is too long (maximum 255 characters).");
+    }
 
     // Professional type specific validation and field clearing
     if ($professional === "Artist") {
@@ -126,6 +146,7 @@ try {
         
         // Resume validation for Employee
         if (empty($_FILES['resume']['tmp_name'])) {
+            if (ob_get_level()) ob_end_clean();
             $response = [
                 "status" => "error",
                 "field" => "resume",
@@ -137,6 +158,7 @@ try {
         
         // Validate resume file
         if (!is_uploaded_file($_FILES['resume']['tmp_name'])) {
+            if (ob_get_level()) ob_end_clean();
             $response = [
                 "status" => "error",
                 "field" => "resume",
@@ -153,6 +175,7 @@ try {
         
         $allowed_types = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         if (!in_array($file_type, $allowed_types)) {
+            if (ob_get_level()) ob_end_clean();
             $response = [
                 "status" => "error",
                 "field" => "resume",
@@ -164,6 +187,7 @@ try {
         
         // Validate file size (5MB max)
         if ($_FILES['resume']['size'] > 5 * 1024 * 1024) {
+            if (ob_get_level()) ob_end_clean();
             $response = [
                 "status" => "error",
                 "field" => "resume",
@@ -181,6 +205,7 @@ try {
         // Move uploaded file
         if (!move_uploaded_file($_FILES['resume']['tmp_name'], $upload_path)) {
             error_log("File upload error: Could not move file to " . $upload_path);
+            if (ob_get_level()) ob_end_clean();
             $response = [
                 "status" => "error",
                 "field" => "resume",
@@ -317,7 +342,13 @@ try {
         throw new Exception("Database error occurred: " . $stmt->error);
     }
 
-    // Success - just exit without any response
+    // Success response
+    ob_end_clean(); // Clear any buffered output
+    $response = [
+        "status" => "success",
+        "message" => "Registration successful! Your profile is pending approval."
+    ];
+    echo json_encode($response);
     exit;
 
 } catch (Exception $e) {
@@ -326,12 +357,17 @@ try {
     if (!empty($resume_url) && file_exists($root_path . '/' . $resume_url)) {
         unlink($root_path . '/' . $resume_url);
     }
+    
+    // Clean any buffered output before sending error response
+    if (ob_get_level()) {
+        ob_end_clean();
+    }
+    
     $response = [
         "status" => "error",
         "message" => $e->getMessage()
     ];
     
-    // Send JSON response only for errors
     echo json_encode($response);
 }
 

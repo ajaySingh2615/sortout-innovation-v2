@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City API Rate Limit Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:disabled { background: #6c757d; }
+    </style>
+</head>
+<body>
+    <h1>City API Rate Limiting Test</h1>
+    <p>This test simulates the rate limiting behavior of the city search feature.</p>
+    
+    <button onclick="testSingleRequest()">Test Single Request</button>
+    <button onclick="testRapidRequests()">Test Rapid Requests (5 in a row)</button>
+    <button onclick="resetTest()">Reset Test</button>
+    
+    <div id="results"></div>
+
+    <script>
+        let requestCount = 0;
+        let lastMinuteReset = Date.now();
+        let rateLimitHit = false;
+        let cooldownUntil = 0;
+        
+        const MAX_REQUESTS_PER_MINUTE = 3;
+        const RATE_LIMIT_COOLDOWN = 10000; // 10 seconds for testing (instead of 3 minutes)
+        
+        function checkRateLimit() {
+            const now = Date.now();
+            
+            if (rateLimitHit && now < cooldownUntil) {
+                const remainingSeconds = Math.ceil((cooldownUntil - now) / 1000);
+                logResult(`⛔ Rate limited! Wait ${remainingSeconds} seconds`, 'error');
+                return false;
+            }
+            
+            if (rateLimitHit && now >= cooldownUntil) {
+                rateLimitHit = false;
+                requestCount = 0;
+                lastMinuteReset = now;
+                logResult('✅ Rate limit reset', 'success');
+            }
+            
+            if (now - lastMinuteReset >= 60000) {
+                requestCount = 0;
+                lastMinuteReset = now;
+                logResult('🔄 Request count reset (1 minute passed)', 'warning');
+            }
+            
+            if (requestCount >= MAX_REQUESTS_PER_MINUTE) {
+                rateLimitHit = true;
+                cooldownUntil = now + RATE_LIMIT_COOLDOWN;
+                logResult(`🚫 Rate limit hit! Cooldown for ${RATE_LIMIT_COOLDOWN/1000} seconds`, 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function testSingleRequest() {
+            if (checkRateLimit()) {
+                requestCount++;
+                logResult(`✅ Request ${requestCount} allowed (${MAX_REQUESTS_PER_MINUTE - requestCount} remaining)`, 'success');
+            }
+        }
+        
+        function testRapidRequests() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    testSingleRequest();
+                }, i * 100);
+            }
+        }
+        
+        function resetTest() {
+            requestCount = 0;
+            lastMinuteReset = Date.now();
+            rateLimitHit = false;
+            cooldownUntil = 0;
+            document.getElementById('results').innerHTML = '';
+            logResult('🔄 Test reset', 'warning');
+        }
+        
+        function logResult(message, type) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+    </script>
+</body>
+</html> 

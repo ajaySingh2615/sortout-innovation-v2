@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .response { margin-top: 20px; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .loading { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    </style>
+</head>
+<body>
+    <h1>Registration Form Test</h1>
+    <p>This test form will help verify that the form submission works correctly.</p>
+
+    <form id="testForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="professional">Professional Type:</label>
+            <select id="professional" name="professional" required>
+                <option value="">Select...</option>
+                <option value="Employee">Employee</option>
+                <option value="Artist">Artist</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="Test User" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" value="25" min="18" max="100" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" value="9876543210" required>
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select...</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" value="Mumbai" required>
+        </div>
+
+        <div class="form-group">
+            <label for="languages">Languages:</label>
+            <select id="languages" name="languages[]" multiple required>
+                <option value="English" selected>English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Bengali">Bengali</option>
+            </select>
+        </div>
+
+        <!-- Employee specific fields -->
+        <div id="employeeFields" style="display: none;">
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role" value="Software Engineer">
+            </div>
+            <div class="form-group">
+                <label for="experience">Experience (years):</label>
+                <input type="text" id="experience" name="experience" value="3">
+            </div>
+            <div class="form-group">
+                <label for="current_salary">Current Salary:</label>
+                <input type="text" id="current_salary" name="current_salary" value="50000">
+            </div>
+            <div class="form-group">
+                <label for="resume">Resume (PDF/DOC):</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+            </div>
+        </div>
+
+        <!-- Artist specific fields -->
+        <div id="artistFields" style="display: none;">
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" value="Social Media Influencer">
+            </div>
+            <div class="form-group">
+                <label for="followers">Followers:</label>
+                <input type="text" id="followers" name="followers" value="10K">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Profile Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+        </div>
+
+        <button type="submit">Submit Form</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('professional').addEventListener('change', function() {
+            const employeeFields = document.getElementById('employeeFields');
+            const artistFields = document.getElementById('artistFields');
+            
+            if (this.value === 'Employee') {
+                employeeFields.style.display = 'block';
+                artistFields.style.display = 'none';
+                document.getElementById('resume').required = true;
+                document.getElementById('role').required = true;
+                document.getElementById('category').required = false;
+            } else if (this.value === 'Artist') {
+                employeeFields.style.display = 'none';
+                artistFields.style.display = 'block';
+                document.getElementById('resume').required = false;
+                document.getElementById('role').required = false;
+                document.getElementById('category').required = true;
+            } else {
+                employeeFields.style.display = 'none';
+                artistFields.style.display = 'none';
+            }
+        });
+
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = '<div class="loading">Submitting form...</div>';
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('admin/add_client.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    responseDiv.innerHTML = `<div class="error">Invalid response format: ${text}</div>`;
+                    return;
+                }
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    responseDiv.innerHTML = `<div class="success">${result.message}</div>`;
+                } else {
+                    responseDiv.innerHTML = `<div class="error">Error: ${result.message}</div>`;
+                }
+                
+            } catch (error) {
+                responseDiv.innerHTML = `<div class="error">Network error: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html> 
