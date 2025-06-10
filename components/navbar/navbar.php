@@ -29,7 +29,7 @@ $createProfileClasses = $createProfileClasses ?? 'btn btn-danger rounded-pill px
     <div class="container-fluid px-3 px-lg-4">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center py-2" href="/">
-            <img src="logo.png" alt="Sortout Innovation" class="navbar-logo me-2">
+            <img src="/logo.png" alt="Sortout Innovation" class="navbar-logo me-2">
             <span class="brand-text d-none d-md-inline">Sortout Innovation</span>
         </a>
 
