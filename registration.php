@@ -2233,17 +2233,55 @@ document.addEventListener('DOMContentLoaded', function() {
                         </a>
                             </div>
                     
-                    <!-- Default Content -->
-                    <div class="p-4">
-                        <h3 class="client-name text-lg font-bold text-gray-800 mb-1">${client.name}</h3>
-                        <p class="client-category text-sm text-gray-600 mb-1"><i class="fas fa-map-marker-alt mr-1.5 text-red-500"></i>${client.city || 'Location not specified'}</p>
+                    <!-- Compact Modern Content -->
+                    <div class="p-3 bg-gradient-to-b from-white to-gray-50/20">
+                        <!-- Name & Status -->
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="client-name text-lg font-bold text-gray-900 truncate">${client.name}</h3>
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-map-marker-alt text-red-500 text-xs w-3"></i>
+                            <p class="text-sm text-gray-700 ml-2 truncate">${client.city || 'Location not specified'}</p>
+                        </div>
+
+                        <!-- Professional Info - Compact Rows -->
                         ${client.professional === 'Artist' ? 
-                            `<p class="client-category text-sm text-gray-600 mb-1"><i class="fas fa-tag mr-1.5 text-red-500"></i>${client.category || 'N/A'}</p>
-                             <p class="client-category text-xs text-gray-500"><i class="fas fa-users mr-1.5 text-red-500"></i>${client.followers || '0'} followers</p>` : 
-                            `<p class="client-category text-sm text-gray-600 mb-1"><i class="fas fa-briefcase mr-1.5 text-red-500"></i>${client.role || 'N/A'}</p>
-                             <p class="client-category text-xs text-gray-500"><i class="fas fa-clock mr-1.5 text-red-500"></i>${client.experience || '0'} years experience</p>
-                             </p>`
+                            `<div class="space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-tag text-purple-500 text-xs w-3"></i>
+                                        <span class="text-sm text-gray-700 ml-2 truncate">${client.category || 'N/A'}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-users text-blue-500 text-xs w-3"></i>
+                                        <span class="text-sm text-gray-700 ml-2">${client.followers || '0'}</span>
+                                    </div>
+                                    <span class="bg-blue-500 text-white px-2 py-0.5 rounded-full text-xs font-medium">Popular</span>
+                                </div>
+                            </div>` : 
+                            `<div class="space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-briefcase text-emerald-500 text-xs w-3"></i>
+                                        <span class="text-sm text-gray-700 ml-2 truncate">${client.role || 'N/A'}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-clock text-orange-500 text-xs w-3"></i>
+                                        <span class="text-sm text-gray-700 ml-2">${client.experience || '0'} years</span>
+                                    </div>
+                                    <span class="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-medium">Pro</span>
+                                </div>
+                            </div>`
                         }
+
+
                     </div>
                 </div>`;
             });
