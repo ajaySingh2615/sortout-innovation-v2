@@ -56,7 +56,43 @@ unset($_SESSION['message']); // Clear the session message after displaying
             .navbar .navbar-collapse { display: none !important; }
             .navbar .navbar-collapse.show { display: block !important; }
         }
-    </style>
+        
+        /* Image optimization styles */
+        .client-card img {
+            will-change: opacity;
+            transform: translateZ(0); /* Force hardware acceleration */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        
+        .client-card .bg-gray-100 {
+            will-change: display;
+        }
+        
+        /* Optimize transitions and animations */
+        .client-card {
+            will-change: box-shadow;
+            backface-visibility: hidden;
+            perspective: 1000px;
+            contain: layout style paint;
+        }
+        
+        /* Reduce repaints during loading */
+        .client-card .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        
+        /* Improve scroll performance */
+  .client-card:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease-out;
+        }
+</style>
 </head>
 <body class="bg-gray-100">
 
@@ -1272,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (successMessage && modalContent) {
             // Add closing animation to modal content
             modalContent.style.transform = 'scale(0.85)';
-            modalContent.style.opacity = '0';
+                modalContent.style.opacity = '0';
             modalContent.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
             
             // Add fade out to background
@@ -2151,13 +2187,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 html += `
                 <div class="client-card relative overflow-hidden rounded-xl shadow-md bg-white cursor-pointer hover:shadow-xl transition-all duration-300">
                     <!-- Image Container with 9:16 aspect ratio -->
-                    <div class="relative w-full pb-[177.78%] overflow-hidden">
+                    <div class="relative w-full pb-[177.78%] overflow-hidden bg-gray-200">
+                        <!-- Loading placeholder -->
+                        <div class="image-placeholder absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
+                            <i class="fas fa-user text-gray-400 text-4xl"></i>
+                        </div>
                         <img 
                             src="${client.image_url || '/images/default-profile.jpg'}" 
-                            alt="${client.name}" 
-                            class="absolute inset-0 h-full w-full object-cover"
+                            alt="${client.name} - ${client.professional}"
+                            class="client-image absolute inset-0 h-full w-full object-cover transition-opacity duration-300"
                             loading="lazy"
-                            onerror="this.src='/images/default-profile.jpg'"
+                            decoding="async"
+                            fetchpriority="low"
+                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            onerror="this.src='/images/default-profile.jpg'; this.onerror=null;"
+                            style="opacity: 0;"
                         >
                         
                         <!-- Category Badge -->
@@ -2208,6 +2252,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Initialize click handlers for the newly added client cards
             setupClientCards();
+            
+            // Optimize image loading
+            optimizeImageLoading();
+            
+            // Fallback: Show images that might have already loaded
+            setTimeout(() => {
+                document.querySelectorAll('.client-image').forEach(img => {
+                    if (img.complete && img.naturalHeight !== 0 && img.style.opacity === '0') {
+                        img.style.opacity = '1';
+                        const placeholder = img.parentElement.querySelector('.image-placeholder');
+                        if (placeholder) {
+                            placeholder.style.display = 'none';
+                        }
+                    }
+                });
+            }, 100);
         }
         
         // Function to render pagination
@@ -2262,7 +2322,88 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Ensure Employee filter is selected by default
         toggleProfessionalType('Employee');
-    });
+        
+        // Image optimization function
+        function optimizeImageLoading() {
+            const images = document.querySelectorAll('.client-image');
+            
+            images.forEach(img => {
+                // Handle image loading success
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                    const placeholder = this.parentElement.querySelector('.image-placeholder');
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                });
+                
+                // Handle image loading error with retry mechanism
+                img.addEventListener('error', function(e) {
+                    const retryCount = parseInt(this.getAttribute('data-retry') || '0');
+                    if (retryCount < 2) {
+                        this.setAttribute('data-retry', retryCount + 1);
+                        // Retry loading after a delay
+                        setTimeout(() => {
+                            this.src = this.src.split('?')[0] + '?retry=' + (retryCount + 1);
+                        }, 1000 * (retryCount + 1));
+        } else {
+                        // Final fallback to default image
+                        this.src = '/images/default-profile.jpg';
+                        this.style.opacity = '1';
+                        const placeholder = this.parentElement.querySelector('.image-placeholder');
+                        if (placeholder) {
+                            placeholder.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // If image is already loaded (cached), show it immediately
+                if (img.complete && img.naturalHeight !== 0) {
+                    img.style.opacity = '1';
+                    const placeholder = img.parentElement.querySelector('.image-placeholder');
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Create intersection observer for lazy loading optimization
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            
+                            // Add high priority to visible images
+                            img.setAttribute('fetchpriority', 'high');
+                            
+                            // Preload next images
+                            const nextImages = Array.from(images).slice(
+                                Array.from(images).indexOf(img) + 1, 
+                                Array.from(images).indexOf(img) + 4
+                            );
+                            
+                            nextImages.forEach(nextImg => {
+                                if (!nextImg.hasAttribute('data-preloaded')) {
+                                    nextImg.setAttribute('data-preloaded', 'true');
+                                    // Start loading next images with lower priority
+                                    const preloadImg = new Image();
+                                    preloadImg.src = nextImg.src;
+                                }
+                            });
+                            
+                            observer.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '50px 0px 200px 0px', // Start loading 50px before, preload 200px after
+                    threshold: 0.1
+                });
+                
+                images.forEach(img => imageObserver.observe(img));
+            }
+        }
+});
 </script>
 
 
@@ -2403,7 +2544,7 @@ function createClientCard(client) {
                 }
                 
                 
-                ${client.description ? `<p class="text-sm text-white/70 mb-4 text-center">${client.description}</p>` : ''}
+                
                 
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4iUw2dXlqh8goIVK7AgQg3vPHSjmPZNotk6-CKojShrulVg/viewform" 
                    onclick="window.open(this.href, '_blank'); return false;"

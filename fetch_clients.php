@@ -18,11 +18,27 @@ try {
     // Get query parameters
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $professional = isset($_GET['professional']) ? $_GET['professional'] : 'Artist';
-    $limit = 12;
+    $limit = 50; // Display 50 profiles per page
     $offset = ($page - 1) * $limit;
 
-    // Build the base query
-    $query = "SELECT * FROM clients WHERE professional = ? AND approval_status = 'approved' AND is_visible = 1";
+    // Build the base query - Only select fields used in cards and filters
+    $query = "SELECT 
+        id,
+        name, 
+        professional, 
+        image_url, 
+        city, 
+        gender, 
+        age, 
+        language,
+        category,
+        role,
+        experience,
+        current_salary,
+        followers,
+        resume_url,
+        created_at
+    FROM clients WHERE professional = ? AND approval_status = 'approved' AND is_visible = 1";
     $params = [$professional];
     $types = "s";
 
@@ -198,7 +214,22 @@ try {
     }
 
     // Get total count for pagination
-    $countQuery = str_replace("SELECT *", "SELECT COUNT(*) as total", $query);
+    $countQuery = str_replace("SELECT 
+        id,
+        name, 
+        professional, 
+        image_url, 
+        city, 
+        gender, 
+        age, 
+        language,
+        category,
+        role,
+        experience,
+        current_salary,
+        followers,
+        resume_url,
+        created_at", "SELECT COUNT(*) as total", $query);
     $countQuery = preg_replace("/LIMIT.*OFFSET.*/", "", $countQuery);
     
     $countStmt = $conn->prepare($countQuery);
