@@ -35,22 +35,47 @@ unset($_SESSION['message']); // Clear the session message after displaying
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Add these Google Fonts to the head section -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- External CSS File -->
+    <!-- Bootstrap 5 CSS for navbar (loaded first to prevent conflicts) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS File (loaded after Bootstrap) -->
     <link rel="stylesheet" href="styles/registration.css">
-
-
-
-
-
-
-
+    
+    <!-- Critical navbar visibility fix -->
+    <style>
+        /* EMERGENCY FIX: Force navbar visibility on registration page */
+        .navbar .navbar-nav { display: flex !important; }
+        .navbar .nav-item { display: block !important; }
+        .navbar .nav-link { display: block !important; color: #333 !important; }
+        .navbar .navbar-collapse { display: block !important; }
+        @media (min-width: 992px) {
+            .navbar .navbar-collapse { display: flex !important; }
+            .navbar .navbar-nav { flex-direction: row !important; }
+        }
+        @media (max-width: 991.98px) {
+            .navbar .navbar-collapse { display: none !important; }
+            .navbar .navbar-collapse.show { display: block !important; }
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
+    <?php 
+    // Set navbar parameters for registration page
+    $currentPage = 'talent';
+    $showCreateProfile = true;
+    $createProfileText = 'Create Profile';
+    $createProfileAction = 'showProfileModal()';
+    $createProfileId = 'createProfileBtn';
+    
+    // Include the enhanced common navbar
+    include 'components/navbar/navbar.php'; 
+    ?>
+
     <!-- ✅ Success Message Modal -->
 <div id="successMessage" 
-        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform scale-95 opacity-0 transition-all duration-300">
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]" style="display: none !important; transition: all 0.4s ease-out;">
+        <div id="successModalContent" class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform" style="transform: scale(0.95); opacity: 0; transition: all 0.4s ease-out;">
             <div class="text-center">
                 <!-- Success Icon -->
                 <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -94,84 +119,7 @@ unset($_SESSION['message']); // Clear the session message after displaying
         </div>
     </div>
 
-    <!-- ✅ Navbar -->
-    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50 font-navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-
-                <!-- 🔹 Left: Logo -->
-                <div class="flex-shrink-0">
-                    <a href="index.php" class="font-logo text-xl font-bold">
-                        <img src="logo.png" alt="Logo" class="h-10"> <!-- Change logo.png -->
-                    </a>
-                </div>
-
-                <!-- 🔹 Center: Navigation Links (Hidden on Mobile) -->
-                <div class="hidden md:flex space-x-6">
-                    <a href="index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Home</a>
-                    <a href="/pages/about-page/about.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">About</a>
-                    <div class="dropdown">
-                        <a href="#" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Career <i class="fas fa-chevron-down ml-1"></i></a>
-                        <div class="dropdown-menu">
-                            <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
-                            <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
-                        </div>
-                    </div>
-                    <a href="/modal_agency.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Find Talent</a>
-                    <a href="/pages/our-services-page/service.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Services</a>
-                    <a href="/pages/contact-page/contact-page.html" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Contact</a>
-                    <a href="/blog/index.php" class="text-gray-700 hover:text-red-500 transition duration-300 font-medium tracking-wide nav-link">Blog</a>
-                </div>
-
-                <!-- 🔹 Right: Add Client Button and Mobile Menu Toggle -->
-                <div class="flex items-center">
-                    <!-- ✅ Create Profile Button (Hidden on Small Mobile) -->
-                    <button id="createProfileBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 hidden sm:block font-semibold tracking-wide">
-    Create Profile
-</button>
-
-                    <!-- ✅ Hamburger Menu Toggle for Mobile -->
-                    <button id="mobileMenuToggle" class="md:hidden ml-4 focus:outline-none">
-                        <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                        <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ✅ Mobile Menu (Hidden by Default) -->
-        <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200">
-            <div class="px-4 py-3 space-y-3">
-                <a href="index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Home</a>
-                <a href="/pages/about-page/about.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">About</a>
-                <div class="dropdown">
-                    <a href="#" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Career <i class="fas fa-chevron-down ml-1"></i></a>
-                    <div class="dropdown-menu">
-                        <a href="/employee-job/index.php" class="dropdown-item">Employee Jobs</a>
-                        <a href="/admin/artist-v2/public/index.php" class="dropdown-item">Artist Jobs</a>
-                    </div>
-                </div>
-                <a href="/modal_agency.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Find Talent</a>
-                <a href="/pages/our-services-page/service.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Services</a>
-                <a href="/pages/contact-page/contact-page.html" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Contact</a>
-                <a href="/blog/index.php" class="block text-gray-700 hover:text-red-500 transition duration-300 py-2 font-medium tracking-wide">Blog</a>
-                
-                <!-- Create Profile Button for Mobile -->
-                <div class="pt-4 mt-2 border-t border-gray-200">
-                    <button id="mobileCreateProfileBtn" class="w-full bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition duration-300 font-semibold tracking-wide text-center">
-                        Create Profile
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Add space to prevent content from being hidden under the fixed navbar -->
-    <div class="h-16"></div>
+    <!-- Navbar spacing handled by Bootstrap navbar component -->
 
     <!-- Hero Banner Section -->
     <div class="relative w-full overflow-hidden banner-container" id="heroBanner">
@@ -363,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
    <!-- ✅ Create Profile Selection Modal -->
-<div id="profileSelectionModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 flex justify-center items-center hidden z-50">
+<div id="profileSelectionModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 flex justify-center items-center hidden z-50" style="display: none !important;">
     <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm md:max-w-md lg:max-w-lg transform scale-95 transition duration-300">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Choose Profile Type</h2>
 
@@ -381,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
  <!-- ✅ Profile Submission Form Modal -->
-<div id="addClientModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+<div id="addClientModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center p-4 hidden z-50" style="display: none !important;">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-100">
         <button id="closeClientFormBtn" class="absolute top-6 right-6 text-gray-400 hover:text-red-500 text-3xl font-bold transition-colors duration-200 z-10">&times;</button>
             
@@ -982,7 +930,6 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Get elements
     const createProfileBtn = document.getElementById('createProfileBtn');
-    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
     const profileSelectionModal = document.getElementById('profileSelectionModal');
     const addClientModal = document.getElementById('addClientModal');
     const artistButton = document.getElementById('artistButton');
@@ -995,18 +942,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function showProfileModal() {
         console.log('Opening profile selection modal');
         if (profileSelectionModal) {
-            // Close mobile menu if open
-            const mobileMenu = document.getElementById('mobileMenu');
-            const hamburgerIcon = document.getElementById('hamburgerIcon');
-            const closeIcon = document.getElementById('closeIcon');
-            
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-                document.body.style.overflow = ''; // Reset body overflow
-            }
-            
             profileSelectionModal.style.display = 'flex';
             document.body.classList.add('modal-open');
             
@@ -1020,11 +955,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 10);
         }
     }
+    
+    // Make showProfileModal globally accessible for navbar button
+    window.showProfileModal = showProfileModal;
 
     // Hide profile selection modal
     function hideProfileModal() {
-        profileSelectionModal.classList.remove('show');
-        if (!addClientModal.classList.contains('show')) {
+        if (profileSelectionModal) {
+            profileSelectionModal.style.display = 'none';
+        }
+        if (!addClientModal || addClientModal.style.display === 'none') {
             document.body.classList.remove('modal-open');
         }
     }
@@ -1032,7 +972,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show client form modal
     function showClientForm(type) {
         hideProfileModal();
-        addClientModal.classList.add('show');
+        addClientModal.style.display = 'flex';
         document.body.classList.add('modal-open');
         
         // Set professional type
@@ -1082,7 +1022,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hide client form modal
     function hideClientForm() {
-        addClientModal.classList.remove('show');
+        addClientModal.style.display = 'none';
         document.body.classList.remove('modal-open');
     }
 
@@ -1091,8 +1031,10 @@ document.addEventListener('DOMContentLoaded', function() {
         createProfileBtn.addEventListener('click', showProfileModal);
     }
 
-    if (mobileCreateProfileBtn) {
-        mobileCreateProfileBtn.addEventListener('click', showProfileModal);
+    // Also handle mobile Create Profile button
+    const mobileCreateProfileBtnMobile = document.getElementById('createProfileBtnMobile');
+    if (mobileCreateProfileBtnMobile) {
+        mobileCreateProfileBtnMobile.addEventListener('click', showProfileModal);
     }
 
     if (artistButton) {
@@ -1204,17 +1146,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show success message
                     const successMessage = document.getElementById('successMessage');
                     if (successMessage) {
+                        console.log('Showing success message modal');
                         successMessage.style.display = 'flex';
+                        successMessage.style.opacity = '0';
                         document.body.classList.add('modal-open');
+                        
+                        // Force reflow to ensure display: flex is applied
+                        successMessage.offsetHeight;
                         
                         // Animate the modal in
                         setTimeout(() => {
-                            const modalContent = successMessage.querySelector('.bg-white');
-                            if (modalContent) {
+                            const modalContent = document.getElementById('successModalContent');
+                            console.log('Modal content found:', modalContent);
+                            if (modalContent && successMessage) {
+                                // Add smooth opening animation
+                                modalContent.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                                successMessage.style.transition = 'all 0.4s ease-out';
+                                
                                 modalContent.style.transform = 'scale(1)';
                                 modalContent.style.opacity = '1';
+                                successMessage.style.opacity = '1';
+                                console.log('Modal content animated');
+                            } else {
+                                console.log('Modal content not found');
                             }
-                        }, 10);
+                        }, 50);
+                    } else {
+                        console.log('Success message modal not found');
                     }
 
                     // Reset the form
@@ -1310,17 +1268,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to close success message
     window.closeSuccessMessage = function() {
         const successMessage = document.getElementById('successMessage');
-        if (successMessage) {
-            const modalContent = successMessage.querySelector('.bg-white');
-            if (modalContent) {
-                modalContent.style.transform = 'scale(0.95)';
-                modalContent.style.opacity = '0';
-            }
+        const modalContent = document.getElementById('successModalContent');
+        if (successMessage && modalContent) {
+            // Add closing animation to modal content
+            modalContent.style.transform = 'scale(0.85)';
+            modalContent.style.opacity = '0';
+            modalContent.style.transition = 'all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)';
+            
+            // Add fade out to background
+            successMessage.style.transition = 'all 0.4s ease-out';
+            successMessage.style.opacity = '0';
             
             setTimeout(() => {
                 successMessage.style.display = 'none';
+                successMessage.style.opacity = ''; // Reset opacity
+                modalContent.style.transition = ''; // Reset transition
                 document.body.classList.remove('modal-open');
-            }, 300);
+                console.log('Success modal closed smoothly');
+            }, 400);
         }
     }
     });
@@ -2025,43 +1990,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </footer>
 
-<script>
-    // Mobile Menu Toggle Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const hamburgerIcon = document.getElementById('hamburgerIcon');
-        const closeIcon = document.getElementById('closeIcon');
-        const createProfileBtn = document.getElementById('createProfileBtn');
-        const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
-        
-        // Toggle mobile menu
-        mobileMenuToggle.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-            hamburgerIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-        });
-        
-        // Ensure both profile buttons trigger the same action
-        mobileCreateProfileBtn.addEventListener('click', function() {
-            // Trigger the same action as the main create profile button
-            createProfileBtn.click();
-            // Close the mobile menu after clicking
-            mobileMenu.classList.add('hidden');
-            hamburgerIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
-        });
-        
-        // Close mobile menu when window is resized to desktop size
-        window.addEventListener('resize', function() {
-            if (window.innerWidth >= 768) { // md breakpoint
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            }
-        });
-    });
-</script>
+
 
 <script>
     // Client fetching and filter functionality
@@ -2344,376 +2273,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all necessary elements
-    const createProfileBtn = document.getElementById('createProfileBtn');
-    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
-    const profileSelectionModal = document.getElementById('profileSelectionModal');
-    const addClientModal = document.getElementById('addClientModal');
-    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
-    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
-    const cancelClientFormBtn = document.getElementById('cancelClientFormBtn');
 
-    // Add click event listeners to both Create Profile buttons
-    if (createProfileBtn) {
-        createProfileBtn.addEventListener('click', showSelectionModal);
-    }
-    if (mobileCreateProfileBtn) {
-        mobileCreateProfileBtn.addEventListener('click', showSelectionModal);
-    }
 
-    // Function to show selection modal
-    function showSelectionModal() {
-        if (profileSelectionModal) {
-            profileSelectionModal.classList.remove('hidden');
-            profileSelectionModal.classList.add('flex');
-            document.body.classList.add('modal-open');
-        }
-    }
 
-    // Function to close selection modal
-    window.closeSelectionModal = function() {
-        if (profileSelectionModal) {
-            profileSelectionModal.classList.add('hidden');
-            profileSelectionModal.classList.remove('flex');
-            document.body.classList.remove('modal-open');
-        }
-    }
 
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === profileSelectionModal) {
-            closeSelectionModal();
-        }
-        if (event.target === addClientModal) {
-            closeAddClientForm();
-        }
-    });
 
-    // Close modals with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeSelectionModal();
-            closeAddClientForm();
-        }
-    });
-});
-</script>
-
-<script>
-// Complete rewrite of modal functionality with fixes
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded - Modal fix v2');
-    
-    // Get elements
-    const createProfileBtn = document.getElementById('createProfileBtn');
-    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
-    const profileSelectionModal = document.getElementById('profileSelectionModal');
-    const addClientModal = document.getElementById('addClientModal');
-    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
-    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
-    const cancelClientFormBtn = document.getElementById('cancelClientFormBtn');
-    const artistBtn = document.querySelector('button[data-type="Artist"]');
-    const employeeBtn = document.querySelector('button[data-type="Employee"]');
-    
-    // Log elements for debugging
-    console.log('Create Profile button:', createProfileBtn);
-    console.log('Profile Selection Modal:', profileSelectionModal);
-    console.log('Artist button:', artistBtn);
-    console.log('Employee button:', employeeBtn);
-    
-    // Show profile selection modal
-    function showProfileModal() {
-        if (profileSelectionModal) {
-            profileSelectionModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            console.log('Profile selection modal opened');
-        }
-    }
-    
-    // Close profile selection modal
-    function closeProfileModal() {
-        if (profileSelectionModal) {
-            profileSelectionModal.style.display = 'none';
-            document.body.style.overflow = '';
-            console.log('Profile selection modal closed');
-        }
-    }
-    
-    // Show client form modal
-    function showClientForm(type) {
-        console.log('Opening client form for:', type);
-        closeProfileModal();
-        
-        if (addClientModal) {
-            addClientModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            console.log('Client form opened for:', type);
-            
-            // Set professional type
-            const professionalField = document.getElementById('professionalField');
-            if (professionalField) {
-                professionalField.value = type;
-                console.log('Set professional field to:', type);
-        } else {
-                console.log('Professional field not found');
-            }
-            
-            // Toggle fields visibility
-            const artistFields = document.getElementById('artistFields');
-            const employeeFields = document.getElementById('employeeFields');
-            
-            if (artistFields && employeeFields) {
-                if (type === 'Employee') {
-                    artistFields.style.display = 'none';
-                    employeeFields.style.display = 'block';
-                } else {
-                    artistFields.style.display = 'block';
-                    employeeFields.style.display = 'none';
-                }
-                console.log('Toggled fields visibility for:', type);
-            } else {
-                console.log('Artist or Employee fields not found');
-            }
-        } else {
-            console.log('Client form modal not found');
-        }
-    }
-    
-    // Close client form modal
-    function closeClientForm() {
-        if (addClientModal) {
-            addClientModal.style.display = 'none';
-            document.body.style.overflow = '';
-            console.log('Client form closed');
-        }
-    }
-    
-    // Add event listeners
-    if (createProfileBtn) {
-        createProfileBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showProfileModal();
-        });
-        console.log('Added event listener to Create Profile button');
-    }
-    
-    if (mobileCreateProfileBtn) {
-        mobileCreateProfileBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showProfileModal();
-        });
-        console.log('Added event listener to Mobile Create Profile button');
-    }
-    
-    if (closeSelectionBtn) {
-        closeSelectionBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeProfileModal();
-        });
-        console.log('Added event listener to Close Selection button');
-    }
-    
-    if (closeClientFormBtn) {
-        closeClientFormBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeClientForm();
-        });
-        console.log('Added event listener to Close Client Form button');
-    }
-    
-    if (cancelClientFormBtn) {
-        cancelClientFormBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeClientForm();
-        });
-        console.log('Added event listener to Cancel Client Form button');
-    }
-    
-    // Direct event listeners for Artist/Employee buttons
-    if (artistBtn) {
-        artistBtn.onclick = function(e) {
-            e.preventDefault();
-            console.log('Artist button clicked');
-            showClientForm('Artist');
-            return false;
-        };
-        console.log('Added direct onclick to Artist button');
-    }
-    
-    if (employeeBtn) {
-        employeeBtn.onclick = function(e) {
-            e.preventDefault();
-            console.log('Employee button clicked');
-            showClientForm('Employee');
-            return false;
-        };
-        console.log('Added direct onclick to Employee button');
-    }
-    
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === profileSelectionModal) {
-            closeProfileModal();
-        }
-        
-        if (event.target === addClientModal) {
-            closeClientForm();
-        }
-    });
-    
-    // Close modals with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeProfileModal();
-            closeClientForm();
-        }
-    });
-    
-    // Ensure body scrolling is restored if modals are closed
-    window.addEventListener('mouseup', function() {
-        if (profileSelectionModal && profileSelectionModal.style.display === 'none' &&
-            addClientModal && addClientModal.style.display === 'none') {
-            document.body.style.overflow = '';
-        }
-    });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded - Initializing modals');
-    
-    // Get modal elements
-    const profileSelectionModal = document.getElementById('profileSelectionModal');
-    const addClientModal = document.getElementById('addClientModal');
-    const artistButton = document.getElementById('artistButton');
-    const employeeButton = document.getElementById('employeeButton');
-    const createProfileBtn = document.getElementById('createProfileBtn');
-    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
-    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
-    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
-    const cancelClientFormBtn = document.getElementById('cancelClientFormBtn');
-
-    // Initially hide both modals
-    if (profileSelectionModal) profileSelectionModal.style.display = 'none';
-    if (addClientModal) addClientModal.style.display = 'none';
-
-    // Show profile selection modal
-    function showProfileModal() {
-        console.log('Opening profile selection modal');
-        if (profileSelectionModal) {
-            profileSelectionModal.style.display = 'flex';
-            document.body.classList.add('modal-open');
-            
-            // Add animation to the modal
-            setTimeout(function() {
-                const modalContent = profileSelectionModal.querySelector('.transform');
-                if (modalContent) {
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }
-            }, 10);
-        }
-    }
-
-    // Hide profile selection modal
-    function hideProfileModal() {
-        console.log('Closing profile selection modal');
-        if (profileSelectionModal) {
-            profileSelectionModal.style.display = 'none';
-            if (!addClientModal || addClientModal.style.display === 'none') {
-                document.body.classList.remove('modal-open');
-            }
-        }
-    }
-
-    // Show client form modal
-    function showClientForm(type) {
-        console.log('Opening client form for:', type);
-        hideProfileModal();
-        
-        if (addClientModal) {
-            addClientModal.style.display = 'flex';
-            document.body.classList.add('modal-open');
-            
-            // Set professional type
-            const professionalField = document.getElementById('professionalField');
-            if (professionalField) {
-                professionalField.value = type;
-                console.log('Set professional type to:', type);
-            }
-            
-            // Toggle fields visibility
-            const artistFields = document.getElementById('artistFields');
-            const employeeFields = document.getElementById('employeeFields');
-            
-            if (artistFields && employeeFields) {
-                artistFields.style.display = type === 'Artist' ? 'block' : 'none';
-                employeeFields.style.display = type === 'Employee' ? 'block' : 'none';
-                console.log('Toggled fields for:', type);
-            }
-        }
-    }
-
-    // Hide client form modal
-    function hideClientForm() {
-        console.log('Closing client form');
-        if (addClientModal) {
-            addClientModal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }
-    }
-
-    // Event Listeners
-    if (createProfileBtn) {
-        createProfileBtn.addEventListener('click', showProfileModal);
-    }
-
-    if (mobileCreateProfileBtn) {
-        mobileCreateProfileBtn.addEventListener('click', showProfileModal);
-    }
-
-    if (artistButton) {
-        artistButton.addEventListener('click', () => showClientForm('Artist'));
-    }
-
-    if (employeeButton) {
-        employeeButton.addEventListener('click', () => showClientForm('Employee'));
-    }
-
-    if (closeSelectionBtn) {
-        closeSelectionBtn.addEventListener('click', hideProfileModal);
-    }
-
-    if (closeClientFormBtn) {
-        closeClientFormBtn.addEventListener('click', hideClientForm);
-    }
-
-    if (cancelClientFormBtn) {
-        cancelClientFormBtn.addEventListener('click', hideClientForm);
-    }
-
-    // Close on outside click
-    window.addEventListener('click', function(event) {
-        if (event.target === profileSelectionModal) {
-            hideProfileModal();
-        }
-        if (event.target === addClientModal) {
-            hideClientForm();
-        }
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            hideProfileModal();
-            hideClientForm();
-        }
-    });
-});
-</script>
 
 <!-- Add this script to handle dynamic client cards -->
 <script>
@@ -2933,234 +2497,9 @@ function setupClientCards() {
 window.initializeClientCards = setupClientCards;
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const dropdowns = document.querySelectorAll('.dropdown');
 
-    // Toggle mobile menu
-    mobileMenuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-        hamburgerIcon.classList.toggle('hidden');
-        closeIcon.classList.toggle('hidden');
-    });
 
-    // Handle dropdowns on mobile
-    dropdowns.forEach(dropdown => {
-        const link = dropdown.querySelector('a');
-        link.addEventListener('click', (e) => {
-            if (window.innerWidth <= 991) {
-                e.preventDefault();
-                dropdown.classList.toggle('active');
-            }
-        });
-    });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
-            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-        }
-    });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu functionality
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburgerIcon = document.getElementById('hamburgerIcon');
-    const closeIcon = document.getElementById('closeIcon');
-    const dropdowns = document.querySelectorAll('.dropdown');
-
-    // Toggle mobile menu
-    if (mobileMenuToggle && mobileMenu) {
-        mobileMenuToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-            hamburgerIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-        });
-    }
-
-    // Handle dropdowns on mobile
-    dropdowns.forEach(dropdown => {
-        const link = dropdown.querySelector('a');
-        if (link) {
-            link.addEventListener('click', (e) => {
-                if (window.innerWidth <= 991) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropdown.classList.toggle('active');
-                }
-            });
-        }
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
-            hamburgerIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
-            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
-        }
-    });
-
-    // Prevent mobile menu from closing when clicking inside it
-    if (mobileMenu) {
-        mobileMenu.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get modal elements
-    const profileSelectionModal = document.getElementById('profileSelectionModal');
-    const addClientModal = document.getElementById('addClientModal');
-    const artistButton = document.getElementById('artistButton');
-    const employeeButton = document.getElementById('employeeButton');
-    const createProfileBtn = document.getElementById('createProfileBtn');
-    const mobileCreateProfileBtn = document.getElementById('mobileCreateProfileBtn');
-    const closeSelectionBtn = document.getElementById('closeSelectionBtn');
-    const closeClientFormBtn = document.getElementById('closeClientFormBtn');
-    
-    // Function to show profile selection modal
-    function showProfileModal() {
-        console.log('Opening profile selection modal');
-        if (profileSelectionModal) {
-            profileSelectionModal.style.display = 'flex';
-            document.body.classList.add('modal-open');
-            
-            // Add animation to the modal
-            setTimeout(function() {
-                const modalContent = profileSelectionModal.querySelector('.transform');
-                if (modalContent) {
-                    modalContent.style.transform = 'scale(1)';
-                    modalContent.style.opacity = '1';
-                }
-            }, 10);
-        }
-    }
-    
-    // Function to close profile selection modal
-    function closeProfileModal() {
-        console.log('Closing profile selection modal');
-        if (profileSelectionModal) {
-            const modalContent = profileSelectionModal.querySelector('.transform');
-            if (modalContent) {
-                modalContent.style.transform = 'scale(0.95)';
-                modalContent.style.opacity = '0';
-            }
-            
-            setTimeout(function() {
-                profileSelectionModal.style.display = 'none';
-                if (!addClientModal || addClientModal.style.display === 'none') {
-                    document.body.classList.remove('modal-open');
-                }
-            }, 300);
-        }
-    }
-    
-    // Function to show client form modal
-    function showClientForm(type) {
-        console.log('Opening client form for:', type);
-        closeProfileModal();
-        
-        if (addClientModal) {
-            addClientModal.style.display = 'flex';
-            document.body.classList.add('modal-open');
-            
-            // Set professional type
-            const professionalField = document.getElementById('professionalField');
-            if (professionalField) {
-                professionalField.value = type;
-                console.log('Set professional type to:', type);
-            }
-            
-            // Toggle fields visibility if artist/employee-specific fields exist
-            const artistFields = document.getElementById('artistFields');
-            const employeeFields = document.getElementById('employeeFields');
-            
-            if (artistFields && employeeFields) {
-                artistFields.style.display = type === 'Artist' ? 'block' : 'none';
-                employeeFields.style.display = type === 'Employee' ? 'block' : 'none';
-                console.log('Toggled fields for:', type);
-            }
-        }
-    }
-    
-    // Function to close client form modal
-    function closeClientForm() {
-        console.log('Closing client form');
-        if (addClientModal) {
-            addClientModal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }
-    }
-
-    // Check if URL has query parameter to open modal directly
-    const urlParams = new URLSearchParams(window.location.search);
-    const openModal = urlParams.get('openModal');
-    
-    if (openModal === 'true') {
-        // Open the selection modal automatically when query parameter is present
-        setTimeout(function() {
-            showProfileModal();
-        }, 500);
-    }
-    
-    // Event Listeners
-    if (createProfileBtn) {
-        createProfileBtn.addEventListener('click', showProfileModal);
-    }
-    
-    if (artistButton) {
-        artistButton.addEventListener('click', function() {
-            showClientForm('Artist');
-        });
-    }
-    
-    if (employeeButton) {
-        employeeButton.addEventListener('click', function() {
-            showClientForm('Employee');
-        });
-    }
-    
-    if (closeSelectionBtn) {
-        closeSelectionBtn.addEventListener('click', closeProfileModal);
-    }
-    
-    if (closeClientFormBtn) {
-        closeClientFormBtn.addEventListener('click', closeClientForm);
-    }
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === profileSelectionModal) {
-            closeProfileModal();
-        }
-        
-        if (event.target === addClientModal) {
-            closeClientForm();
-        }
-    });
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeProfileModal();
-            closeClientForm();
-        }
-    });
-});
-</script>
 
 <script>
 // Add this script at the end of the file, before the closing </body> tag
@@ -3630,11 +2969,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script>
-// Add this script at the end of the file, before the closing </body> tag
-</script>
-
-
+<!-- Bootstrap 5 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

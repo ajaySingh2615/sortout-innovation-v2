@@ -2,6 +2,211 @@
    REGISTRATION PAGE STYLES
    =============================================== */
 
+/* Bootstrap-Tailwind Compatibility Fixes */
+.navbar * {
+    box-sizing: border-box;
+}
+
+/* Ensure body doesn't have conflicting padding */
+body.bg-gray-100 {
+    padding-top: 75px !important;
+}
+
+/* Fix potential Bootstrap-Tailwind conflicts */
+.container-fluid {
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* CRITICAL: Force navbar elements to display - Tailwind reset override */
+.navbar .navbar-nav {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar .nav-item {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar .nav-link {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #333 !important;
+}
+
+.navbar .navbar-collapse {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-basis: auto !important;
+    flex-grow: 1 !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+
+.navbar .navbar-collapse.show {
+    display: flex !important;
+}
+
+/* Fix navbar layout and alignment */
+.navbar .navbar-nav.ms-auto {
+    margin-left: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+}
+
+/* Ensure navbar brand is visible */
+.navbar .navbar-brand {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Force dropdown to work */
+.navbar .dropdown-menu {
+    display: block !important;
+    position: absolute !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.navbar .dropdown:hover .dropdown-menu,
+.navbar .dropdown.show .dropdown-menu {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Bootstrap responsive classes override */
+@media (min-width: 992px) {
+    .navbar .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto !important;
+    }
+    
+    .navbar .navbar-nav {
+        flex-direction: row !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar .navbar-collapse {
+        display: none !important;
+    }
+    
+    .navbar .navbar-collapse.show {
+        display: block !important;
+        justify-content: flex-start !important;
+    }
+    
+    .navbar .navbar-nav.ms-auto {
+        margin-left: 0 !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+}
+
+/* Additional Tailwind reset overrides */
+.navbar button {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.navbar .btn-danger {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+
+/* Ensure all navbar text is visible */
+.navbar * {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Clean Bootstrap responsive classes handling (exclude Create Profile buttons) */
+.navbar .d-none:not(li):not([id*="createProfile"]) {
+    display: none !important;
+}
+
+/* Ensure proper spacing */
+.navbar .me-1,
+.navbar .me-2,
+.navbar .ms-2,
+.navbar .ms-auto {
+    margin: 0.25rem !important;
+}
+
+/* Create Profile Button Responsive Fix - TARGET SPECIFIC BUTTONS */
+/* Default: Hide mobile button, show desktop button */
+.navbar li.nav-item.d-lg-none {
+    display: none !important;
+}
+
+.navbar li.nav-item.d-none.d-lg-block {
+    display: block !important;
+}
+
+/* Mobile screens: Hide desktop button, show mobile button */
+@media (max-width: 991.98px) {
+    .navbar li.nav-item.d-none.d-lg-block {
+        display: none !important;
+    }
+    
+    .navbar li.nav-item.d-lg-none {
+        display: block !important;
+    }
+}
+
+/* Desktop screens: Show desktop button, hide mobile button */
+@media (min-width: 992px) {
+    .navbar li.nav-item.d-none.d-lg-block {
+        display: block !important;
+    }
+    
+    .navbar li.nav-item.d-lg-none {
+        display: none !important;
+    }
+}
+
+/* ULTRA SPECIFIC: Target buttons by ID */
+#createProfileBtn {
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+#createProfileBtnMobile {
+    display: none !important;
+}
+
+@media (max-width: 991.98px) {
+    #createProfileBtn {
+        display: none !important;
+    }
+    
+    #createProfileBtnMobile {
+        display: inline-block !important;
+        visibility: visible !important;
+    }
+}
+
+@media (min-width: 992px) {
+    #createProfileBtn {
+        display: inline-block !important;
+        visibility: visible !important;
+    }
+    
+    #createProfileBtnMobile {
+        display: none !important;
+    }
+}
+
 /* ✅ Ensure modals are hidden on page load */
 #profileSelectionModal,
 #addClientModal {
