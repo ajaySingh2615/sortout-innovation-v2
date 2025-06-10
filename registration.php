@@ -2121,14 +2121,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    // Debug: Log client data to check if city field exists
-                    console.log('Client data:', data.clients);
-                    if (data.clients.length > 0) {
-                        console.log('First client:', data.clients[0]);
-                        console.log('City field exists:', 'city' in data.clients[0]);
-                        console.log('City value:', data.clients[0].city);
-                    }
-                    
                     // Render clients
                     renderClients(data.clients);
                     
