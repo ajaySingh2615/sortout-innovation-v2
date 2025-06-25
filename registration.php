@@ -1335,8 +1335,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ✅ Clients Section -->
 <section class="py-16 bg-gradient-to-b from-gray-50 to-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-4xl font-bold text-center mb-2 text-gray-900 font-[Montserrat]">Our Clients</h2>
-        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Discover our talented pool of artists and professionals</p>
+        <h2 class="text-4xl font-bold text-center mb-2 text-gray-900 font-[Montserrat]">Meet Our Talents</h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Discover the passionate minds driving our innovation and success. Each talent brings unique skills, creativity, and dedication to every project.</p>
         
         <!-- Professional Type Toggle -->
         <div class="clients-section bg-gray-50 py-12">
@@ -1361,7 +1361,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Filters Container -->
         <div class="filters-container bg-white rounded-2xl shadow-lg p-6 mb-8">
             <!-- Artist Filters -->
-            <div id="artistFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div id="artistFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 lg:gap-6">
                 <div class="filter-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                     <select id="filterCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
@@ -1477,7 +1477,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
             <!-- Employee Filters -->
-            <div id="employeeFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" style="display: none;">
+            <div id="employeeFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 lg:gap-6" style="display: none;">
                 <div class="filter-group">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
                     <select id="filterRole" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">

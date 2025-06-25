@@ -270,6 +270,17 @@ unset($_SESSION['message']); // Clear the session message after displaying
              .compression-status strong, .compression-progress strong, .compression-error strong {
                  font-size: 0.75rem !important;
              }
+             
+             /* Mobile camera status styles */
+             .mobile-capture-status {
+                 font-size: 0.75rem !important;
+                 padding: 0.5rem !important;
+                 border-radius: 0.5rem !important;
+             }
+             
+             .mobile-capture-status .text-xs {
+                 font-size: 0.625rem !important;
+             }
          }
     </style>
 </head>
@@ -605,9 +616,9 @@ unset($_SESSION['message']); // Clear the session message after displaying
                                                       file:bg-gradient-to-r file:from-red-500 file:to-red-600 file:text-white 
                                                       hover:file:from-red-600 hover:file:to-red-700 file:transition-all file:duration-200">
                                     </div>
-                                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg">
+                                    <p class="mt-2 text-sm text-gray-500 bg-white p-2 rounded-lg" id="imageInstructions">
                                         <i class="fas fa-info-circle text-red-500 mr-1"></i>
-                                        Please upload a clear profile picture (9:16 aspect ratio recommended)
+                                        <span id="imageInstructionText">Please upload a clear profile picture (9:16 aspect ratio recommended)</span>
                                     </p>
                                 </div>
                             </div>
@@ -1011,12 +1022,94 @@ unset($_SESSION['message']); // Clear the session message after displaying
             }
         }
         
-        // Initialize image compression for employee image input
+        // Mobile device detection
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   (window.innerWidth <= 768 && 'ontouchstart' in window);
+        }
+        
+        // Initialize image compression and mobile restrictions for employee image input
         const employeeImageInput = document.getElementById('image');
+        const imageInstructions = document.getElementById('imageInstructions');
+        const imageInstructionText = document.getElementById('imageInstructionText');
+        
         if (employeeImageInput) {
+            // Apply mobile-only camera restriction for employees
+            if (isMobileDevice()) {
+                // Force camera capture on mobile devices
+                employeeImageInput.setAttribute('capture', 'camera');
+                employeeImageInput.setAttribute('accept', 'image/*');
+                
+                // Update instruction text for mobile
+                if (imageInstructionText) {
+                    imageInstructionText.innerHTML = `
+                        <strong>Mobile Camera Only:</strong> Please take a new photo using your camera. 
+                        Gallery access is restricted for employee registration.
+                    `;
+                }
+                
+                // Add mobile-specific styling to instructions
+                if (imageInstructions) {
+                    imageInstructions.classList.remove('text-gray-500');
+                    imageInstructions.classList.add('text-blue-600', 'border-blue-200', 'bg-blue-50');
+                    
+                    const icon = imageInstructions.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('text-red-500');
+                        icon.classList.add('text-blue-500');
+                    }
+                }
+                
+                // Additional mobile camera enforcement
+                employeeImageInput.addEventListener('click', function(e) {
+                    // On mobile, this will directly open camera
+                    console.log('Mobile device: Opening camera for employee registration');
+                });
+                
+            } else {
+                // Desktop/laptop - allow gallery selection
+                if (imageInstructionText) {
+                    imageInstructionText.textContent = 'Please upload a clear profile picture from your device (9:16 aspect ratio recommended)';
+                }
+            }
+            
+            // Image compression handler
             employeeImageInput.addEventListener('change', async function(e) {
                 const file = e.target.files[0];
                 if (file && file.type.startsWith('image/')) {
+                    // Additional mobile validation
+                    if (isMobileDevice()) {
+                        console.log('Mobile employee image captured:', file.name, 'Size:', formatFileSize(file.size));
+                        
+                        // Show mobile-specific feedback
+                        const mobileStatus = document.createElement('div');
+                        mobileStatus.className = 'mobile-capture-status mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-sm';
+                        mobileStatus.innerHTML = `
+                            <div class="flex items-center text-blue-800">
+                                <i class="fas fa-camera mr-2"></i>
+                                <span class="font-semibold">Photo captured successfully!</span>
+                            </div>
+                            <div class="mt-1 text-blue-700 text-xs">
+                                Processing image for upload...
+                            </div>
+                        `;
+                        
+                        // Remove any existing mobile status
+                        const existingMobileStatus = this.parentElement.querySelector('.mobile-capture-status');
+                        if (existingMobileStatus) {
+                            existingMobileStatus.remove();
+                        }
+                        
+                        this.parentElement.appendChild(mobileStatus);
+                        
+                        // Remove mobile status after compression
+                        setTimeout(() => {
+                            if (mobileStatus.parentElement) {
+                                mobileStatus.remove();
+                            }
+                        }, 3000);
+                    }
+                    
                     const processedFile = await handleImageUpload(this, file);
                     
                     // Replace file in input with compressed version
