@@ -752,79 +752,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="form-group">
-                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <div class="form-group col-span-full">
+                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-3">
                                 <i class="fas fa-user-tie text-gray-400 mr-1"></i>
                                 Role *
                             </label>
-                            <select id="role" name="role" 
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm">
-                        <option value="">Select Role</option>
-                        <option value="General Manager (GM)">General Manager (GM)</option>
-                        <option value="Business Development Manager (BDM)">Business Development Manager (BDM)</option>
-                        <option value="Project Manager">Project Manager</option>
-                        <option value="Human Resources Manager (HR Manager)">Human Resources Manager (HR Manager)</option>
-                        <option value="Talent Acquisition Manager">Talent Acquisition Manager</option>
-                        <option value="Recruitment Specialist">Recruitment Specialist</option>
-                        <option value="Sales Manager">Sales Manager</option>
-                        <option value="Marketing Manager">Marketing Manager</option>
-                        <option value="Digital Marketing Manager">Digital Marketing Manager</option>
-                        <option value="Social Media Manager">Social Media Manager</option>
-                        <option value="Brand Manager">Brand Manager</option>
-                        <option value="Public Relations Manager">Public Relations Manager</option>
-                        <option value="Content Marketing Manager">Content Marketing Manager</option>
-                        <option value="Financial Analyst">Financial Analyst</option>
-                        <option value="Investment Banker">Investment Banker</option>
-                        <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
-                        <option value="Risk Manager">Risk Manager</option>
-                        <option value="Wealth Manager">Wealth Manager</option>
-                        <option value="Software Engineer">Software Engineer</option>
-                        <option value="Data Scientist">Data Scientist</option>
-                        <option value="Cloud Architect">Cloud Architect</option>
-                        <option value="Cyber Security Analyst">Cyber Security Analyst</option>
-                        <option value="AI & Machine Learning Engineer">AI & Machine Learning Engineer</option>
-                        <option value="IT Manager">IT Manager</option>
-                        <option value="Web Developer">Web Developer</option>
-                        <option value="UI/UX Designer">UI/UX Designer</option>
-                        <option value="Product Manager">Product Manager</option>
-                        <option value="Operations Manager">Operations Manager</option>
-                        <option value="Supply Chain Manager">Supply Chain Manager</option>
-                        <option value="Logistics Manager">Logistics Manager</option>
-                        <option value="Quality Assurance Manager">Quality Assurance Manager</option>
-                        <option value="Compliance Manager">Compliance Manager</option>
-                        <option value="Legal Advisor">Legal Advisor</option>
-                        <option value="Corporate Lawyer">Corporate Lawyer</option>
-                        <option value="Judge/Magistrate">Judge/Magistrate</option>
-                        <option value="Doctor">Doctor</option>
-                        <option value="Pharmacist">Pharmacist</option>
-                        <option value="Physiotherapist">Physiotherapist</option>
-                        <option value="Dietitian/Nutritionist">Dietitian/Nutritionist</option>
-                        <option value="Psychologist">Psychologist</option>
-                        <option value="Civil Engineer">Civil Engineer</option>
-                        <option value="Mechanical Engineer">Mechanical Engineer</option>
-                        <option value="Electrical Engineer">Electrical Engineer</option>
-                        <option value="Robotics Engineer">Robotics Engineer</option>
-                        <option value="Aerospace Engineer">Aerospace Engineer</option>
-                        <option value="Professor/Lecturer">Professor/Lecturer</option>
-                        <option value="School Principal">School Principal</option>
-                        <option value="Corporate Trainer">Corporate Trainer</option>
-                        <option value="Educational Consultant">Educational Consultant</option>
-                        <option value="Film Director">Film Director</option>
-                        <option value="Actor/Actress">Actor/Actress</option>
-                        <option value="Content Creator">Content Creator</option>
-                        <option value="Journalist">Journalist</option>
-                        <option value="Video Editor">Video Editor</option>
-                        <option value="Photographer">Photographer</option>
-                        <option value="Event Planner">Event Planner</option>
-                        <option value="Interior Designer">Interior Designer</option>
-                        <option value="Fashion Designer">Fashion Designer</option>
-                        <option value="Graphic Designer">Graphic Designer</option>
-                        <option value="Customer Support Executive">Customer Support Executive</option>
-                        <option value="Telecaller">Telecaller</option>
-                        <option value="Office Administrator">Office Administrator</option>
-                        <option value="Executive Assistant">Executive Assistant</option>
-                </select>
-            </div>
+                            <div class="relative">
+                                <input type="text" 
+                                       id="role" 
+                                       name="role" 
+                                       required 
+                                       autocomplete="off"
+                                       placeholder="Search for roles (e.g., software developer, marketing manager)..."
+                                       class="w-full px-5 py-4 rounded-xl border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all duration-200 bg-white shadow-sm text-base">
+                                
+                                <!-- Loading indicator -->
+                                <div id="roleLoading" class="absolute right-4 top-1/2 transform -translate-y-1/2 hidden">
+                                    <i class="fas fa-spinner fa-spin text-gray-400"></i>
+                                </div>
+                                
+                                <!-- Dropdown for role suggestions -->
+                                <div id="roleDropdown" 
+                                     class="absolute z-50 w-full mt-2 bg-white border border-gray-300 rounded-xl shadow-lg max-h-64 overflow-y-auto hidden">
+                                    <!-- Role options will be populated dynamically -->
+                                </div>
+                            </div>
+                            <div id="roleError" class="mt-3 text-sm text-red-600 hidden">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                <span id="roleErrorText"></span>
+                            </div>
+                            <p class="mt-3 text-sm text-gray-500 bg-white p-3 rounded-lg">
+                                <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                                Start typing to search for roles or enter your role manually
+                            </p>
+                        </div>
 
                         <div class="form-group">
                             <label for="experience" class="block text-sm font-semibold text-gray-700 mb-2">
@@ -3154,6 +3115,352 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+});
+</script>
+
+<!-- Role Search JavaScript -->
+<script>
+// Dynamic Role Search using job_roles.json
+document.addEventListener('DOMContentLoaded', function() {
+    const roleInput = document.getElementById('role');
+    const roleDropdown = document.getElementById('roleDropdown');
+    const roleLoading = document.getElementById('roleLoading');
+    const roleError = document.getElementById('roleError');
+    const roleErrorText = document.getElementById('roleErrorText');
+    
+    if (!roleInput || !roleDropdown || !roleLoading) {
+        console.log('Role search elements not found');
+        return;
+    }
+    
+    let jobRoles = [];
+    let debounceTimer;
+    let isDataLoaded = false;
+    
+    // Load job roles from JSON file
+    async function loadJobRoles() {
+        try {
+            showLoading();
+            const response = await fetch('./job_roles.json');
+            if (!response.ok) {
+                throw new Error(`Failed to load job roles: ${response.status}`);
+            }
+            const data = await response.json();
+            
+            // Flatten all roles from all categories
+            jobRoles = [];
+            data.job_categories.forEach(category => {
+                category.roles.forEach(role => {
+                    jobRoles.push({
+                        name: role,
+                        category: category.category
+                    });
+                });
+            });
+            
+            isDataLoaded = true;
+            hideLoading();
+            console.log(`Loaded ${jobRoles.length} job roles from ${data.job_categories.length} categories`);
+            
+        } catch (error) {
+            console.error('Error loading job roles:', error);
+            showError('Failed to load job roles. Please type your role manually.');
+            hideLoading();
+        }
+    }
+    
+    // Function to show error message
+    function showError(message) {
+        if (roleError && roleErrorText) {
+            roleErrorText.textContent = message;
+            roleError.classList.remove('hidden');
+            setTimeout(() => {
+                hideError();
+            }, 5000);
+        }
+    }
+    
+    // Function to hide error message
+    function hideError() {
+        if (roleError) {
+            roleError.classList.add('hidden');
+        }
+    }
+    
+    // Function to show loading indicator
+    function showLoading() {
+        roleLoading.classList.remove('hidden');
+    }
+    
+    // Function to hide loading indicator
+    function hideLoading() {
+        roleLoading.classList.add('hidden');
+    }
+    
+    // Function to show role dropdown
+    function showRoleDropdown() {
+        roleDropdown.classList.remove('hidden');
+    }
+    
+    // Function to hide role dropdown
+    function hideRoleDropdown() {
+        roleDropdown.classList.add('hidden');
+    }
+    
+    // Function to search roles
+    function searchRoles(query) {
+        if (!isDataLoaded) {
+            return [];
+        }
+        
+        if (query.length < 2) {
+            return [];
+        }
+        
+        // Limit search to 3 words
+        const searchTerms = query.toLowerCase().trim().split(/\s+/).slice(0, 3);
+        
+        // Filter roles based on search terms
+        const matchedRoles = jobRoles.filter(role => {
+            const roleName = role.name.toLowerCase();
+            return searchTerms.every(term => roleName.includes(term));
+        });
+        
+        // Sort by relevance (exact matches first, then partial matches)
+        return matchedRoles.sort((a, b) => {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+            const searchQuery = searchTerms.join(' ');
+            
+            // Exact match first
+            if (aName === searchQuery && bName !== searchQuery) return -1;
+            if (bName === searchQuery && aName !== searchQuery) return 1;
+            
+            // Starts with search query
+            if (aName.startsWith(searchQuery) && !bName.startsWith(searchQuery)) return -1;
+            if (bName.startsWith(searchQuery) && !aName.startsWith(searchQuery)) return 1;
+            
+            // Alphabetical order
+            return aName.localeCompare(bName);
+        }).slice(0, 10); // Limit to 10 results
+    }
+    
+    // Function to display roles in dropdown
+    function displayRoles(roles, query) {
+        if (roles.length === 0) {
+            const currentValue = roleInput.value.trim();
+            if (currentValue.length >= 2) {
+                roleDropdown.innerHTML = `
+                    <div class="role-option px-4 py-3 cursor-pointer hover:bg-blue-50 border-b border-gray-100 transition-colors duration-200 bg-blue-25" 
+                         data-role="${currentValue}" 
+                         data-manual="true">
+                        <div class="flex items-center">
+                            <i class="fas fa-edit text-blue-500 mr-3"></i>
+                            <div>
+                                <div class="font-medium text-blue-900">Use "${currentValue}"</div>
+                                <div class="text-sm text-blue-600">Enter manually</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                roleDropdown.innerHTML = `
+                    <div class="px-4 py-3 text-sm text-gray-500 border-b border-gray-100">
+                        <i class="fas fa-search mr-2"></i>
+                        No roles found. You can continue typing your role name manually.
+                    </div>
+                `;
+            }
+            showRoleDropdown();
+            return;
+        }
+        
+        let html = '';
+        
+        // Add option to use manual input if query is long enough
+        const currentValue = roleInput.value.trim();
+        if (currentValue.length >= 2) {
+            html += `
+                <div class="role-option px-4 py-3 cursor-pointer hover:bg-blue-50 border-b border-gray-100 transition-colors duration-200 bg-blue-25" 
+                     data-role="${currentValue}" 
+                     data-manual="true">
+                    <div class="flex items-center">
+                        <i class="fas fa-edit text-blue-500 mr-3"></i>
+                        <div>
+                            <div class="font-medium text-blue-900">Use "${currentValue}"</div>
+                            <div class="text-sm text-blue-600">Enter manually</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Add matched roles
+        roles.forEach(role => {
+            // Highlight search terms in role name
+            let highlightedName = role.name;
+            const searchTerms = query.toLowerCase().trim().split(/\s+/).slice(0, 3);
+            searchTerms.forEach(term => {
+                const regex = new RegExp(`(${term})`, 'gi');
+                highlightedName = highlightedName.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
+            });
+            
+            html += `
+                <div class="role-option px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 transition-colors duration-200" 
+                     data-role="${role.name}" 
+                     data-category="${role.category}">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie text-green-500 mr-3"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">${highlightedName}</div>
+                            <div class="text-sm text-gray-500">${role.category}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        roleDropdown.innerHTML = html;
+        showRoleDropdown();
+        
+        // Add click event listeners to role options
+        const roleOptions = roleDropdown.querySelectorAll('.role-option');
+        roleOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const roleName = this.getAttribute('data-role');
+                selectRole(roleName);
+            });
+        });
+    }
+    
+    // Function to select a role
+    function selectRole(roleName) {
+        roleInput.value = roleName;
+        hideRoleDropdown();
+        hideError();
+        
+        // Trigger change event for form validation
+        roleInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    
+    // Debounced search function
+    function debouncedSearch(query) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            if (isDataLoaded) {
+                const matchedRoles = searchRoles(query);
+                displayRoles(matchedRoles, query);
+            }
+        }, 300); // 300ms delay
+    }
+    
+    // Event listeners
+    roleInput.addEventListener('input', function(e) {
+        const query = e.target.value.trim();
+        hideError();
+        
+        if (query.length >= 2 && isDataLoaded) {
+            debouncedSearch(query);
+        } else if (query.length < 2) {
+            hideRoleDropdown();
+        } else if (query.length >= 2 && !isDataLoaded) {
+            // Load data if not already loaded
+            loadJobRoles().then(() => {
+                if (query === roleInput.value.trim()) { // Make sure user hasn't changed input
+                    debouncedSearch(query);
+                }
+            });
+        }
+    });
+    
+    roleInput.addEventListener('focus', function(e) {
+        const query = e.target.value.trim();
+        hideError();
+        
+        if (query.length >= 2 && isDataLoaded) {
+            debouncedSearch(query);
+        } else if (query.length >= 2 && !isDataLoaded) {
+            loadJobRoles().then(() => {
+                if (query === roleInput.value.trim()) {
+                    debouncedSearch(query);
+                }
+            });
+        }
+    });
+    
+    roleInput.addEventListener('blur', function(e) {
+        const value = e.target.value.trim();
+        if (value.length >= 2) {
+            hideError();
+        }
+        setTimeout(() => {
+            hideRoleDropdown();
+        }, 200); // Delay to allow dropdown clicks
+    });
+    
+    // Hide dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!roleInput.contains(e.target) && !roleDropdown.contains(e.target)) {
+            hideRoleDropdown();
+        }
+    });
+    
+    // Handle keyboard navigation
+    roleInput.addEventListener('keydown', function(e) {
+        const roleOptions = roleDropdown.querySelectorAll('.role-option');
+        const currentActive = roleDropdown.querySelector('.role-option.active');
+        let activeIndex = -1;
+        
+        if (currentActive) {
+            activeIndex = Array.from(roleOptions).indexOf(currentActive);
+        }
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (activeIndex < roleOptions.length - 1) {
+                if (currentActive) currentActive.classList.remove('active');
+                const nextOption = roleOptions[activeIndex + 1];
+                nextOption.classList.add('active');
+                nextOption.scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (activeIndex > 0) {
+                if (currentActive) currentActive.classList.remove('active');
+                const prevOption = roleOptions[activeIndex - 1];
+                prevOption.classList.add('active');
+                prevOption.scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (currentActive) {
+                const roleName = currentActive.getAttribute('data-role');
+                selectRole(roleName);
+            }
+        } else if (e.key === 'Escape') {
+            hideRoleDropdown();
+        }
+    });
+    
+    // Add CSS for active state and highlighted text
+    const style = document.createElement('style');
+    style.textContent = `
+        .role-option.active {
+            background-color: #f3f4f6 !important;
+        }
+        .role-option:hover {
+            background-color: #f9fafb;
+        }
+        mark {
+            background-color: #fef3c7;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Pre-load job roles on page load
+    loadJobRoles();
 });
 </script>
 
