@@ -1358,13 +1358,22 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
-        <!-- Filters Container -->
-        <div class="filters-container bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <!-- Compact Minimal Filters Container -->
+        <div class="filters-container bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100/50 p-4 mb-6 transition-all duration-300 hover:shadow-xl">
+            <!-- Compact Filter Header -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-1.5 h-6 bg-gradient-to-b from-red-500 to-pink-500 rounded-full"></div>
+                    <h3 class="text-lg font-semibold text-gray-800">Filters</h3>
+                </div>
+                <div class="text-xs text-gray-500 font-medium">Find matches</div>
+            </div>
+
             <!-- Artist Filters -->
-            <div id="artistFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 lg:gap-6">
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                    <select id="filterCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+            <div id="artistFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 xl:gap-4">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Category</label>
+                    <select id="filterCategory" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Categories</option>
                         <option value="Dating App Host">Dating App Host</option>
                         <option value="Video Live Streamers">Video Live Streamers</option>
@@ -1409,9 +1418,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Followers</label>
-                    <select id="filterFollowers" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Followers</label>
+                    <select id="filterFollowers" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Followers</option>
                         <option value="0K-10K">0 - 10K</option>
                         <option value="10K-50K">10K - 50K</option>
@@ -1421,18 +1430,18 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-                    <select id="filterGender" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                                        <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Gender</label>
+                    <select id="filterGender" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Genders</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Age</label>
-                    <select id="filterAge" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Age</label>
+                    <select id="filterAge" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Ages</option>
         <option value="18-25">18-25</option>
         <option value="26-35">26-35</option>
@@ -1441,12 +1450,12 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
         </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
-                    <select id="filterLanguage" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Language</label>
+                    <select id="filterLanguage" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Languages</option>
                         <option value="English">English</option>
-        <option value="Hindi">Hindi</option>
+                        <option value="Hindi">Hindi</option>
                         <option value="Bengali">Bengali</option>
                         <option value="Telugu">Telugu</option>
                         <option value="Tamil">Tamil</option>
@@ -1458,9 +1467,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
-                    <select id="filterCity" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">City</label>
+                    <select id="filterCity" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Cities</option>
                         <option value="Mumbai">Mumbai</option>
                         <option value="Delhi">Delhi</option>
@@ -1477,10 +1486,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
             <!-- Employee Filters -->
-            <div id="employeeFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 lg:gap-6" style="display: none;">
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                    <select id="filterRole" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+            <div id="employeeFilters" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 xl:gap-4" style="display: none;">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Role</label>
+                    <select id="filterRole" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Roles</option>
                         <option value="General Manager (GM)">General Manager (GM)</option>
                         <option value="Business Development Manager (BDM)">Business Development Manager (BDM)</option>
@@ -1548,9 +1557,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
             </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Experience</label>
-                    <select id="filterExperience" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Experience</label>
+                    <select id="filterExperience" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Experience</option>
                         <option value="0-2">0-2 years</option>
                         <option value="3-5">3-5 years</option>
@@ -1559,9 +1568,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-                    <select id="filterEmployeeGender" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Gender</label>
+                    <select id="filterEmployeeGender" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Genders</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
@@ -1569,9 +1578,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Age</label>
-                    <select id="filterEmployeeAge" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Age</label>
+                    <select id="filterEmployeeAge" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Ages</option>
         <option value="18-25">18-25</option>
         <option value="26-35">26-35</option>
@@ -1580,9 +1589,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
-                    <select id="filterEmployeeLanguage" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Language</label>
+                    <select id="filterEmployeeLanguage" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Languages</option>
         <option value="English">English</option>
                         <option value="Hindi">Hindi</option>
@@ -1597,9 +1606,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </select>
                 </div>
 
-                <div class="filter-group">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
-                    <select id="filterEmployeeCity" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-300">
+                <div class="filter-group group">
+                    <label class="block text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">City</label>
+                    <select id="filterEmployeeCity" class="w-full px-3 py-2 rounded-lg border-0 bg-gray-50/80 focus:bg-white focus:ring-1 focus:ring-red-500/30 transition-all duration-200 text-sm text-gray-700 font-medium group-hover:bg-gray-50">
                         <option value="">All Cities</option>
                         <option value="Mumbai">Mumbai</option>
                         <option value="Delhi">Delhi</option>
@@ -1615,14 +1624,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
 
-            <!-- Filter Actions -->
-            <div class="flex justify-end items-center gap-4 mt-6 pt-4 border-t border-gray-200">
-                <button onclick="resetFilters()" class="px-6 py-2 rounded-lg text-gray-600 hover:text-gray-800 font-medium transition-all duration-300 flex items-center gap-2">
-                    <i class="fas fa-undo"></i>Reset
-                </button>
-                <button onclick="applyFilters()" class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-300 flex items-center gap-2">
-                    <i class="fas fa-filter"></i>Apply Filters
-                </button>
+            <!-- Compact Filter Actions -->
+            <div class="flex justify-between items-center gap-4 mt-6 pt-4 border-t border-gray-100">
+                <div class="text-xs text-gray-500 font-medium">
+                    <i class="fas fa-info-circle mr-1 text-xs"></i>
+                    Narrow your search
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="resetFilters()" class="px-4 py-1.5 rounded-lg text-gray-600 hover:text-gray-800 hover:bg-gray-50 font-medium transition-all duration-200 flex items-center gap-1.5 group text-sm">
+                        <i class="fas fa-undo text-xs group-hover:rotate-180 transition-transform duration-200"></i>
+                        Reset
+                    </button>
+                    <button onclick="applyFilters()" class="px-6 py-1.5 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-1.5 shadow-md hover:shadow-lg text-sm">
+                        <i class="fas fa-search text-xs"></i>
+                        Apply
+                    </button>
+                </div>
             </div>
 </div>
 
