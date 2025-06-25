@@ -2651,88 +2651,226 @@ window.initializeClientCards = setupClientCards;
 
 
 <script>
-// Add this script at the end of the file, before the closing </body> tag
+// Advanced Image Compression System
 document.addEventListener('DOMContentLoaded', function() {
-    // Add event listener to both artist and employee image inputs
-    const artistImageInput = document.getElementById('artistImage');
-    const employeeImageInput = document.getElementById('employeeImage');
-    
-    if (artistImageInput) {
-        artistImageInput.addEventListener('change', function(e) {
-            handleImageSelection(e);
-        });
-    }
-    
-    if (employeeImageInput) {
-        employeeImageInput.addEventListener('change', function(e) {
-            handleImageSelection(e);
-        });
-    }
-    
-    // Function to handle image selection
-    function handleImageSelection(e) {
-        const file = e.target.files[0];
-        if (file) {
-            // Check if file is larger than 5MB
-            if (file.size > 5 * 1024 * 1024) {
-                // Compress the image before upload
-                compressImage(file, function(compressedFile) {
-                    // Replace the file in the input
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(compressedFile);
-                    e.target.files = dataTransfer.files;
-                });
-            }
-        }
-    }
-    
-    // Function to compress image
-    function compressImage(file, callback) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function(event) {
+    // Image compression functionality
+    function compressImage(file, maxWidth = 1280, maxHeight = 1280, quality = 0.8) {
+        return new Promise((resolve) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
             const img = new Image();
-            img.src = event.target.result;
+            
             img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                
-                // Calculate new dimensions (maintain aspect ratio)
-                let width = img.width;
-                let height = img.height;
-                const MAX_WIDTH = 1280;
-                const MAX_HEIGHT = 1280;
-                
-                if (width > height) {
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                } else {
-                    if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
-                }
+                // Calculate new dimensions while maintaining aspect ratio
+                let { width, height } = calculateDimensions(img.width, img.height, maxWidth, maxHeight);
                 
                 canvas.width = width;
                 canvas.height = height;
                 
-                // Draw image on canvas with new dimensions
+                // Draw and compress
                 ctx.drawImage(img, 0, 0, width, height);
                 
-                // Convert to Blob with reduced quality
-                canvas.toBlob(function(blob) {
-                    // Create a new file from the blob
+                canvas.toBlob((blob) => {
+                    // Create new file with compressed data
                     const compressedFile = new File([blob], file.name, {
                         type: 'image/jpeg',
                         lastModified: Date.now()
                     });
-                    
-                    callback(compressedFile);
-                }, 'image/jpeg', 0.7); // Adjust quality (0.7 = 70% quality)
+                    resolve(compressedFile);
+                }, 'image/jpeg', quality);
             };
-        };
+            
+            img.src = URL.createObjectURL(file);
+        });
+    }
+    
+    function calculateDimensions(width, height, maxWidth, maxHeight) {
+        if (width <= maxWidth && height <= maxHeight) {
+            return { width, height };
+        }
+        
+        const aspectRatio = width / height;
+        
+        if (width > height) {
+            width = maxWidth;
+            height = width / aspectRatio;
+            if (height > maxHeight) {
+                height = maxHeight;
+                width = height * aspectRatio;
+            }
+        } else {
+            height = maxHeight;
+            width = height * aspectRatio;
+            if (width > maxWidth) {
+                width = maxWidth;
+                height = width / aspectRatio;
+            }
+        }
+        
+        return { width: Math.round(width), height: Math.round(height) };
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function showCompressionStatus(element, originalSize, compressedSize, fileName) {
+        const statusDiv = element.parentElement.querySelector('.compression-status') || document.createElement('div');
+        statusDiv.className = 'compression-status mt-2 p-3 bg-green-50 border border-green-200 rounded-lg text-sm';
+        statusDiv.innerHTML = `
+            <div class="flex items-center text-green-800">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span class="font-semibold">Image Compressed Successfully!</span>
+            </div>
+            <div class="mt-1 text-green-700">
+                <div><strong>File:</strong> ${fileName}</div>
+                <div><strong>Original:</strong> ${formatFileSize(originalSize)} → <strong>Compressed:</strong> ${formatFileSize(compressedSize)}</div>
+                <div><strong>Saved:</strong> ${formatFileSize(originalSize - compressedSize)} (${Math.round(((originalSize - compressedSize) / originalSize) * 100)}%)</div>
+            </div>
+        `;
+        
+        if (!element.parentElement.querySelector('.compression-status')) {
+            element.parentElement.appendChild(statusDiv);
+        }
+    }
+    
+    function showCompressionProgress(element, show = true) {
+        let progressDiv = element.parentElement.querySelector('.compression-progress');
+        
+        if (show) {
+            if (!progressDiv) {
+                progressDiv = document.createElement('div');
+                progressDiv.className = 'compression-progress mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm';
+                element.parentElement.appendChild(progressDiv);
+            }
+            progressDiv.innerHTML = `
+                <div class="flex items-center text-blue-800">
+                    <i class="fas fa-spinner fa-spin mr-2"></i>
+                    <span class="font-semibold">Compressing image...</span>
+                </div>
+                <div class="mt-1 text-blue-700">Please wait while we optimize your image for faster upload.</div>
+            `;
+        } else {
+            if (progressDiv) {
+                progressDiv.remove();
+            }
+        }
+    }
+    
+    async function handleImageUpload(input, file) {
+        const maxSizeBytes = 5 * 1024 * 1024; // 5MB
+        const shouldCompress = file.size > maxSizeBytes || file.size > 1 * 1024 * 1024; // Compress if > 5MB or > 1MB
+        
+        // Remove previous status messages
+        const existingStatus = input.parentElement.querySelectorAll('.compression-status, .compression-progress, .compression-error');
+        existingStatus.forEach(el => el.remove());
+        
+        if (!shouldCompress) {
+            // File is small enough, but still show info
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'compression-info mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-sm';
+            infoDiv.innerHTML = `
+                <div class="flex items-center text-blue-800">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <span class="font-semibold">Image ready for upload</span>
+                </div>
+                <div class="mt-1 text-blue-700 text-xs">
+                    File size: ${formatFileSize(file.size)} - Optimal size for web
+                </div>
+            `;
+            input.parentElement.appendChild(infoDiv);
+            return file;
+        }
+        
+        try {
+            showCompressionProgress(input, true);
+            
+            // Professional compression settings based on file size
+            let maxWidth = 1080, maxHeight = 1920, quality = 0.85; // Default: Full HD portrait
+            
+            if (file.size > 10 * 1024 * 1024) { // > 10MB - Aggressive compression
+                maxWidth = 720;
+                maxHeight = 1280;
+                quality = 0.75;
+            } else if (file.size > 5 * 1024 * 1024) { // > 5MB - Moderate compression
+                maxWidth = 900;
+                maxHeight = 1600;
+                quality = 0.8;
+            } else if (file.size > 3 * 1024 * 1024) { // > 3MB - Light compression
+                maxWidth = 1080;
+                maxHeight = 1920;
+                quality = 0.85;
+            }
+            
+            const compressedFile = await compressImage(file, maxWidth, maxHeight, quality);
+            
+            showCompressionProgress(input, false);
+            showCompressionStatus(input, file.size, compressedFile.size, file.name);
+            
+            return compressedFile;
+            
+        } catch (error) {
+            console.error('Compression failed:', error);
+            showCompressionProgress(input, false);
+            
+            // Show error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'compression-error mt-2 p-3 bg-red-50 border border-red-200 rounded-lg text-sm';
+            errorDiv.innerHTML = `
+                <div class="flex items-center text-red-800">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span class="font-semibold">Compression failed</span>
+                </div>
+                <div class="mt-1 text-red-700">Using original image. If upload fails, try a smaller image.</div>
+            `;
+            input.parentElement.appendChild(errorDiv);
+            
+            return file; // Return original file if compression fails
+        }
+    }
+    
+    // Initialize image compression for both artist and employee image inputs
+    const artistImageInput = document.getElementById('artistImage');
+    const employeeImageInput = document.getElementById('employeeImage');
+    
+    if (artistImageInput) {
+        artistImageInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                console.log('Artist image selected:', file.name, 'Size:', formatFileSize(file.size));
+                
+                const processedFile = await handleImageUpload(this, file);
+                
+                // Replace file in input with compressed version
+                if (processedFile !== file) {
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(processedFile);
+                    this.files = dataTransfer.files;
+                }
+            }
+        });
+    }
+    
+    if (employeeImageInput) {
+        employeeImageInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                console.log('Employee image selected:', file.name, 'Size:', formatFileSize(file.size));
+                
+                const processedFile = await handleImageUpload(this, file);
+                
+                // Replace file in input with compressed version
+                if (processedFile !== file) {
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(processedFile);
+                    this.files = dataTransfer.files;
+                }
+            }
+        });
     }
 });
 </script>

@@ -929,31 +929,47 @@ unset($_SESSION['message']); // Clear the session message after displaying
         
         async function handleImageUpload(input, file) {
             const maxSizeBytes = 5 * 1024 * 1024; // 5MB
-            const shouldCompress = file.size > maxSizeBytes || file.size > 2 * 1024 * 1024; // Compress if > 5MB or > 2MB
+            const shouldCompress = file.size > maxSizeBytes || file.size > 1 * 1024 * 1024; // Compress if > 5MB or > 1MB
             
             // Remove previous status messages
             const existingStatus = input.parentElement.querySelectorAll('.compression-status, .compression-progress, .compression-error');
             existingStatus.forEach(el => el.remove());
             
             if (!shouldCompress) {
-                // File is small enough, no compression needed
+                // File is small enough, but still show info
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'compression-info mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-sm';
+                infoDiv.innerHTML = `
+                    <div class="flex items-center text-blue-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <span class="font-semibold">Image ready for upload</span>
+                    </div>
+                    <div class="mt-1 text-blue-700 text-xs">
+                        File size: ${formatFileSize(file.size)} - Optimal size for web
+                    </div>
+                `;
+                input.parentElement.appendChild(infoDiv);
                 return file;
             }
             
             try {
                 showCompressionProgress(input, true);
                 
-                // Determine compression settings based on file size
-                let maxWidth = 1280, maxHeight = 1280, quality = 0.8;
+                // Professional compression settings based on file size
+                let maxWidth = 1080, maxHeight = 1920, quality = 0.85; // Default: Full HD portrait
                 
-                if (file.size > 10 * 1024 * 1024) { // > 10MB
-                    maxWidth = 1024;
-                    maxHeight = 1024;
-                    quality = 0.7;
-                } else if (file.size > 8 * 1024 * 1024) { // > 8MB
-                    maxWidth = 1152;
-                    maxHeight = 1152;
+                if (file.size > 10 * 1024 * 1024) { // > 10MB - Aggressive compression
+                    maxWidth = 720;
+                    maxHeight = 1280;
                     quality = 0.75;
+                } else if (file.size > 5 * 1024 * 1024) { // > 5MB - Moderate compression
+                    maxWidth = 900;
+                    maxHeight = 1600;
+                    quality = 0.8;
+                } else if (file.size > 3 * 1024 * 1024) { // > 3MB - Light compression
+                    maxWidth = 1080;
+                    maxHeight = 1920;
+                    quality = 0.85;
                 }
                 
                 const compressedFile = await compressImage(file, maxWidth, maxHeight, quality);
